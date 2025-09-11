@@ -67,6 +67,9 @@ Statistical Salary Calculator: https://www.salarium.bfs.admin.ch/
 
 Work iteratively. Present results to the user and if approved, create a PR to merge changes in.
 
+Whenever a new version is approved, compile the tex file into a pdf and timestamp it in the resumes_compiled/ folder
+
+
 # Project Goal
 
 The goal is to polish my CV and make it ready to land my next awesome position. Target market is Switzerland.
@@ -74,3 +77,4 @@ The goal is to polish my CV and make it ready to land my next awesome position. 
 My next job should be more on the ML Ops / AI Software Architecture side of things. I am reluctant to take on a manager position, but it might be an option if the position is a fit. Something along the job titles of Engineering Manager, ML Engineer, ML Ops.
 
 For now, we are working on a generic Resume that will work for the target roles in the target market. Later on, we will work on specific job postings to tune the resume to fit perfectly.
+- if information is issing, first check MISSING_INFORMATION.md. If you can't find anything, ask the user
