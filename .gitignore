@@ -1,5 +1,48 @@
-
+# LaTeX build artifacts
 *.log
 *.aux
 *.out
 *.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.bbl
+*.blg
+
+# Personal data - DO NOT COMMIT
+# Personal profile with sensitive information
+docs/PERSONAL_PROFILE.md
+
+# Portrait photos
+resources/CV_Portrait_*.jpg
+resources/*.jpg
+resources/*.png
+
+# Compiled PDFs (contain personal information)
+*.pdf
+
+# Customized resumes (contain personal information)
+resumes/customized/
+
+# Compiled resume outputs (contain personal information)
+resumes/compiled/
+
+# Legacy compiled CVs (contain personal information)
+resumes_compiled/
+
+# Legacy CV source files (contain personal information)
+CV_en_Florian_Hochstrasser.tex
+CV_de_Florian_Hochstrasser.tex
+
+# Backup files
+*_backup.tex
+CV_backup.tex
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
