@@ -12,6 +12,7 @@
 # Personal data - DO NOT COMMIT
 # Personal profile with sensitive information
 docs/PERSONAL_PROFILE.md
+docs/MISSING_INFORMATION.md
 
 # Portrait photos
 resources/CV_Portrait_*.jpg
@@ -26,9 +27,6 @@ resumes/customized/
 
 # Compiled resume outputs (contain personal information)
 resumes/compiled/
-
-# Legacy compiled CVs (contain personal information)
-resumes_compiled/
 
 # Legacy CV source files (contain personal information)
 CV_en_Florian_Hochstrasser.tex
@@ -46,3 +44,6 @@ CV_backup.tex
 .Trashes
 ehthumbs.db
 Thumbs.db
+CV_en_Florian_Hochstrasser.pdf
+CV_en_Florian_Hochstrasser.tex
+resumes/templates/CV_portrait_casual.jpg
