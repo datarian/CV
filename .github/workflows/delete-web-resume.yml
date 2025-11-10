@@ -91,11 +91,14 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "chore: delete web resume $id [skip ci]
+          git commit -m "$(cat <<'EOF'
+chore: delete web resume $id [skip ci]
 
 Manually deleted via workflow from datarian/CV.
 
-🤖 Triggered by ${{ github.actor }}" || echo "No changes to commit"
+🤖 Triggered by ${{ github.actor }}
+EOF
+)" || echo "No changes to commit"
           git push https://x-access-token:${CV_PAGES_TOKEN}@github.com/datarian/CV-pages.git gh-pages
 
       - name: Report deletion
