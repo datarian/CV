@@ -481,7 +481,7 @@ The CV design system is **highly effective** for Swiss technical roles:
 ---
 
 **Prepared by:** latex-design-reviewer agent  
-**Repository:** github.com/datarian/CV  
+**Repository:** github.com/yourusername/CV  
 **Contact:** jane.smith@example.com
 
 **Next Steps:**

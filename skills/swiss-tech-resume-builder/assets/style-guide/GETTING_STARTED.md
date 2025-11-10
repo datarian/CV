@@ -238,7 +238,7 @@ xelatex filename.tex
 **Check path:**
 ```latex
 % Use absolute path
-\photo[64pt][0.4pt]{/Users/flo/Development/CV/resources/CV_Portrait_black.jpg}
+\photo[64pt][0.4pt]{../../../../resources/CV_Portrait_black.jpg}
 ```
 
 ### Problem: Text Overlapping
