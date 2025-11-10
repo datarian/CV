@@ -114,7 +114,7 @@ Use the Task tool to invoke agents. All agents follow consistent patterns:
 - **swiss-tech-job-market-analyst**: When analyzing job requirements, salary research, or market positioning
 - **swiss-resume-expert**: When creating or optimizing resume content and structure  
 - **latex-moderncv-expert**: When working with LaTeX templates or compilation issues
-- **latex-design-reviewer**: After any layout/design changes to ensure visual quality
+- **design-reviewer**: After any layout/design changes to ensure visual quality
 - **swiss-tech-resume-reviewer**: For final content review before submission
 
 ## File Management
@@ -189,7 +189,7 @@ The CV repository now uses a flexible, data-driven approach with the following s
    - **CRITICAL**: If changes needed, invokes **latex-moderncv-expert** to implement fixes
    - Iterates until content quality meets standards
 
-5. **latex-design-reviewer**: Visual design and layout optimization (SECOND)
+5. **design-reviewer**: Visual design and layout optimization (SECOND)
    - Input: Content-approved PDF output
    - Output: Design recommendations, formatting improvements
    - **CRITICAL**: If changes needed, invokes **latex-moderncv-expert** to implement fixes
@@ -216,7 +216,7 @@ The CV repository now uses a flexible, data-driven approach with the following s
                   │ creates/modifies          │ creates/modifies
                   ▼                           ▼
         ┌──────────────────┐        ┌──────────────────┐
-        │ latex-design     │        │ swiss-tech       │
+        │ design           │        │ swiss-tech       │
         │ -reviewer        │        │ -resume-reviewer │
         └──────────────────┘        └──────────────────┘
                   │                           │
@@ -252,7 +252,7 @@ The CV repository now uses a flexible, data-driven approach with the following s
 3. **swiss-tech-resume-reviewer** reviews content quality FIRST
    - If issues found: Provides specific feedback → Go back to step 1
    - If satisfied: Proceed to step 4
-4. **latex-design-reviewer** reviews visual design SECOND
+4. **design-reviewer** reviews visual design SECOND
    - If issues found: Provides specific feedback → Go back to step 1
    - If satisfied: Proceed to step 5
 5. **career-planning-coach** performs final holistic review
@@ -272,7 +272,7 @@ The career-planning-coach performs a final holistic review to ensure:
 
 If career-planning-coach identifies issues:
 - Determines which specialist agents need to be re-engaged
-- Can invoke any combination of: swiss-resume-expert, latex-design-reviewer, swiss-tech-resume-reviewer
+- Can invoke any combination of: swiss-resume-expert, design-reviewer, swiss-tech-resume-reviewer
 - Full iteration cycle can be triggered for comprehensive improvements
 - Maximum 1 full re-iteration to maintain efficiency
 
