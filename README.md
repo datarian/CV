@@ -614,13 +614,27 @@ Agents clean these automatically.
 
 ## Privacy & Security
 
+⚠️ **IMPORTANT: Multi-Repository Privacy Setup**
+
+This repository is **PUBLIC** to showcase the AI agent system. Your actual resumes with personal data are deployed to a **PRIVATE** repository (`datarian/CV-pages`).
+
+**Repository Split:**
+- **`datarian/CV` (PUBLIC)**: System code, agents, templates, documentation - the "how it's built" showcase
+- **`datarian/CV-pages` (PRIVATE)**: Deployed web resumes with your personal information
+
+**Why this matters:**
+- Anyone can explore the system architecture and AI agents (great for showcasing your work!)
+- But your actual resume data remains private in the CV-pages repository
+- Web resumes are accessible via public URLs with random hash IDs (e.g., `https://datarian.github.io/CV-pages/cv/2025_11_10_company_a3f2`)
+- The hash makes URLs not easily discoverable, robots.txt blocks search engines
+
 ### What's Excluded from Git
 
-**NEVER committed to version control**:
+**NEVER committed to version control (in PUBLIC repo)**:
 - `docs/PERSONAL_PROFILE.md` - Your actual personal data
 - All `*.pdf` files - Compiled resumes
-- `resumes/templates/*.tex` (unless `.example.tex`)
-- `resumes/customized/` - Job-specific resumes
+- `resumes/customized/` - Job-specific resumes (including `resume_content.md` and `web/` builds)
+- `resumes/compiled/` - Compiled PDF outputs
 - `resources/*.jpg` - Portrait photos
 
 ### What's Included in Git
