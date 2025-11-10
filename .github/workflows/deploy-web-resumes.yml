@@ -130,14 +130,12 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "$(cat <<'EOF'
-Deploy web resumes [skip ci]
-
-Automated deployment from datarian/CV@${{ github.sha }}
-
-🤖 Generated with GitHub Actions
-EOF
-)" || echo "No changes to commit"
+          git commit -m "Deploy web resumes [skip ci]" \
+                     -m "" \
+                     -m "Automated deployment from datarian/CV@${{ github.sha }}" \
+                     -m "" \
+                     -m "🤖 Generated with GitHub Actions" \
+                     || echo "No changes to commit"
           git push https://x-access-token:${CV_PAGES_TOKEN}@github.com/datarian/CV-pages.git gh-pages
 
       - name: Report deployment URLs
