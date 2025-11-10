@@ -345,7 +345,7 @@ docs/style-guide/
 
 **Created:** 2025-10-16 by latex-design-reviewer agent  
 **Based on:** CV-Example.pdf (Frontify Senior AI LLM Engineer Application)  
-**Repository:** github.com/datarian/CV
+**Repository:** github.com/yourusername/CV
 
 ---
 

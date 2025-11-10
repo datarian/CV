@@ -56,13 +56,13 @@
 \familyname{\textcolor{color2}{Smith}}
 \title{Job Title Goes Here}
 \address{Breisacherstrasse 73}{4057 Basel}
-\phone[mobile]{+41~(0)79~355~34~85}
+\phone[mobile]{+41~(0)XX~XXX~XX~XX}
 \email{jane.smith@example.com}
-\social[linkedin][linkedin.com/in/flho]{linkedin.com/in/flho}
-\social[github][github.com/datarian]{github.com/datarian}
-\extrainfo{Born: 23.07.1981 \\ Nationality: Swiss Citizen}
+\social[linkedin][linkedin.com/in/yourprofile]{linkedin.com/in/yourprofile}
+\social[github][github.com/yourusername]{github.com/yourusername}
+\extrainfo{Born: [Your Birthdate] \\ Nationality: Swiss Citizen}
 
-\photo[64pt][0.4pt]{/Users/flo/Development/CV/resources/CV_Portrait_black.jpg}
+\photo[64pt][0.4pt]{../../../../resources/CV_Portrait_black.jpg}
 
 %----------------------------------------------------------------------------------
 %            CONTENT
@@ -75,7 +75,7 @@
 
 \vspace{1em}
 \begin{center}
-\textit{\small Curious how this resume was built? Explore the system at \url{github.com/datarian/CV}}
+\textit{\small Curious how this resume was built? Explore the system at \url{github.com/yourusername/CV}}
 \end{center}
 
 \end{document}
@@ -276,7 +276,7 @@ International collaboration: Partner University, Singapore}
 ```latex
 \vspace{1em}
 \begin{center}
-\textit{\small Curious how this resume was built? Explore the system at \url{github.com/datarian/CV}}
+\textit{\small Curious how this resume was built? Explore the system at \url{github.com/yourusername/CV}}
 \end{center}
 ```
 
@@ -386,7 +386,7 @@ since 05/2021
 
 ### Standard Photo
 ```latex
-\photo[64pt][0.4pt]{/Users/flo/Development/CV/resources/CV_Portrait_black.jpg}
+\photo[64pt][0.4pt]{../../../../resources/CV_Portrait_black.jpg}
 ```
 
 ### Different Photo Sizes
@@ -425,7 +425,7 @@ since 05/2021
 
 ### Birthday
 ```latex
-\extrainfo{\faBirthdayCake \enspace 23.07.1981 \\ \faGlobeEurope \enspace Swiss}
+\extrainfo{\faBirthdayCake \enspace DD.MM.YYYY \\ \faGlobeEurope \enspace Swiss}
 ```
 
 ### Custom Icon Usage
@@ -502,7 +502,7 @@ latexmk -xelatex -pvc CV_filename.tex
 ### Fix Photo Not Showing
 ```latex
 % Use absolute path
-\photo[64pt][0.4pt]{/Users/flo/Development/CV/resources/CV_Portrait_black.jpg}
+\photo[64pt][0.4pt]{../../../../resources/CV_Portrait_black.jpg}
 
 % Or ensure relative path is correct from compilation directory
 \photo[64pt][0.4pt]{../resources/CV_Portrait_black.jpg}

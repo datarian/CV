@@ -170,9 +170,9 @@ color2 (Dark Grey):    RGB(77, 77, 77)    | #4D4D4D
 
 **Personal Info:**
 - Birth date and nationality
-- Format: "Born: DD.MM.YYYY Nationality: Swiss Citizen"
+- Format: "Born: [Your Birthdate] Nationality: Swiss Citizen"
 - Size: 10pt
-- LaTeX: `\extrainfo{Born: 23.07.1981 \\ Nationality: Swiss Citizen}`
+- LaTeX: `\extrainfo{Born: [Your Birthdate] \\ Nationality: Swiss Citizen}`
 
 **Contact Information (Right Side):**
 - Email (with mail icon)
@@ -434,11 +434,11 @@ Computational statistics, probabilistic algorithms, Bayesian methods}
 \familyname{\textcolor{color2}{Smith}}
 \title{Senior ML Engineer - LLM Specialist}
 \address{Breisacherstrasse 73}{4057 Basel}
-\phone[mobile]{+41~(0)79~355~34~85}
+\phone[mobile]{+41~(0)XX~XXX~XX~XX}
 \email{jane.smith@example.com}
-\social[linkedin][linkedin.com/in/flho]{linkedin.com/in/flho}
-\social[github][github.com/datarian]{github.com/datarian}
-\extrainfo{Born: 23.07.1981 \\ Nationality: Swiss Citizen}
+\social[linkedin][linkedin.com/in/yourprofile]{linkedin.com/in/yourprofile}
+\social[github][github.com/yourusername]{github.com/yourusername}
+\extrainfo{Born: [Your Birthdate] \\ Nationality: Swiss Citizen}
 \photo[64pt][0.4pt]{path/to/photo.jpg}
 ```
 
@@ -719,11 +719,11 @@ YYYY_MM_DD_company_role.pdf
 \familyname{\textcolor{color2}{Smith}}
 \title{Job Title Here}
 \address{Breisacherstrasse 73}{4057 Basel}
-\phone[mobile]{+41~(0)79~355~34~85}
+\phone[mobile]{+41~(0)XX~XXX~XX~XX}
 \email{jane.smith@example.com}
-\social[linkedin][linkedin.com/in/flho]{linkedin.com/in/flho}
-\social[github][github.com/datarian]{github.com/datarian}
-\extrainfo{Born: 23.07.1981 \\ Nationality: Swiss Citizen}
+\social[linkedin][linkedin.com/in/yourprofile]{linkedin.com/in/yourprofile}
+\social[github][github.com/yourusername]{github.com/yourusername}
+\extrainfo{Born: [Your Birthdate] \\ Nationality: Swiss Citizen}
 \photo[64pt][0.4pt]{path/to/photo.jpg}
 
 \begin{document}
@@ -752,7 +752,7 @@ Description and achievements
 
 \vspace{1em}
 \begin{center}
-\textit{\small Curious how this resume was built? Explore the system at \url{github.com/datarian/CV}}
+\textit{\small Curious how this resume was built? Explore the system at \url{github.com/yourusername/CV}}
 \end{center}
 
 \end{document}
