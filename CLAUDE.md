@@ -91,7 +91,7 @@ cp -r dist/* ../customized/{id}/web/
 
 # 4. Preview locally
 npm run preview
-# Open http://localhost:4173/CV/
+# Open http://localhost:4173/CV-pages/
 
 # 5. Commit and let GitHub Actions deploy
 git add resumes/customized/{id}/web/
@@ -99,8 +99,8 @@ git commit -m "feat: add web resume for {company}"
 git push
 ```
 
-After push, GitHub Actions automatically deploys to:
-`https://datarian.github.io/CV/cv/{semantic-id}`
+After push, GitHub Actions automatically deploys to private `CV-pages` repository:
+`https://datarian.github.io/CV-pages/cv/{semantic-id}`
 
 ## LaTeX Dependencies
 
@@ -289,7 +289,7 @@ The CV repository now uses a flexible, data-driven approach with the following s
       ▼
     DONE → Shareable URLs:
     - PDF: resumes/compiled/{timestamp}_{id}_CV_en.pdf
-    - Web: https://datarian.github.io/CV/cv/{semantic-id}
+    - Web: https://datarian.github.io/CV-pages/cv/{semantic-id}
 ```
 
 **Iteration Process**:

@@ -124,7 +124,7 @@ resumes/web-builder/src/
 
 ### Issue: "Base path incorrect, assets 404"
 **Cause**: Vite base path mismatch
-**Fix**: Ensure `vite.config.ts` has `base: '/CV/'`
+**Fix**: Ensure `vite.config.ts` has `base: '/CV-pages/'`
 
 ### Issue: "Build succeeds but page blank"
 **Cause**: JavaScript error, check browser console
@@ -222,7 +222,7 @@ ls -la ../customized/2025_11_10_quantumbasel_ai_specialist/web/
 
 # Test locally
 npm run preview
-# Open http://localhost:4173/CV/
+# Open http://localhost:4173/CV-pages/
 
 # Clean up
 rm public/resume_content.md
