@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { parseResumeContent } from './utils/parseResume';
 import type { ParsedResume } from './types/resume';
 import { ResumeHeader } from './components/ResumeHeader';

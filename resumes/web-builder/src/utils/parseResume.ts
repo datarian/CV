@@ -174,5 +174,5 @@ function parseProjectsSection(content: string): ProjectItem[] {
  * Render markdown string to HTML
  */
 export function renderMarkdown(markdown: string): string {
-  return marked(markdown);
+  return marked.parse(markdown) as string;
 }
