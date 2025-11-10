@@ -40,8 +40,16 @@ When reviewing LaTeX documents, you will:
    - **Weird line breaks**: Awkward hyphenation, orphaned words, broken phrases
    - **Text overflow**: Content extending beyond margins or into other sections
    - **Inconsistent spacing**: Uneven gaps between lines, paragraphs, or sections
-7. Check for alignment issues, inconsistent spacing, or visual clutter
-8. Verify document looks tidy, well-readable, and neat to a human reader
+7. **CRITICAL**: Check for **inconsistent section header spacing** (common LaTeX issue):
+   - **Visual symptom**: Some section headers have a "blank paragraph" gap after them, others don't
+   - **Root cause**: Blank lines in LaTeX source after `\section{}` commands create paragraph breaks
+   - **What to check**: Visually inspect EVERY section header - all should have identical spacing below
+   - **How to identify**: Compare spacing after "Experience" vs "Education" vs "Languages" - should be identical
+   - **If inconsistent**: Request latex-moderncv-expert to remove ALL blank lines between `\section{}` commands and their first content
+   - **Correct LaTeX pattern**: `\section{Name}\n\cvitem{...}` or `\section{Name}\n\subsection{...}` (NO blank line)
+   - **Incorrect pattern**: `\section{Name}\n\n\cvitem{...}` (blank line creates visual gap)
+8. Check for alignment issues, inconsistent spacing, or visual clutter
+9. Verify document looks tidy, well-readable, and neat to a human reader
 
 **Design Evaluation Criteria:**
 - **Style Guide Compliance**: Document MUST adhere to specifications in CV_STYLE_GUIDE.md
