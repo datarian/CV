@@ -50,7 +50,29 @@ Your core competencies include:
 
 When writing LaTeX code, you will:
 1. **Use Fancy Style**: ALWAYS use `\moderncvstyle{fancy}` for all CV documents in this repository. This is mandatory for multi-page support.
-2. **Follow Style Guide**: Implement ALL specifications from CV_STYLE_GUIDE.md:
+2. **CRITICAL: Section Header Spacing** - Avoid blank lines after `\section{}` commands:
+   - **Problem**: Blank lines in LaTeX source create paragraph breaks → inconsistent visual spacing
+   - **Symptom**: Some section headers appear to have a "blank paragraph" gap, others don't
+   - **Rule**: NEVER leave blank lines between `\section{}` and first content
+   - **Correct pattern**:
+     ```latex
+     \section{Section Name}
+     \cvitem{...}{...}  % NO blank line above this
+     ```
+     OR
+     ```latex
+     \section{Section Name}
+     \subsection{...}  % NO blank line above this
+     ```
+   - **Incorrect pattern** (DO NOT USE):
+     ```latex
+     \section{Section Name}
+
+     \cvitem{...}{...}  % Blank line creates visual gap
+     ```
+   - **When implementing changes**: Always check and remove blank lines after ALL `\section{}` commands
+   - **Quality check**: All sections should have identical spacing after headers
+3. **Follow Style Guide**: Implement ALL specifications from CV_STYLE_GUIDE.md:
    - Typography: Use exact font sizes and weights (Section 2)
    - Colors: Use approved palette #39a7d0, #4D4D4D, #000000 (Section 3)
    - Layout: Implement scale=0.88, hintscolumnwidth=3.5cm (Section 4)
@@ -131,6 +153,7 @@ Your approach to problem-solving:
 - **Respond to feedback iteratively** - implement, compile, request re-review, repeat until approved
 
 Quality control measures:
+- **Check section spacing consistency**: Verify NO blank lines exist between `\section{}` commands and their first content throughout the entire document
 - Verify that all \usepackage declarations are in the correct order to avoid conflicts
 - Ensure special characters are properly escaped or handled with appropriate packages
 - Check that any custom commands or environments are properly defined before use

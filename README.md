@@ -336,6 +336,140 @@ Result:
 • Recommendations: Emphasize production ML experience and infrastructure skills
 ```
 
+## Swiss Tech Resume Builder Skill
+
+### Standalone Skill for Global Use
+
+In addition to the AI agent system, this repository includes a **comprehensive Claude Code skill** that packages the entire resume creation workflow into a reusable, portable skill.
+
+**Location**: `skills/swiss-tech-resume-builder/`
+
+### What is the Skill?
+
+The swiss-tech-resume-builder skill is a complete, self-contained package that includes:
+- **6-Phase Workflow**: From personal profile setup to application strategy generation
+- **Multi-Agent Orchestration**: Coordinates all specialized agents automatically
+- **Iterative Quality Assurance**: Built-in review loops with swiss-tech-resume-reviewer and latex-design-reviewer
+- **Swiss Market Expertise**: Salary data, conventions, and ATS optimization
+- **Complete Documentation**: 1000+ lines covering every aspect of Swiss tech resume creation
+
+### Installation Options
+
+**Option 1: Use Within This Repository** (Automatic)
+
+When working in this repository, Claude Code automatically has access to the skill:
+
+```bash
+cd /path/to/CV
+claude-code
+
+# In Claude Code:
+> Use the swiss-tech-resume-builder skill to create a resume for...
+```
+
+**Option 2: Install Globally** (Use in Any Project)
+
+To use this skill across all your Claude Code sessions:
+
+```bash
+# Create global skills directory
+mkdir -p ~/.claude/skills
+
+# Symlink (recommended - stays updated)
+ln -s /path/to/CV/skills/swiss-tech-resume-builder \
+      ~/.claude/skills/swiss-tech-resume-builder
+
+# Or copy (independent version)
+cp -r /path/to/CV/skills/swiss-tech-resume-builder \
+      ~/.claude/skills/swiss-tech-resume-builder
+```
+
+After installation, the skill is available in all Claude Code sessions system-wide.
+
+### Skill Features
+
+**Automated Workflows**:
+- Initialize new applications with one script command
+- Validate LaTeX before compilation
+- Compile with automatic cleanup
+- Iterate with expert reviewers until quality gates met
+
+**Comprehensive References**:
+- `swiss_market_conventions.md` - Swiss resume standards, salary ranges, cultural expectations
+- `ats_optimization.md` - Applicant Tracking System best practices
+- `moderncv_technical_guide.md` - LaTeX troubleshooting and commands
+- `personal_profile_schema.md` - Complete data structure guide
+
+**Templates & Style Guides**:
+- Production-ready LaTeX template with Swiss market optimization
+- Complete style guide (typography, colors, layout specifications)
+- Code snippets library for rapid development
+- Application strategy template
+
+### Using the Skill
+
+**Quick Start**:
+```bash
+# Initialize new application
+cd skills/swiss-tech-resume-builder/scripts
+./init_application.py --company google --role ml_engineer
+
+# This creates:
+# - resumes/customized/2025_11_10_google_ml_engineer.tex
+# - resumes/customized/2025_11_10_google_ml_engineer_application_strategy.md
+```
+
+**With Claude Code**:
+```
+You: "Use the swiss-tech-resume-builder skill to create a resume
+      for the Senior ML Engineer position at Company X"
+
+[Skill guides you through all 6 phases automatically]
+- Phase 1: Personal profile validation
+- Phase 2: Market analysis (salary, skills, company research)
+- Phase 3: Resume strategy (keywords, section emphasis)
+- Phase 4: LaTeX implementation (template customization)
+- Phase 5: Quality assurance (iterative reviews until 8/10 content, 9/10 design)
+- Phase 6: Application strategy (cover letter, interview prep, salary negotiation)
+```
+
+### Sharing and Contributing
+
+**To share this skill with others**:
+
+1. **Via GitHub** (current approach):
+   - Users clone this repository
+   - Skill is available in `skills/swiss-tech-resume-builder/`
+   - Can symlink to `~/.claude/skills/` for global use
+
+2. **As Standalone Package**:
+   ```bash
+   # Package for distribution
+   tar czf swiss-tech-resume-builder.tar.gz \
+       skills/swiss-tech-resume-builder/
+
+   # Others can extract and install
+   tar xzf swiss-tech-resume-builder.tar.gz
+   mv swiss-tech-resume-builder ~/.claude/skills/
+   ```
+
+3. **Fork and Customize**:
+   - Adapt for other markets (German market, US market)
+   - Modify for other industries (non-tech, consulting)
+   - Customize templates and styling
+
+**Skill Documentation**: See `skills/swiss-tech-resume-builder/README.md` for complete installation and usage guide.
+
+### Dependencies
+
+The skill requires:
+- **Agents**: All 6 specialized agents in `.claude/agents/`
+- **LaTeX**: XeLaTeX with moderncv package
+- **Python**: For automation scripts
+- **References**: Market data and technical guides in `skills/swiss-tech-resume-builder/references/`
+
+If sharing the skill standalone, ensure recipients have these dependencies.
+
 ## Repository Structure
 
 ### Directory Overview
@@ -351,6 +485,24 @@ CV/
 │   │   ├── latex-design-reviewer.md
 │   │   └── swiss-tech-resume-reviewer.md
 │   └── .mcp.json                     # Model context protocol config
+│
+├── skills/                           # Claude Code skills
+│   └── swiss-tech-resume-builder/   # Comprehensive resume creation skill
+│       ├── SKILL.md                  # Complete workflow documentation (1000+ lines)
+│       ├── README.md                 # Installation and usage guide
+│       ├── scripts/                  # Automation tools
+│       │   ├── init_application.py
+│       │   ├── validate_latex.py
+│       │   └── compile_resume.sh
+│       ├── assets/                   # Templates and style guides
+│       │   ├── CV_template.tex
+│       │   ├── application_strategy_template.md
+│       │   └── style-guide/          # Typography, colors, layout specs
+│       └── references/               # Swiss market expertise
+│           ├── swiss_market_conventions.md
+│           ├── ats_optimization.md
+│           ├── moderncv_technical_guide.md
+│           └── personal_profile_schema.md
 │
 ├── docs/                             # Documentation and data
 │   ├── PERSONAL_PROFILE.md           # **YOUR DATA SOURCE** (private)
