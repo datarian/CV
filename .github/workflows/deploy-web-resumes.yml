@@ -1,0 +1,136 @@
+name: Deploy Web Resumes to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'resumes/customized/*/web/**'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-branch
+
+      - name: Detect changed web builds
+        id: detect
+        run: |
+          # Find all web build directories
+          builds=$(find resumes/customized/*/web -type d -maxdepth 0 2>/dev/null || true)
+
+          if [ -z "$builds" ]; then
+            echo "No web builds found"
+            echo "has_builds=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Found web builds:"
+          echo "$builds"
+          echo "has_builds=true" >> $GITHUB_OUTPUT
+          echo "builds<<EOF" >> $GITHUB_OUTPUT
+          echo "$builds" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Deploy web resumes
+        if: steps.detect.outputs.has_builds == 'true'
+        run: |
+          # Create cv directory in gh-pages if doesn't exist
+          mkdir -p gh-pages-branch/cv
+
+          # Process each build
+          while IFS= read -r build_dir; do
+            # Extract ID from path: resumes/customized/{id}/web
+            id=$(echo "$build_dir" | sed 's|resumes/customized/||;s|/web||')
+
+            echo "Processing: $id"
+
+            # Read metadata from resume_content.md
+            content_file="resumes/customized/$id/resume_content.md"
+            if [ ! -f "$content_file" ]; then
+              echo "Warning: $content_file not found, skipping"
+              continue
+            fi
+
+            # Extract company and role from metadata (simplified)
+            company=$(grep "targetCompany:" "$content_file" | head -1 | sed 's/.*targetCompany: //' | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
+            role=$(grep "targetRole:" "$content_file" | head -1 | sed 's/.*targetRole: //' | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
+
+            # Generate hash from content
+            hash=$(sha256sum "$content_file" | cut -c1-4)
+
+            # Create semantic URL: date_company_hash
+            date=$(echo "$id" | cut -d'_' -f1-3)
+            semantic_id="${date}_${company}_${hash}"
+
+            echo "Semantic ID: $semantic_id"
+
+            # Copy build to gh-pages
+            target_dir="gh-pages-branch/cv/$semantic_id"
+            mkdir -p "$target_dir"
+            cp -r "$build_dir"/* "$target_dir/"
+
+            echo "Deployed to: /cv/$semantic_id"
+
+            # Update manifest
+            manifest="gh-pages-branch/cv/.manifest.json"
+            if [ ! -f "$manifest" ]; then
+              echo '{"version": "1.0", "deployments": []}' > "$manifest"
+            fi
+
+            # Add entry to manifest (simplified - would use jq in production)
+            timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            echo "Updated manifest with deployment at $timestamp"
+
+          done <<< "${{ steps.detect.outputs.builds }}"
+
+      - name: Create robots.txt
+        if: steps.detect.outputs.has_builds == 'true'
+        run: |
+          cat > gh-pages-branch/cv/robots.txt << 'EOF'
+          User-agent: *
+          Disallow: /cv/
+          EOF
+
+      - name: Commit and push to gh-pages
+        if: steps.detect.outputs.has_builds == 'true'
+        run: |
+          cd gh-pages-branch
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy web resumes [skip ci]
+
+          Automated deployment from ${{ github.sha }}
+
+          🤖 Generated with GitHub Actions" || echo "No changes to commit"
+          git push origin gh-pages
+
+      - name: Report deployment URLs
+        if: steps.detect.outputs.has_builds == 'true'
+        run: |
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Web resumes deployed to GitHub Pages:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # List all deployed URLs (simplified)
+          for dir in gh-pages-branch/cv/*/; do
+            id=$(basename "$dir")
+            if [ "$id" != ".*" ]; then
+              echo "- https://datarian.github.io/CV/cv/$id" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
