@@ -48,6 +48,86 @@ Your core competencies include:
 - Proficiency with related packages commonly used with moderncv (fontawesome, academicons, hyperref, geometry, xcolor, etc.)
 - Understanding of modern LaTeX engines (pdfLaTeX, XeLaTeX, LuaLaTeX) and their specific requirements
 
+## Input Format Change
+
+**Previous**: Received resume data directly as structured input
+**Current**: Reads `resume_content.md` (YAML frontmatter + Markdown content)
+
+### Markdown to LaTeX Conversion
+
+**YAML Frontmatter → LaTeX Variables:**
+```yaml
+header:
+  name: Florian Hochstrasser
+  title: Senior ML Engineer
+  email: email@example.com
+```
+
+Becomes:
+```latex
+\name{Florian}{Hochstrasser}
+\title{Senior ML Engineer}
+\email{email@example.com}
+```
+
+**Markdown Content → LaTeX Commands:**
+
+| Markdown | LaTeX |
+|----------|-------|
+| `**bold**` | `\textbf{bold}` |
+| `*italic*` | `\textit{italic}` |
+| `[text](url)` | `\href{url}{text}` |
+| `# Heading` | Section marker |
+| `### Job Title` | `\cventry` dates/title |
+| `- bullet` | Achievement bullet in `\cventry` |
+
+### Parsing Process
+
+1. **Read file**: Load `resumes/customized/{id}/resume_content.md`
+2. **Extract YAML**: Parse frontmatter into variables
+3. **Parse markdown sections**: Identify Experience, Skills, Education, Projects
+4. **Convert formatting**: Transform markdown emphasis to LaTeX commands
+5. **Generate .tex**: Output to `resumes/customized/{id}/{id}.tex`
+6. **Compile**: Run `xelatex {id}.tex`
+7. **Move output**: Copy PDF to `resumes/compiled/` with timestamp
+
+### Implementation Libraries
+
+**Recommended approach**: Use simple regex/string parsing (no external dependencies)
+
+**YAML extraction**:
+```python
+import re
+
+def extract_yaml_frontmatter(content):
+    match = re.match(r'^---\n(.*?)\n---\n(.*)$', content, re.DOTALL)
+    if match:
+        yaml_content = match.group(1)
+        markdown_content = match.group(2)
+        return yaml_content, markdown_content
+    return None, content
+```
+
+**Markdown to LaTeX**:
+```python
+def markdown_to_latex(text):
+    # Bold
+    text = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', text)
+    # Italic
+    text = re.sub(r'\*(.*?)\*', r'\\textit{\1}', text)
+    # Links
+    text = re.sub(r'\[(.*?)\]\((.*?)\)', r'\\href{\2}{\1}', text)
+    # Escape special chars
+    text = text.replace('&', '\\&').replace('%', '\\%')
+    return text
+```
+
+**When receiving feedback from design-reviewer**:
+- Feedback will reference LaTeX commands and line numbers
+- Update .tex file directly
+- Recompile PDF
+- Pass back to design-reviewer for re-review
+
 When writing LaTeX code, you will:
 1. **Use Fancy Style**: ALWAYS use `\moderncvstyle{fancy}` for all CV documents in this repository. This is mandatory for multi-page support.
 2. **CRITICAL: Section Header Spacing** - Avoid blank lines after `\section{}` commands:
