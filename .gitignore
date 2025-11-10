@@ -47,3 +47,6 @@ Thumbs.db
 CV_en_Florian_Hochstrasser.pdf
 CV_en_Florian_Hochstrasser.tex
 resumes/templates/CV_portrait_casual.jpg
+
+# Development tools
+.worktrees/
