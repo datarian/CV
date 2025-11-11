@@ -9,7 +9,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   delete:
@@ -33,18 +33,15 @@ jobs:
 
           echo "Will delete resume: $id"
 
-      - name: Clone CV-pages repository
-        env:
-          CV_PAGES_TOKEN: ${{ secrets.CV_PAGES_TOKEN }}
-        run: |
-          git clone https://x-access-token:${CV_PAGES_TOKEN}@github.com/datarian/CV-pages.git cv-pages-repo
-          cd cv-pages-repo
-          git checkout gh-pages
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
 
       - name: Check if resume exists
         id: check
         run: |
-          cd cv-pages-repo
           id="${{ github.event.inputs.resume_id }}"
           target_dir="cv/$id"
 
@@ -64,7 +61,6 @@ jobs:
       - name: Delete resume
         if: steps.check.outputs.exists == 'true'
         run: |
-          cd cv-pages-repo
           id="${{ github.event.inputs.resume_id }}"
           target_dir="cv/$id"
 
@@ -82,10 +78,7 @@ jobs:
 
       - name: Commit and push deletion
         if: steps.check.outputs.exists == 'true'
-        env:
-          CV_PAGES_TOKEN: ${{ secrets.CV_PAGES_TOKEN }}
         run: |
-          cd cv-pages-repo
           id="${{ github.event.inputs.resume_id }}"
 
           git config user.name "GitHub Actions"
@@ -93,10 +86,10 @@ jobs:
           git add .
           git commit -m "chore: delete web resume $id [skip ci]
 
-Manually deleted via workflow from datarian/CV.
+Manually deleted via workflow.
 
 🤖 Triggered by ${{ github.actor }}" || echo "No changes to commit"
-          git push https://x-access-token:${CV_PAGES_TOKEN}@github.com/datarian/CV-pages.git gh-pages
+          git push origin gh-pages
 
       - name: Report deletion
         if: steps.check.outputs.exists == 'true'
@@ -108,15 +101,13 @@ Manually deleted via workflow from datarian/CV.
           echo "Deleted resume: **$id**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The following URL is now inactive:" >> $GITHUB_STEP_SUMMARY
-          echo "- ~~https://datarian.github.io/CV-pages/cv/$id~~" >> $GITHUB_STEP_SUMMARY
+          echo "- ~~https://datarian.github.io/CV/cv/$id~~" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Deletion committed to CV-pages repository." >> $GITHUB_STEP_SUMMARY
+          echo "Deletion committed to gh-pages branch." >> $GITHUB_STEP_SUMMARY
 
       - name: List remaining resumes
         if: steps.check.outputs.exists == 'true'
         run: |
-          cd cv-pages-repo
-
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Remaining Resumes" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -129,7 +120,7 @@ Manually deleted via workflow from datarian/CV.
             for dir in cv/*/; do
               resume_id=$(basename "$dir")
               if [ "$resume_id" != ".*" ]; then
-                echo "- https://datarian.github.io/CV-pages/cv/$resume_id" >> $GITHUB_STEP_SUMMARY
+                echo "- https://datarian.github.io/CV/cv/$resume_id" >> $GITHUB_STEP_SUMMARY
               fi
             done
           else
