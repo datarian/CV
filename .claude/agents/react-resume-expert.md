@@ -50,6 +50,24 @@ if [ ! -f "$content_file" ]; then
 fi
 
 echo "✅ Content found: $content_file"
+
+# Validate YAML frontmatter
+if ! grep -q "^id:" "$content_file"; then
+  echo "❌ Missing 'id' in YAML frontmatter"
+  exit 1
+fi
+
+if ! grep -q "^  targetCompany:" "$content_file"; then
+  echo "❌ Missing 'targetCompany' in YAML frontmatter"
+  exit 1
+fi
+
+if ! grep -q "^  targetRole:" "$content_file"; then
+  echo "❌ Missing 'targetRole' in YAML frontmatter"
+  exit 1
+fi
+
+echo "✅ YAML frontmatter validated"
 ```
 
 ### Step 2: Copy Content to Web Builder
@@ -238,8 +256,11 @@ echo "✅ CV-pages repository ready on gh-pages branch"
 ### Step 5: Generate Semantic ID
 
 ```bash
+# Store project root for absolute paths
+project_root="$(pwd)"
+
 # Extract metadata from resume_content.md
-content_file="../../resumes/customized/${id}/resume_content.md"
+content_file="${project_root}/resumes/customized/${id}/resume_content.md"
 
 # Extract date from ID
 date=$(echo "$id" | cut -d'_' -f1-3)
@@ -248,7 +269,15 @@ date=$(echo "$id" | cut -d'_' -f1-3)
 company=$(grep "^  targetCompany:" "$content_file" | sed 's/.*targetCompany: //' | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
 
 # Generate hash from content (first 4 chars of SHA256)
-hash=$(sha256sum "$content_file" | cut -c1-4)
+# Cross-platform SHA256 hash
+if command -v sha256sum >/dev/null 2>&1; then
+  hash=$(sha256sum "$content_file" | cut -c1-4)
+elif command -v shasum >/dev/null 2>&1; then
+  hash=$(shasum -a 256 "$content_file" | cut -c1-4)
+else
+  echo "❌ No SHA256 utility found (sha256sum or shasum required)"
+  exit 1
+fi
 
 # Combine into semantic ID
 semantic_id="${date}_${company}_${hash}"
@@ -274,7 +303,7 @@ target_dir="cv/${semantic_id}"
 mkdir -p "$target_dir"
 
 # Copy build files from web builder
-build_dir="../../resumes/web-builder/dist"
+build_dir="${project_root}/resumes/web-builder/dist"
 cp -r "$build_dir/"* "$target_dir/"
 
 echo "✅ Build files copied to: $target_dir"
@@ -339,14 +368,14 @@ echo "✅ Pushed to CV-pages gh-pages branch"
 
 ```bash
 # Navigate back to project root
-cd ../../
+cd "${project_root}"
 
 # Remove temporary repo
 rm -rf "$tmp_dir"
 echo "✅ Cleaned up temporary directory"
 
 # Remove copied content from web builder
-rm -f resumes/web-builder/public/resume_content.md
+rm -f "${project_root}/resumes/web-builder/public/resume_content.md"
 echo "✅ Cleaned up web builder temporary files"
 
 # Generate deployment URL
