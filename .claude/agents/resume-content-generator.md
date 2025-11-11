@@ -45,6 +45,19 @@ header:
   linkedin: [URL]
   github: [URL]
   website: [URL]
+
+# OPTIONAL: Manual summary highlights (for web resumes)
+# If omitted, highlights are auto-extracted from summary text
+summary_highlights:
+  - metric: "8+ Years"
+    label: "ML Engineering"
+    icon: "calendar"
+  - metric: "1M+"
+    label: "Daily Requests"
+    icon: "activity"
+  - metric: "99.9%"
+    label: "Uptime"
+    icon: "target"
 ---
 
 # Professional Summary
@@ -122,6 +135,76 @@ Transform role descriptions into impact statements:
 - Include hyperlinks for GitHub, LinkedIn, portfolios
 - Maintain clean, parseable structure for both LaTeX and React renderers
 
+### 7. Professional Summary Highlights (Web Resumes)
+
+For **web resume format**, the Professional Summary section can display visual highlight cards with key metrics.
+
+**Two approaches:**
+
+**A) Auto-Extraction (Default - Recommended)**
+- Simply write a well-formatted summary with metrics in **bold**
+- Web renderer automatically extracts highlights from patterns:
+  - Years: `**8+ years**` → "8+ years" / "Experience" / calendar icon
+  - Scale: `**1M+ daily requests**` → "1M+" / "Daily Requests" / activity icon
+  - Percentages: `**99.9% uptime**` → "99.9%" / "Uptime" / target icon
+- Up to 4 highlights extracted automatically
+- No extra YAML needed
+
+**Example Summary for Auto-Extraction:**
+```markdown
+# Professional Summary
+
+Senior ML Engineer with **8+ years** building production AI systems.
+Specialized in MLOps infrastructure serving **1M+ daily requests**
+with **99.9% uptime**. Led teams of **4+ engineers** and improved
+model accuracy by **23%** over baseline.
+```
+
+This will auto-generate 4 highlight cards with appropriate icons.
+
+**B) Manual Override (When Needed)**
+- Use when metrics don't fit standard patterns
+- Use when you want specific icon choices
+- Use when highlighting non-standard achievements
+
+Add to YAML frontmatter:
+```yaml
+summary_highlights:
+  - metric: "4x"
+    label: "Performance Boost"
+    icon: "trending"
+  - metric: "$2M"
+    label: "Cost Savings"
+    icon: "award"
+  - metric: "10+"
+    label: "Production Models"
+    icon: "zap"
+```
+
+**Available Icons:**
+- `calendar`: Years, tenure, duration (e.g., "8+ Years")
+- `activity`: Scale, throughput, volume (e.g., "1M+ Requests")
+- `target`: Accuracy, precision, percentages (e.g., "99.9%")
+- `trending`: Improvements, growth (e.g., "23% Boost")
+- `users`: Team size, user counts (e.g., "4+ Engineers")
+- `zap`: Performance, speed (e.g., "10+ Models")
+- `award`: Achievements, recognition (e.g., "$2M Saved")
+- `clock`: Time-related metrics (e.g., "<1ms Latency")
+
+**When to Use Manual Highlights:**
+- ✅ Non-standard metrics: "4x", "$2M", "Top 5%"
+- ✅ Custom icon choices for better visual storytelling
+- ✅ Precise control over what's highlighted
+- ✅ Metrics buried in longer summary text
+
+**When to Use Auto-Extraction (Default):**
+- ✅ Standard patterns: years, percentages, scale (1M+, 500K+)
+- ✅ Well-formatted summary with **bold** metrics
+- ✅ Want simplicity without extra YAML
+- ✅ 3-4 clear metrics already in summary
+
+**Important:** If `summary_highlights` is provided in YAML, it **overrides** auto-extraction completely. To get both manual + auto, include all desired highlights in the YAML field.
+
 ## Feedback Loop
 
 **swiss-tech-resume-reviewer** will review `resume_content.md` and provide feedback:
@@ -142,6 +225,7 @@ Transform role descriptions into impact statements:
 Before finalizing resume_content.md:
 - [ ] All YAML fields populated correctly
 - [ ] Professional summary positions candidate for target role
+- [ ] Professional summary includes **bold** metrics for auto-extraction (or manual summary_highlights if needed)
 - [ ] Experience bullets emphasize relevant skills with metrics
 - [ ] Technical skills section includes ATS keywords
 - [ ] Education and projects support narrative

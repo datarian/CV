@@ -84,18 +84,298 @@ The React project is organized as:
 resumes/web-builder/src/
 ├── components/
 │   ├── ResumeHeader.tsx        # Name, title, contact info
+│   ├── ProfessionalSummary.tsx # Enhanced summary with highlights
 │   ├── ExperienceSection.tsx   # Work history with achievements
 │   ├── SkillsSection.tsx       # Technical skills grid
 │   ├── EducationSection.tsx    # Academic background
 │   └── ProjectsSection.tsx     # Portfolio projects (if present)
 ├── types/
-│   └── resume.ts               # TypeScript interfaces
+│   └── resume.ts               # TypeScript interfaces (includes Highlight)
 ├── utils/
-│   └── parseResume.ts          # YAML + Markdown parser
+│   ├── parseResume.ts          # YAML + Markdown parser
+│   └── extractHighlights.ts    # Auto-extract metrics from summary
 ├── App.tsx                     # Main app component
 ├── main.tsx                    # Entry point
 └── index.css                   # Global styles + Tailwind
 ```
+
+## Enhanced Professional Summary Component
+
+**Important:** The ProfessionalSummary component has been enhanced with automatic highlight extraction and manual override support.
+
+### Features
+
+1. **Markdown Rendering**: Summary text supports **bold** (blue) and *italic* (coral) formatting
+2. **Two-Column Layout**: Summary text (left) + Highlight cards (right) on desktop
+3. **Auto-Extraction**: Automatically extracts key metrics from summary text
+4. **Manual Override**: Optional YAML `summary_highlights` field for precise control
+
+### Type Definition
+
+Add to `types/resume.ts`:
+
+```typescript
+export interface Highlight {
+  metric: string;      // e.g., "8+ Years", "1M+", "99.9%"
+  label: string;       // e.g., "Experience", "Daily Requests", "Uptime"
+  icon: string;        // e.g., "calendar", "activity", "target"
+}
+```
+
+### Utility: extractHighlights.ts
+
+Create `src/utils/extractHighlights.ts`:
+
+```typescript
+import {
+  Calendar,
+  Activity,
+  TrendingUp,
+  Target,
+  Users,
+  Zap,
+  Award,
+  Clock
+} from 'lucide-react';
+import type { Highlight } from '../types/resume';
+
+// Map icon names to Lucide components
+export const iconMap: Record<string, any> = {
+  calendar: Calendar,
+  activity: Activity,
+  trending: TrendingUp,
+  target: Target,
+  users: Users,
+  zap: Zap,
+  award: Award,
+  clock: Clock,
+};
+
+// Auto-extract highlights from summary text
+export function extractHighlights(summaryText: string): Highlight[] {
+  const highlights: Highlight[] = [];
+
+  // Pattern 1: Years of experience (e.g., "8+ years", "10 years")
+  const yearsMatch = summaryText.match(/(\d+\+?\s*years?)/i);
+  if (yearsMatch) {
+    highlights.push({
+      metric: yearsMatch[1],
+      label: 'Experience',
+      icon: 'calendar'
+    });
+  }
+
+  // Pattern 2: Large numbers with units (e.g., "1M+", "500K+", "100+")
+  const scaleMatches = summaryText.match(/(\d+(?:\.\d+)?[KMB]\+?)(?:\s+(daily|weekly|monthly|requests|users|systems|models))?/gi);
+  if (scaleMatches && scaleMatches.length > 0) {
+    // Take up to 2 scale metrics
+    scaleMatches.slice(0, 2).forEach(match => {
+      const parts = match.split(/\s+/);
+      const metric = parts[0];
+      const label = parts.slice(1).join(' ') || 'Scale';
+      highlights.push({
+        metric,
+        label: label.charAt(0).toUpperCase() + label.slice(1),
+        icon: 'activity'
+      });
+    });
+  }
+
+  // Pattern 3: Percentages (e.g., "99.9%", "23%")
+  const percentMatches = summaryText.match(/(\d+(?:\.\d+)?%)\s+(\w+)/g);
+  if (percentMatches && percentMatches.length > 0) {
+    // Take the first percentage metric
+    const match = percentMatches[0];
+    const parts = match.split(/\s+/);
+    highlights.push({
+      metric: parts[0],
+      label: parts.slice(1).join(' ').charAt(0).toUpperCase() + parts.slice(1).join(' ').slice(1),
+      icon: 'target'
+    });
+  }
+
+  // Limit to 4 highlights max
+  return highlights.slice(0, 4);
+}
+
+// Get icon component by name
+export function getIconComponent(iconName: string) {
+  return iconMap[iconName] || Activity;
+}
+```
+
+### Component: ProfessionalSummary.tsx
+
+Create `src/components/ProfessionalSummary.tsx`:
+
+```typescript
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Sparkles } from 'lucide-react';
+import { extractHighlights, getIconComponent } from '../utils/extractHighlights';
+import type { Highlight } from '../types/resume';
+
+interface Props {
+  summary: string;
+  skills?: string[]; // Top skills to highlight as tags
+  highlights?: Highlight[]; // Optional manual highlights from YAML
+}
+
+export const ProfessionalSummary: React.FC<Props> = ({ summary, skills = [], highlights }) => {
+  const scrollToSkills = () => {
+    document.getElementById('skills-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Use provided highlights or auto-extract from summary
+  const displayHighlights = highlights || extractHighlights(summary);
+
+  return (
+    <section className="mb-10">
+      <div className="bg-gradient-to-br from-white to-cv-light rounded-lg shadow-md p-8 border-l-4 border-cv-blue">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-cv-blue/10">
+            <Sparkles className="w-6 h-6 text-cv-blue" />
+          </div>
+          <h2 className="text-3xl font-bold text-cv-blue">
+            Professional Summary
+          </h2>
+        </div>
+
+        {/* Two-column layout: Summary text (left) + Highlights (right) */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left: Summary text */}
+          <div className="flex-1 text-lg text-gray-700 leading-relaxed prose prose-lg max-w-none">
+            <ReactMarkdown
+              components={{
+                p: ({node, ...props}) => <p className="mb-4 last:mb-0" {...props} />,
+                strong: ({node, ...props}) => <strong className="font-bold text-cv-blue" {...props} />,
+                em: ({node, ...props}) => <em className="italic text-cv-coral" {...props} />,
+              }}
+            >
+              {summary}
+            </ReactMarkdown>
+          </div>
+
+          {/* Right: Highlight cards */}
+          {displayHighlights.length > 0 && (
+            <div className="lg:w-80 flex flex-row lg:flex-col gap-4">
+              {displayHighlights.map((highlight, index) => {
+                const IconComponent = getIconComponent(highlight.icon);
+                return (
+                  <div
+                    key={index}
+                    className="flex-1 lg:flex-none bg-white rounded-lg p-4 shadow-sm border-2 border-cv-blue/20 hover:border-cv-blue hover:shadow-md transition-all duration-200 group"
+                  >
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-cv-blue/10 group-hover:bg-cv-blue/20 transition-colors">
+                        <IconComponent className="w-6 h-6 text-cv-blue" />
+                      </div>
+                      <div className="text-2xl font-bold text-cv-blue group-hover:text-cv-coral transition-colors">
+                        {highlight.metric}
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium">
+                        {highlight.label}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {skills.length > 0 && (
+          <div className="pt-4 border-t border-gray-200">
+            <p className="text-sm font-semibold text-cv-gray mb-3">
+              Core Competencies:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill, index) => (
+                <button
+                  key={index}
+                  onClick={scrollToSkills}
+                  className="px-4 py-2 bg-white border-2 border-cv-blue text-cv-blue rounded-full text-sm font-medium hover:bg-cv-blue hover:text-white transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                >
+                  {skill}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+```
+
+### Color Configuration
+
+Ensure `tailwind.config.js` includes the coral color:
+
+```javascript
+theme: {
+  extend: {
+    colors: {
+      'cv-blue': '#2C5F7F',
+      'cv-coral': '#E87461',  // Add this for italic text
+      'cv-gray': '#4A4A4A',
+      'cv-light': '#F5F5F5',
+    }
+  }
+}
+```
+
+### Dependencies
+
+Ensure `package.json` includes:
+
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "lucide-react": "^0.263.1",
+    "gray-matter": "^4.0.3"
+  }
+}
+```
+
+### YAML Schema Support
+
+The component supports optional `summary_highlights` in YAML frontmatter:
+
+```yaml
+---
+# ... other metadata ...
+
+# OPTIONAL: Manual summary highlights (auto-extracted if omitted)
+summary_highlights:
+  - metric: "8+ Years"
+    label: "ML Engineering"
+    icon: "calendar"
+  - metric: "1M+"
+    label: "Daily Requests"
+    icon: "activity"
+  - metric: "99.9%"
+    label: "Uptime"
+    icon: "target"
+---
+
+# Professional Summary
+
+Your summary text with **bold** and *italic* formatting...
+```
+
+**Available Icons:**
+- `calendar`: Years, tenure, duration
+- `activity`: Scale, throughput, volume
+- `target`: Accuracy, precision, percentages
+- `trending`: Improvements, growth
+- `users`: Team size, user counts
+- `zap`: Performance, speed
+- `award`: Achievements, recognition
+- `clock`: Time-related metrics
 
 ## Feedback Loop
 
