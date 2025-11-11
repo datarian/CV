@@ -12,5 +12,13 @@ export default defineConfig({
         manualChunks: undefined,
       }
     }
+  },
+  define: {
+    'global': 'globalThis',
+  },
+  resolve: {
+    alias: {
+      'buffer': 'buffer/',
+    }
   }
 })
