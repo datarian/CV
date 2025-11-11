@@ -660,6 +660,99 @@ When sharing this repository:
 3. Test with `git status` before pushing
 4. Consider using `git-secrets` for extra protection
 
+## Setup for Web Resume Deployment
+
+### Preview (Local Testing)
+
+No setup required! Preview works immediately:
+
+```bash
+/preview-web-resume 2025_11_10_quantumbasel_ai_specialist
+```
+
+Preview opens at: http://localhost:4173/CV-pages/
+
+### Deployment (CV-pages Repository)
+
+To deploy web resumes to the private CV-pages repository, configure:
+
+#### CV_PAGES_TOKEN: GitHub Personal Access Token
+
+**Required for:** Web resume deployment to private repository
+**Not required for:** Local preview
+
+**Setup steps:**
+
+1. **Create token** at: https://github.com/settings/tokens
+   - Click "Generate new token (classic)"
+   - Name: "CV Web Resume Deployment"
+   - Scopes: Select `repo` (Full control of private repositories)
+   - Generate and copy token
+
+2. **Configure environment variable:**
+   ```bash
+   # Add to ~/.zshrc (or ~/.bashrc for bash)
+   echo 'export CV_PAGES_TOKEN="ghp_your_token_here"' >> ~/.zshrc
+
+   # Reload shell configuration
+   source ~/.zshrc
+   ```
+
+3. **Verify configuration:**
+   ```bash
+   echo $CV_PAGES_TOKEN | grep -q "ghp_" && echo "✅ Token configured" || echo "❌ Token missing"
+   ```
+
+**Security notes:**
+- ⚠️ Never commit this token to the repository
+- 🔒 Token grants write access to private repositories
+- 🔄 Rotate token immediately if compromised
+
+**Without this token:** Deployment will fail with authentication error (preview still works).
+
+### Web Builder Dependencies
+
+Install once (if not already installed):
+
+```bash
+cd resumes/web-builder
+npm install
+```
+
+### Usage Examples
+
+**Preview locally (no deployment):**
+```bash
+/preview-web-resume 2025_11_10_quantumbasel_ai_specialist
+```
+
+**Deploy to CV-pages (after approval):**
+- Agent workflow handles automatically via `career-planning-coach`
+- Offers preview before deployment
+- Requires `CV_PAGES_TOKEN` configured
+- Generates private URL: `https://datarian.github.io/CV-pages/cv/{semantic-id}`
+
+### Troubleshooting
+
+**Preview server won't start:**
+```bash
+# Check if port 4173 is already in use
+lsof -ti:4173 | xargs kill
+```
+
+**Deployment fails with "permission denied":**
+- Verify token has `repo` scope at https://github.com/settings/tokens
+- Check token hasn't expired
+- Ensure token is exported in current shell session
+
+**Build fails:**
+```bash
+# Reinstall web builder dependencies
+cd resumes/web-builder
+rm -rf node_modules package-lock.json
+npm install
+```
+
 ## Resources
 
 ### Job Market Research
