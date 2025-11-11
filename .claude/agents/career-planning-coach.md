@@ -158,7 +158,13 @@ Options:
 
 **B. If Preview Requested**
 
-Invoke `react-resume-expert` with parameters:
+Invoke `react-resume-expert` via Task tool:
+```
+Use Task tool with agent: "react-resume-expert" and instructions:
+"Preview web resume for ID: {resume_id}. Set mode to 'preview'."
+```
+
+**Note**: The JSON format shown below is for illustration only. Use the Task tool to invoke the agent with clear natural language instructions:
 ```json
 {
   "id": "{resume_id}",
@@ -172,6 +178,13 @@ Agent will:
 - Open browser
 - Keep server running for review
 
+**Error Handling**:
+- If agent returns error status: Report error to user, offer options:
+  - Retry preview
+  - Skip preview and proceed to deploy
+  - Abort and review resume content
+- If build fails: Check web-builder dependencies (`cd resumes/web-builder && npm install`)
+
 Wait for user feedback:
 ```
 Preview is running at http://localhost:4173/CV-pages/
@@ -183,6 +196,12 @@ Options:
 - No, I need to make changes first
 ```
 
+**If user selects "No, I need to make changes first"**:
+- Stop preview server (agent handles cleanup)
+- Return user to resume editing workflow
+- Offer to re-invoke `swiss-resume-expert` or `latex-moderncv-expert` for modifications
+- After changes approved, restart from Step 2A (offer preview again)
+
 **C. If Deploy Confirmed (or Preview Skipped)**
 
 Inform user:
@@ -190,18 +209,32 @@ Inform user:
 Deploying to CV-pages repository...
 
 This will make the web resume available at:
-https://datarian.github.io/CV-pages/cv/{semantic-id}
+https://datarian.github.io/CV-pages/cv/{semantic_id}
 
 Note: This URL is private - share only with intended recipients.
 ```
 
-Invoke `react-resume-expert` with parameters:
+Invoke `react-resume-expert` via Task tool:
+```
+Use Task tool with agent: "react-resume-expert" and instructions:
+"Deploy web resume for ID: {resume_id}. Set mode to 'deploy'."
+```
+
+**Note**: The JSON format shown below is for illustration only. Use the Task tool to invoke the agent with clear natural language instructions:
 ```json
 {
   "id": "{resume_id}",
   "mode": "deploy"
 }
 ```
+
+**Error Handling**:
+- If agent returns error status: Report error to user, diagnose cause:
+  - Missing `CV_PAGES_TOKEN` environment variable → Instruct user to configure token
+  - Git push failure → Check repository permissions and branch configuration
+  - Build failure → Same handling as preview errors above
+- Offer retry after user addresses the issue
+- If deployment cannot proceed, inform user that PDF-only workflow is available
 
 Capture response with deployment URL and semantic ID.
 
