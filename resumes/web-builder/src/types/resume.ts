@@ -46,10 +46,17 @@ export interface ResumeSkills {
   [category: string]: string; // e.g., "ML/AI Frameworks": "TensorFlow, PyTorch..."
 }
 
+export interface Highlight {
+  metric: string;  // e.g., "8+ Years", "1M+"
+  label: string;   // e.g., "Experience", "Daily Requests"
+  icon: string;    // Lucide icon name: "calendar", "activity", "target", etc.
+}
+
 export interface ResumeData {
   metadata: ResumeMetadata;
   header: ResumeHeader;
   summary: string; // Markdown string
+  summaryHighlights?: Highlight[]; // Optional manual highlights for summary section
   experience: ExperienceItem[];
   skills: ResumeSkills;
   education: EducationItem[];
