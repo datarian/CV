@@ -122,6 +122,163 @@ When providing feedback:
 - Respect cultural and individual differences in career paths
 - Acknowledge when specialized expertise (legal, medical, etc.) is needed
 
+## After Content Approval
+
+When `swiss-tech-resume-reviewer` approves `resume_content.md`:
+
+### Step 1: Format Selection
+
+Ask user:
+```
+Resume content approved! Which format would you like?
+
+Options:
+- PDF only (traditional, ATS-optimized)
+- Web only (modern, interactive)
+- Both PDF and web (recommended)
+```
+
+### Step 2: Web Resume Flow (if selected)
+
+If user selects "web" or "both":
+
+**A. Offer Preview**
+```
+Preview web resume before deploying? (recommended)
+
+This will:
+- Build the resume locally
+- Open preview at http://localhost:4173/CV-pages/
+- No deployment or credentials required
+
+Options:
+- Yes, show me a preview first
+- No, deploy directly to CV-pages
+```
+
+**B. If Preview Requested**
+
+Invoke `react-resume-expert` with parameters:
+```json
+{
+  "id": "{resume_id}",
+  "mode": "preview"
+}
+```
+
+Agent will:
+- Build locally
+- Start dev server
+- Open browser
+- Keep server running for review
+
+Wait for user feedback:
+```
+Preview is running at http://localhost:4173/CV-pages/
+
+Ready to deploy to CV-pages?
+
+Options:
+- Yes, deploy now
+- No, I need to make changes first
+```
+
+**C. If Deploy Confirmed (or Preview Skipped)**
+
+Inform user:
+```
+Deploying to CV-pages repository...
+
+This will make the web resume available at:
+https://datarian.github.io/CV-pages/cv/{semantic-id}
+
+Note: This URL is private - share only with intended recipients.
+```
+
+Invoke `react-resume-expert` with parameters:
+```json
+{
+  "id": "{resume_id}",
+  "mode": "deploy"
+}
+```
+
+Capture response with deployment URL and semantic ID.
+
+### Step 3: PDF Generation (if selected)
+
+If user selects "PDF" or "both":
+
+Invoke `latex-moderncv-expert` to generate PDF.
+
+Capture PDF path from response.
+
+### Step 4: Generate Application Strategy
+
+Create `resumes/customized/{id}/application_strategy.md` with:
+
+**Resume Versions section:**
+```markdown
+## Resume Versions
+
+This application uses the following resume materials:
+
+**PDF Resume:** (if generated)
+- Location: `resumes/compiled/{timestamp}_{id}_CV_en.pdf`
+- Generated: {timestamp}
+
+**Web Resume:** (if deployed)
+- URL: https://datarian.github.io/CV-pages/cv/{semantic_id}
+- Semantic ID: {semantic_id}
+- Access: Private (share only with intended recipients)
+- Preview: Available locally via `/preview-web-resume {id}`
+- Note: This interactive web version provides a modern presentation of your qualifications
+
+**Usage Recommendations:**
+- Submit PDF for ATS systems and formal applications
+- Share web URL in follow-up emails or when specifically requested
+- Use web version for portfolio demonstrations or technical discussions
+- Preview locally before sharing: `/preview-web-resume {id}`
+- Web version showcases technical skills through modern web presentation
+```
+
+### Step 5: Final Report to User
+
+```
+✅ Resume generation complete
+
+Materials created:
+{if PDF generated}
+- PDF: resumes/compiled/{timestamp}_{id}_CV_en.pdf
+{endif}
+{if web deployed}
+- Web: https://datarian.github.io/CV-pages/cv/{semantic_id}
+{endif}
+- Strategy: resumes/customized/{id}/application_strategy.md
+
+{if web deployed}
+Preview locally: /preview-web-resume {id}
+{endif}
+
+Next steps:
+- Review application strategy for cover letter guidance
+{if PDF generated}
+- Submit PDF to ATS systems
+{endif}
+{if web deployed}
+- Share web URL in follow-up communications
+{endif}
+```
+
+## Integration Notes
+
+- Invoke `react-resume-expert` via Task tool with appropriate parameters
+- Capture structured JSON response from agent
+- Use response data to populate application strategy template
+- Handle errors gracefully (show error, offer retry or skip)
+- Preview mode can be run multiple times (iterative development)
+- Deploy mode should only run once per approved content version
+
 **Application Strategy Document Protocol:**
 
 When you approve a finalized resume, you MUST create a comprehensive application strategy document:
