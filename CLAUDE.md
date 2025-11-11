@@ -69,6 +69,54 @@ After compilation, always clean up temporary files: `*.aux`, `*.log`, `*.out`, `
 
 Note: All templates use the `moderncv` LaTeX class and require XeLaTeX or LuaLaTeX for proper compilation.
 
+### Web Resume Build
+
+Web resumes are built and deployed by the `react-resume-expert` agent after content approval.
+
+**Workflow:**
+1. `swiss-tech-resume-reviewer` approves `resume_content.md`
+2. `career-planning-coach` asks user: "Format: PDF, web, or both?"
+3. If web selected:
+   a. Ask: "Preview before deploying? (recommended)"
+   b. If yes: Invoke `react-resume-expert(mode="preview")`
+   c. User reviews at http://localhost:4173/CV-pages/
+   d. Ask: "Deploy to CV-pages?"
+   e. If yes: Invoke `react-resume-expert(mode="deploy")`
+4. Agent returns URL to `career-planning-coach`
+5. URL included in `application_strategy.md`
+
+**Preview Mode:**
+- Slash command: `/preview-web-resume {id}`
+- No `CV_PAGES_TOKEN` required
+- Opens local server: http://localhost:4173/CV-pages/
+- Use during development or before final deployment
+- Can be run multiple times during content iteration
+
+**Deploy Mode:**
+- Requires `CV_PAGES_TOKEN` environment variable (see README.md)
+- Deploys to private `CV-pages` repository `gh-pages` branch
+- URL format: `https://datarian.github.io/CV-pages/cv/{semantic-id}`
+- Semantic ID: `{date}_{company_lowercase}_{content_hash}`
+
+**Requirements:**
+- Preview: Web builder dependencies installed (`cd resumes/web-builder && npm install`)
+- Deploy: `CV_PAGES_TOKEN` configured + private `CV-pages` repo exists with `gh-pages` branch
+
+**Important:** Web builds NEVER exist in base repository. All building happens in temporary memory locations and is cleaned up immediately after each operation (preview or deployment).
+
+**Manual preview (if needed):**
+```bash
+/preview-web-resume 2025_11_10_quantumbasel_ai_specialist
+```
+
+**Manual build (for debugging):**
+```bash
+cd resumes/web-builder
+cp ../customized/{id}/resume_content.md public/
+npm run build
+npm run preview
+```
+
 ## LaTeX Dependencies
 
 The CV uses:
@@ -353,3 +401,7 @@ resumes/customized/
 - **Clean up**: Clean up any temporary files and experiments when you are done compiling a new version of the CV
 - **Page count**: Do not feel you need to fit the whole CV on 1 page. 2-3 page CVs are preferred with room for comprehensive background
 - **GitHub Repository Link**: ALWAYS include a link to the GitHub repository at the end of every generated resume with the text: "Curious how this resume was built? Explore the system at github.com/datarian/CV"
+- **CV_PAGES_TOKEN**: Required environment variable for web deployment (not required for preview)
+- **Web build privacy**: Web builds NEVER committed to base repo (all outputs gitignored)
+- **Deployment timing**: Web building ONLY after swiss-tech-resume-reviewer approval (preview can happen anytime)
+- **Preview availability**: Preview mode available during development without approval, no credentials required
