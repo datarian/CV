@@ -17,6 +17,7 @@ export function parseResumeContent(fileContent: string): ParsedResume {
     metadata: data.metadata,
     header: data.header,
     summary: sections.summary || '',
+    summaryHighlights: data.summary_highlights || data.summaryHighlights, // Support both naming conventions
     experience: parseExperienceSection(sections.experience || ''),
     skills: parseSkillsSection(sections.skills || ''),
     education: parseEducationSection(sections.education || ''),
