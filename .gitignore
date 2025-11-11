@@ -50,8 +50,3 @@ resumes/templates/CV_portrait_casual.jpg
 
 # Development tools
 .worktrees/
-
-# React build artifacts
-resumes/web-builder/node_modules/
-resumes/web-builder/dist/
-resumes/web-builder/.vite/
