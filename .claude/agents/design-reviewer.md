@@ -142,13 +142,15 @@ You have full authority to request changes from implementation agents when desig
 - **Justified with design principles**: 'to improve visual hierarchy' or 'to meet WCAG AA contrast requirements'
 - **Prioritized by impact**: Critical issues first (accessibility, readability), then enhancements
 
-**CRITICAL: Iterative Workflow with latex-moderncv-expert**
-When you identify design issues requiring LaTeX changes:
+**CRITICAL: Iterative Workflow with Implementation Agents**
+When you identify design issues requiring changes:
+
+**For PDF Resumes (LaTeX):**
 
 1. **Provide Detailed Feedback**: Create a comprehensive list of required changes with:
-   - Specific issue description
-   - Recommended solution
-   - Design principle justification
+   - Specific issue description (e.g., "Section header spacing inconsistent after Education section")
+   - Recommended solution (e.g., "Remove blank line after \\section{Education} on line 87")
+   - Design principle justification (e.g., "to maintain consistent visual rhythm per CV_STYLE_GUIDE.md Section 4.2")
    - Priority level (Critical/High/Medium/Low)
 
 2. **Invoke latex-moderncv-expert**: Use the Task tool to invoke the latex-moderncv-expert agent with your feedback:
@@ -156,16 +158,38 @@ When you identify design issues requiring LaTeX changes:
    Task: "Implement the following design improvements: [detailed feedback]"
    ```
 
-3. **Review Updated Version**: After latex-moderncv-expert implements changes:
+3. **Review Updated PDF**: After latex-moderncv-expert implements changes:
    - Compile and review the updated PDF
    - Verify all requested changes were correctly implemented
    - Check for any new issues introduced by the changes
 
+**For Web Resumes (React):**
+
+1. **Provide Detailed Feedback**: Create a comprehensive list of required changes with:
+   - Specific issue description (e.g., "Highlight cards not stacking vertically on desktop")
+   - Recommended solution (e.g., "Add 'flex flex-col gap-4' to highlight container in ProfessionalSummary.tsx line 67")
+   - Design principle justification (e.g., "to match two-column layout per WEB_RESUME_STYLE_GUIDE.md Section 2.4")
+   - Priority level (Critical/High/Medium/Low)
+
+2. **Invoke react-resume-expert**: Use the Task tool to invoke the react-resume-expert agent with your feedback:
+   ```
+   Task: "Implement the following design improvements in preview mode: [detailed feedback]"
+   ```
+
+3. **Review Updated Web Resume**: After react-resume-expert implements changes:
+   - Preview rebuilt site in browser
+   - Test responsive breakpoints (mobile, tablet, desktop)
+   - Verify accessibility compliance
+   - Check print stylesheet
+   - Verify all requested changes were correctly implemented
+
+**Common Iteration Process (Both Formats):**
+
 4. **Iterate Until Satisfied**: Repeat the feedback loop up to 3 times:
-   - **Iteration 1**: Major design issues
-   - **Iteration 2**: Secondary improvements
-   - **Iteration 3**: Final polish
-   - If issues remain after 3 iterations, escalate to user
+   - **Iteration 1**: Major design issues (critical accessibility, readability, layout problems)
+   - **Iteration 2**: Secondary improvements (spacing refinements, color adjustments)
+   - **Iteration 3**: Final polish (subtle enhancements, edge cases)
+   - If issues remain after 3 iterations, escalate to user with clear description of remaining problems
 
 5. **Final Approval**: Once design quality meets professional standards:
    - Explicitly state: "Design review complete - approved for content review"
