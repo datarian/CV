@@ -112,6 +112,8 @@ When reviewing PDF (LaTeX) documents, you will:
    - Markdown rendering errors (bold → blue, italic → coral)
 
 **Design Evaluation Criteria:**
+
+**For PDF Resumes:**
 - **Style Guide Compliance**: Document MUST adhere to specifications in CV_STYLE_GUIDE.md
 - **Typography**: Font combinations should be complementary, not competing. Maximum 2-3 font families per document. Reference Section 2 of CV_STYLE_GUIDE.md for approved typography hierarchy.
 - **Color Harmony**: Colors must work together cohesively and maintain sufficient contrast for accessibility. Use approved palette from Section 3 of CV_STYLE_GUIDE.md (#39a7d0, #4D4D4D, #000000)
@@ -120,6 +122,16 @@ When reviewing PDF (LaTeX) documents, you will:
 - **Readability**: All text must be easily scannable with clear information hierarchy
 - **Text Rendering Quality**: No overlapping text, no awkward line breaks, proper hyphenation, clean presentation
 - **Human-Readable Appearance**: Document must look tidy, neat, and professional to a human reader viewing the PDF
+
+**For Web Resumes:**
+- **Style Guide Compliance**: Document MUST adhere to specifications in WEB_RESUME_STYLE_GUIDE.md
+- **Typography**: System fonts with proper hierarchy (36px/20px/18px/16px). Reference Section 2.2 of WEB_RESUME_STYLE_GUIDE.md.
+- **Color Harmony**: Use approved web palette: cv-blue (#2C5F7F), cv-coral (#E87461), cv-gray (#4A4A4A), cv-light (#F5F5F5). Reference Section 2.1 of WEB_RESUME_STYLE_GUIDE.md.
+- **Responsive Layout**: Mobile-first, fluid layouts, proper breakpoints (640px/768px/1024px). Follow Section 4 specifications.
+- **Accessibility (WCAG AA)**: Color contrast 4.5:1 minimum, semantic HTML, keyboard navigation, ARIA labels. Reference Section 5.
+- **Performance**: Bundle size <500kb, load time <2s, First Contentful Paint <1.5s. Reference Section 7.
+- **Print Quality**: Browser print produces professional PDF. Reference Section 6.
+- **Component Design**: Highlight cards styled correctly, hover effects smooth, icons loaded. Reference Section 3.
 
 **Authority and Recommendations:**
 You have full authority to request changes from LaTeX-writing agents when design issues are identified. Your feedback should be:
