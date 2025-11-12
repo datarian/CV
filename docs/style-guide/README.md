@@ -98,6 +98,34 @@ This style guide package provides comprehensive documentation of the visual desi
 
 ---
 
+### 4. MODERNCV_REFERENCE.md (10KB)
+**Purpose:** Technical reference for moderncv LaTeX package
+
+**Contents:**
+- ModernCV package overview and features
+- Document class declaration and options
+- Available styles (casual, classic, banking, oldstyle, fancy)
+- Color schemes and custom colors
+- Personal information commands
+- CV content commands (cventry, cvitem, cvlistitem, etc.)
+- Section commands and structure
+- Timeline integration
+- Icon usage (FontAwesome, Marvosym)
+- Multi-language support
+- Compilation instructions
+- Common issues and solutions
+
+**When to use:**
+- Understanding moderncv package capabilities
+- Looking up command syntax
+- Troubleshooting LaTeX compilation errors
+- Exploring alternative styles and colors
+- Technical reference for LaTeX implementation
+
+**Format:** Technical documentation with code examples and syntax reference
+
+---
+
 ## Quick Start Guide
 
 ### For Creating a New CV:
@@ -128,9 +156,11 @@ This style guide package provides comprehensive documentation of the visual desi
 ```
 docs/style-guide/
 ├── README.md                       (This file - Navigation guide)
-├── CV_STYLE_GUIDE.md               (Comprehensive specification - 21KB)
-├── VISUAL_DESIGN_REFERENCE.md      (Quick reference - 8.2KB)
-└── LATEX_CODE_SNIPPETS.md          (Code library - 17KB)
+├── CV_STYLE_GUIDE.md               (PDF design specification - 21KB)
+├── VISUAL_DESIGN_REFERENCE.md      (PDF quick reference - 8.2KB)
+├── LATEX_CODE_SNIPPETS.md          (PDF code library - 17KB)
+├── MODERNCV_REFERENCE.md           (LaTeX package reference - 10KB)
+└── WEB_RESUME_STYLE_GUIDE.md       (Web specification - 55KB)
 ```
 
 ---
@@ -325,16 +355,18 @@ docs/style-guide/
 
 | File | Size | Sections | Purpose |
 |------|------|----------|---------|
-| CV_STYLE_GUIDE.md | 21KB | 18 | Comprehensive reference |
-| VISUAL_DESIGN_REFERENCE.md | 8.2KB | 20 | Quick lookup |
-| LATEX_CODE_SNIPPETS.md | 17KB | 25 | Code library |
-| **Total** | **46.2KB** | **63** | **Complete system** |
+| CV_STYLE_GUIDE.md | 21KB | 18 | PDF comprehensive reference |
+| VISUAL_DESIGN_REFERENCE.md | 8.2KB | 20 | PDF quick lookup |
+| LATEX_CODE_SNIPPETS.md | 17KB | 25 | PDF code library |
+| MODERNCV_REFERENCE.md | 10KB | 12 | LaTeX package reference |
+| WEB_RESUME_STYLE_GUIDE.md | 55KB | 15 | Web comprehensive reference |
+| **Total** | **111KB** | **90** | **Complete system** |
 
 ---
 
 ## Key Takeaways
 
-1. **Three complementary documents:** Comprehensive guide, quick reference, code library
+1. **Five complementary documents:** PDF design system (guide, quick reference, code library), LaTeX technical reference, Web design system
 2. **Consistent design system:** All specifications derived from successful CV
 3. **Swiss market optimized:** Meets all local requirements and expectations
 4. **Production tested:** Based on actual application CV with proven results
