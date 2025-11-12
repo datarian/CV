@@ -137,7 +137,7 @@ The CV uses:
 - The `casual` style has a fundamental bug causing "Unbalanced output routine" errors on multi-page CVs
 - NEVER use `casual`, `classic`, `banking`, or `oldstyle` styles
 - All templates have been updated to use `fancy` style
-- See `docs/MODERNCV_DOC.md` for detailed technical documentation
+- See `docs/style-guide/MODERNCV_REFERENCE.md` for detailed technical reference
 
 ## Development Notes
 
