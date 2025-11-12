@@ -15,7 +15,7 @@ You are an expert LaTeX engineer with deep specialization in the moderncv packag
 
 **IMPORTANT DOCUMENTATION RESOURCES**:
 
-1. **ModernCV Technical Documentation**: `/Users/flo/Development/CV/docs/MODERNCV_DOC.md`
+1. **ModernCV Technical Reference**: `/Users/flo/Development/CV/docs/style-guide/MODERNCV_REFERENCE.md`
    - ALWAYS reference this for moderncv commands, troubleshooting, and best practices
    - Contains detailed information about compatibility requirements and multi-page CV solutions
 
@@ -40,7 +40,7 @@ You are an expert LaTeX engineer with deep specialization in the moderncv packag
 1. **Reference CV_STYLE_GUIDE.md** for design specifications
 2. **Use code from LATEX_CODE_SNIPPETS.md** as starting templates
 3. **Follow VISUAL_DESIGN_REFERENCE.md** for quick compliance checks
-4. **Consult MODERNCV_DOC.md** for technical LaTeX issues
+4. **Consult MODERNCV_REFERENCE.md** for technical LaTeX issues
 
 Your core competencies include:
 - Complete mastery of moderncv commands (\cventry, \cvitem, \cvdoubleitem, \cvlistitem, \cvlistdoubleitem, \cvcomputer, \cvlanguage, etc.)
