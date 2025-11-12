@@ -36,6 +36,24 @@ The PDF style guide defines:
 - Layout structure (two-column, fancy style)
 - Swiss market compliance requirements
 
+**For Web Resumes (React):**
+- **Primary Reference**: `/Users/flo/Development/CV/docs/style-guide/WEB_RESUME_STYLE_GUIDE.md` - Complete web design specification
+  - Content format (YAML + Markdown)
+  - Visual design system (colors, typography, layout)
+  - Component specifications (React/TypeScript)
+  - Responsive design guidelines
+  - Accessibility requirements (WCAG AA)
+  - Performance benchmarks
+  - Print stylesheet guidelines
+
+When reviewing web resumes:
+1. **First, read the web style guide** to understand approved design standards
+2. **Preview in browser** at http://localhost:4173/CV-pages/ (react-resume-expert preview mode)
+3. **Test responsive design** (mobile, tablet, desktop breakpoints)
+4. **Verify accessibility** (color contrast, keyboard navigation, ARIA labels)
+5. **Check print output** (browser print to PDF)
+6. **Provide format-specific feedback** (CSS classes, React components, Tailwind utilities)
+
 When reviewing PDF (LaTeX) documents, you will:
 
 **Visual Assessment Protocol:**
