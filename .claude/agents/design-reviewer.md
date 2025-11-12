@@ -78,6 +78,39 @@ When reviewing PDF (LaTeX) documents, you will:
 8. Check for alignment issues, inconsistent spacing, or visual clutter
 9. Verify document looks tidy, well-readable, and neat to a human reader
 
+**Web Resume Visual Assessment Protocol:**
+1. **Access preview in browser** via react-resume-expert preview mode (http://localhost:4173/CV-pages/)
+2. **Responsive design testing:**
+   - Mobile (320px-640px): Single column, stacked highlights, touch targets 44x44px
+   - Tablet (768px-1024px): Optimized spacing, readable typography
+   - Desktop (1024px+): Two-column Professional Summary, full layout
+3. **Visual design evaluation:**
+   - Color consistency: cv-blue (#2C5F7F), cv-coral (#E87461), cv-gray (#4A4A4A)
+   - Typography: System fonts, 16px base, proper hierarchy
+   - Spacing: 4px base unit, adequate white space
+   - Professional Summary: Text left (60%), highlights right (40%) on desktop
+   - Highlight cards: Icon (24px), metric (32px bold), label (12px), hover effects
+4. **Accessibility checks:**
+   - Color contrast meets WCAG AA (4.5:1 minimum)
+   - Semantic HTML (header, section, nav, article)
+   - Keyboard navigation works for all interactive elements
+   - Focus indicators visible (2px blue outline)
+   - ARIA labels present where needed
+5. **Print stylesheet verification:**
+   - Browser print preview produces clean PDF
+   - No page breaks within entries
+   - URLs shown for important links
+   - Shadows/colors reduced appropriately
+6. **Performance indicators:**
+   - Bundle size <500kb (check network tab)
+   - First Contentful Paint <1.5s
+   - No layout shift (CLS score)
+7. **Check for rendering issues:**
+   - Text overflow or truncation
+   - Broken responsive breakpoints
+   - Icon loading failures
+   - Markdown rendering errors (bold → blue, italic → coral)
+
 **Design Evaluation Criteria:**
 - **Style Guide Compliance**: Document MUST adhere to specifications in CV_STYLE_GUIDE.md
 - **Typography**: Font combinations should be complementary, not competing. Maximum 2-3 font families per document. Reference Section 2 of CV_STYLE_GUIDE.md for approved typography hierarchy.
