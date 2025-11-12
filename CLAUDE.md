@@ -74,16 +74,20 @@ Note: All templates use the `moderncv` LaTeX class and require XeLaTeX or LuaLaT
 Web resumes are built and deployed by the `react-resume-expert` agent after content approval.
 
 **Workflow:**
-1. `swiss-tech-resume-reviewer` approves `resume_content.md`
-2. `career-planning-coach` asks user: "Format: PDF, web, or both?"
-3. If web selected:
-   a. Ask: "Preview before deploying? (recommended)"
-   b. If yes: Invoke `react-resume-expert(mode="preview")`
-   c. User reviews at http://localhost:4173/CV-pages/
-   d. Ask: "Deploy to CV-pages?"
-   e. If yes: Invoke `react-resume-expert(mode="deploy")`
-4. Agent returns URL to `career-planning-coach`
-5. URL included in `application_strategy.md`
+1. `resume-content-generator` creates `resume_content.md` from PERSONAL_PROFILE.md + strategy
+2. `swiss-tech-resume-reviewer` reviews and approves `resume_content.md` (Pattern A)
+3. **USER DECISION GATE**: `career-planning-coach` asks user: "Format: PDF, web, or both?"
+4. Based on selection:
+   - **If PDF selected**: Invoke `latex-moderncv-expert` to render PDF from resume_content.md
+   - **If web selected**:
+     a. Ask: "Preview before deploying? (recommended)"
+     b. If yes: Invoke `react-resume-expert(mode="preview")`
+     c. User reviews at http://localhost:4173/CV-pages/
+     d. Ask: "Deploy to CV-pages?"
+     e. If yes: Invoke `react-resume-expert(mode="deploy")`
+5. PDF undergoes post-render QA (swiss-tech-resume-reviewer + latex-design-reviewer)
+6. career-planning-coach performs final holistic review
+7. Application strategy document generated with resume URLs/paths
 
 **Preview Mode:**
 - Slash command: `/preview-web-resume {id}`
@@ -160,10 +164,12 @@ Use the Task tool to invoke agents. All agents follow consistent patterns:
 
 ### When to Invoke Agents
 - **swiss-tech-job-market-analyst**: When analyzing job requirements, salary research, or market positioning
-- **swiss-resume-expert**: When creating or optimizing resume content and structure  
-- **latex-moderncv-expert**: When working with LaTeX templates or compilation issues
-- **latex-design-reviewer**: After any layout/design changes to ensure visual quality
-- **swiss-tech-resume-reviewer**: For final content review before submission
+- **swiss-resume-expert**: When creating or optimizing resume content strategy and positioning
+- **resume-content-generator**: After strategy approval, to transform PERSONAL_PROFILE.md into structured resume_content.md
+- **swiss-tech-resume-reviewer**: To review resume_content.md (Pattern A) or final PDF output before submission
+- **latex-moderncv-expert**: After content approval when PDF format selected, to render LaTeX PDF from resume_content.md
+- **react-resume-expert**: After content approval when web format selected, to build/deploy interactive web resume
+- **latex-design-reviewer**: After PDF generation to ensure visual quality and style guide compliance
 
 ## File Management
 
@@ -214,101 +220,186 @@ The CV repository now uses a flexible, data-driven approach with the following s
 
 #### Specialized Agent Workflow
 
-**Market Analysis Phase**:
+**Phase 1: Market Analysis**:
 1. **swiss-tech-job-market-analyst**: Market research, salary analysis, skills gap identification
    - Input: Target role, company, industry requirements
    - Output: Market insights, required technologies, salary expectations
 
-**Resume Strategy Phase**:
+**Phase 2: Resume Strategy**:
 2. **swiss-resume-expert**: Resume strategy and content planning
    - Input: Market analysis, PERSONAL_PROFILE.md data
    - Output: Content strategy, section emphasis, keyword recommendations
 
-**Template Development Phase**:
-3. **latex-moderncv-expert**: LaTeX template creation and customization
-   - Input: Content strategy, specific job requirements, feedback from reviewers
-   - Output: Customized .tex file ready for compilation
-   - Role: Implements changes based on reviewer feedback
+**Phase 3: Content Generation (Content-First Approach)**:
+3. **resume-content-generator**: Transform profile data into structured resume content
+   - Input: PERSONAL_PROFILE.md, strategic guidance from swiss-resume-expert
+   - Output: `resumes/customized/{id}/resume_content.md` (YAML + Markdown)
+   - Role: Single source of truth for both PDF and web renderers
 
-**Quality Assurance Phase (ITERATIVE)**:
-4. **swiss-tech-resume-reviewer**: Content review and optimization (FIRST)
-   - Input: Compiled PDF output, target role requirements
-   - Output: Content rating, ATS optimization, keyword recommendations
+**Phase 4: Content Quality Review (Pattern A - PREFERRED)**:
+4. **swiss-tech-resume-reviewer**: Review content BEFORE rendering
+   - Input: `resume_content.md`, target role requirements
+   - Output: Content rating, ATS keyword match, improvement recommendations
+   - **CRITICAL**: Reviews content directly, not PDF. Faster iteration without compilation delays.
+   - Iterates with resume-content-generator until content quality meets standards (≥8.0/10, ≥75% ATS match)
+
+**Phase 5: Format Selection & Rendering**:
+
+**User Decision Gate**: career-planning-coach asks user to select format:
+- PDF only (traditional, ATS-optimized)
+- Web only (modern, interactive)
+- Both PDF and web (recommended)
+
+Based on user selection:
+
+5a. **latex-moderncv-expert** (if PDF selected): LaTeX PDF generation
+   - Input: Approved `resume_content.md`
+   - Output: Compiled PDF in `resumes/compiled/{timestamp}_{id}_CV_en.pdf`
+   - Role: Renders content to LaTeX, compiles with XeLaTeX
+   - Invoked by: career-planning-coach after content approval
+
+5b. **react-resume-expert** (if web selected): React web resume generation
+   - Input: Approved `resume_content.md`
+   - Output: Static site deployed to CV-pages (or local preview)
+   - Modes: Preview (local) or Deploy (GitHub Pages)
+   - Invoked by: career-planning-coach after content approval
+
+**Phase 6: Design Quality Assurance (ITERATIVE)**:
+
+6. **swiss-tech-resume-reviewer** (PDF content verification):
+   - Input: Rendered PDF output, target role requirements
+   - Output: Final content validation after rendering
    - **CRITICAL**: If changes needed, invokes **latex-moderncv-expert** to implement fixes
-   - Iterates until content quality meets standards
+   - Iterates until content rendering quality meets standards
 
-5. **latex-design-reviewer**: Visual design and layout optimization (SECOND)
+7. **latex-design-reviewer** (PDF visual design):
    - Input: Content-approved PDF output
    - Output: Design recommendations, formatting improvements
    - **CRITICAL**: If changes needed, invokes **latex-moderncv-expert** to implement fixes
-   - Iterates until design quality is satisfactory
+   - Iterates until design quality is satisfactory (≥9.0/10)
 
-#### Iterative Feedback Loop
-**IMPORTANT**: The quality assurance agents work iteratively with latex-moderncv-expert:
+#### Complete Agent Workflow Diagram
 
 ```
-                    ┌─────────────────────────────────┐
-                    │   career-planning-coach         │
-                    │   (Final Quality Gate)          │
-                    │   Holistic Career Review        │
-                    └─────────────────┬───────────────┘
-                                      │
-                                      │ Approves OR triggers
-                                      │ full re-iteration
-                                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│              latex-moderncv-expert                          │
-│          (LaTeX Implementation Agent)                        │
-└─────────────────┬───────────────────────────┬───────────────┘
-                  │                           │
-                  │ creates/modifies          │ creates/modifies
-                  ▼                           ▼
-        ┌──────────────────┐        ┌──────────────────┐
-        │ latex-design     │        │ swiss-tech       │
-        │ -reviewer        │        │ -resume-reviewer │
-        └──────────────────┘        └──────────────────┘
-                  │                           │
-                  │ reviews & provides        │ reviews & provides
-                  │ feedback                  │ feedback
-                  │                           │
-                  └───────────┬───────────────┘
-                              │
-                              │ If changes needed
-                              ▼
-                    ┌─────────────────────┐
-                    │ Invoke latex-       │
-                    │ moderncv-expert     │
-                    │ with feedback       │
-                    └─────────────────────┘
-                              │
-                              │ Implements changes
-                              ▼
-                    [Repeat until satisfied]
-                              │
-                              │ Both approve
-                              ▼
-                    ┌─────────────────────┐
-                    │ Pass to career-     │
-                    │ planning-coach      │
-                    │ for final review    │
-                    └─────────────────────┘
+                    ┌─────────────────────────────────────────┐
+                    │   career-planning-coach                 │
+                    │   (Primary Orchestrator)                │
+                    └───────────────┬─────────────────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────┐
+        │                           │                       │
+        ▼                           ▼                       ▼
+swiss-tech-job-           swiss-resume-expert    [PERSONAL_PROFILE.md]
+market-analyst            (Content Strategy)      (Data Source)
+(Market Research)                 │                       │
+        │                         │                       │
+        └─────────────────────────┴───────────────────────┘
+                                  │
+                                  ▼
+                      ┌───────────────────────┐
+                      │ resume-content-       │
+                      │ generator             │
+                      │ Creates resume_       │
+                      │ content.md            │
+                      └───────────┬───────────┘
+                                  │
+                                  │ YAML + Markdown
+                                  │ (Single source of truth)
+                                  ▼
+                      ┌───────────────────────┐
+                      │ swiss-tech-resume-    │◄─┐
+                      │ reviewer              │  │
+                      │ (Pattern A: Review    │  │
+                      │  content BEFORE       │  │ iterate on
+                      │  rendering)           │  │ content
+                      └───────────┬───────────┘  │
+                                  │              │
+                          Content approved?      │
+                          (≥8.0/10, ≥75% ATS)    │
+                                  │              │
+                              YES │  NO ─────────┘
+                                  │
+                                  ▼
+                      ┌───────────────────────┐
+                      │ USER DECISION GATE    │
+                      │ Format Selection:     │
+                      │ • PDF only            │
+                      │ • Web only            │
+                      │ • Both (recommended)  │
+                      └───────────┬───────────┘
+                                  │
+            ┌─────────────────────┴─────────────────────┐
+            │                                           │
+            ▼                                           ▼
+┌───────────────────────┐                   ┌───────────────────────┐
+│ latex-moderncv-expert │                   │ react-resume-expert   │
+│ (PDF Renderer)        │                   │ (Web Renderer)        │
+│                       │                   │                       │
+│ Renders PDF from      │                   │ • Preview mode (local)│
+│ resume_content.md     │                   │ • Deploy mode (pages) │
+└───────────┬───────────┘                   └───────────┬───────────┘
+            │                                           │
+            │ Compiled PDF                              │ Web URL/Local
+            ▼                                           ▼
+┌───────────────────────┐                   [Web resume ready]
+│ swiss-tech-resume-    │◄─┐
+│ reviewer (PDF verify) │  │
+└───────────┬───────────┘  │
+            │              │
+            ▼              │ iterate
+┌───────────────────────┐  │ on PDF
+│ latex-design-reviewer │──┘
+│ (Visual QA)           │
+└───────────┬───────────┘
+            │
+            │ Both reviewers approve
+            ▼
+┌───────────────────────────────────────────┐
+│   career-planning-coach                   │
+│   (Final Quality Gate)                    │
+│   • Holistic career review                │
+│   • Can trigger full re-iteration         │
+│   • Generates application_strategy.md     │
+└───────────────────────────────────────────┘
 ```
+
+**Key Workflow Features**:
+
+1. **Content-First Approach**: resume_content.md is reviewed and approved BEFORE rendering
+2. **Pattern A Preferred**: Review content directly (not PDF) for faster iteration
+3. **User Format Selection**: Explicit gate for PDF/web/both decision
+4. **Parallel Rendering**: PDF and web renderers consume the same source independently
+5. **Post-Render QA**: PDF undergoes additional content verification and design review
+6. **Final Quality Gate**: career-planning-coach ensures holistic career narrative
 
 **Iteration Process**:
-1. **latex-moderncv-expert** creates/modifies LaTeX CV
-2. Compile PDF with xelatex
-3. **swiss-tech-resume-reviewer** reviews content quality FIRST
-   - If issues found: Provides specific feedback → Go back to step 1
-   - If satisfied: Proceed to step 4
-4. **latex-design-reviewer** reviews visual design SECOND
-   - If issues found: Provides specific feedback → Go back to step 1
-   - If satisfied: Proceed to step 5
-5. **career-planning-coach** performs final holistic review
+
+**Pre-Rendering (Pattern A - PREFERRED)**:
+1. **resume-content-generator** creates `resume_content.md` from PERSONAL_PROFILE.md + strategy
+2. **swiss-tech-resume-reviewer** reviews content quality BEFORE rendering
+   - Evaluates: Content quality, ATS keywords, Swiss market fit
+   - Target: ≥8.0/10 rating, ≥75% ATS keyword match
+   - If issues found: Provides feedback → resume-content-generator updates → Re-review
+   - Maximum 3 iterations before escalation
+3. When content approved: Proceed to format selection
+
+**Format Selection**:
+4. **career-planning-coach** asks user: "PDF only, web only, or both?"
+5. Based on selection, invokes appropriate renderer(s):
+   - **latex-moderncv-expert** (PDF): Renders resume_content.md → LaTeX → PDF
+   - **react-resume-expert** (Web): Renders resume_content.md → React → static site
+
+**Post-Rendering QA (PDF only)**:
+6. **swiss-tech-resume-reviewer** verifies PDF content rendering
+   - If issues found: Provides feedback → latex-moderncv-expert fixes → Re-compile → Re-review
+7. **latex-design-reviewer** reviews visual design and layout
+   - If issues found: Provides feedback → latex-moderncv-expert fixes → Re-compile → Re-review
+   - Target: ≥9.0/10 design rating
+8. **career-planning-coach** performs final holistic review
    - Reviews complete CV for overall career narrative and strategic positioning
    - If issues found: Identifies which specialist agents need to be re-engaged
-   - Can trigger full iteration cycle if needed
-   - If satisfied: CV is approved for use
-6. Repeat cycle until all reviewers including career-planning-coach approve
+   - Can trigger ONE full re-iteration cycle if needed
+   - If satisfied: CV is approved for use and application_strategy.md is generated
 
 **Final Quality Gate - career-planning-coach**:
 The career-planning-coach performs a final holistic review to ensure:
