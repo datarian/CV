@@ -126,6 +126,33 @@ This style guide package provides comprehensive documentation of the visual desi
 
 ---
 
+### 5. WEB_RESUME_STYLE_GUIDE.md (55KB)
+**Purpose:** Comprehensive design specification for React web resumes
+
+**Contents:**
+- Content format specification (YAML frontmatter + Markdown)
+- Visual design system (colors, typography, layout)
+- Component specifications (React/TypeScript)
+- Responsive design guidelines
+- Accessibility requirements (WCAG AA)
+- Performance benchmarks (<2s load, <500kb bundle)
+- Print stylesheet guidelines
+- Summary highlights feature (auto-extraction + manual override)
+- Browser support and compatibility
+- Quality assurance checklist
+
+**When to use:**
+- Building web resumes with react-resume-expert
+- Understanding web content format (resume_content.md)
+- Implementing responsive components
+- Ensuring accessibility compliance
+- Optimizing performance
+- Debugging web resume issues
+
+**Format:** Comprehensive reference with code examples, component specs, and troubleshooting
+
+---
+
 ## Quick Start Guide
 
 ### For Creating a New CV:
@@ -142,6 +169,13 @@ This style guide package provides comprehensive documentation of the visual desi
 1. **Quick lookup:** Check `VISUAL_DESIGN_REFERENCE.md` first
 2. **Detailed info:** Reference `CV_STYLE_GUIDE.md` for complete context
 3. **Implementation:** Copy code from `LATEX_CODE_SNIPPETS.md`
+
+### For Web Resume Development:
+
+1. **Content format:** Check `WEB_RESUME_STYLE_GUIDE.md` Section 1
+2. **Visual design:** Reference `WEB_RESUME_STYLE_GUIDE.md` Section 2
+3. **Component specs:** Use `WEB_RESUME_STYLE_GUIDE.md` Section 3
+4. **Troubleshooting:** Check `WEB_RESUME_STYLE_GUIDE.md` Section 11
 
 ### For Quality Assurance:
 
@@ -382,6 +416,7 @@ docs/style-guide/
 ---
 
 **Quick Access:**
-- Need design specs? → `CV_STYLE_GUIDE.md`
-- Need quick lookup? → `VISUAL_DESIGN_REFERENCE.md`
-- Need code to copy? → `LATEX_CODE_SNIPPETS.md`
+- Need PDF design specs? → `CV_STYLE_GUIDE.md`
+- Need PDF quick lookup? → `VISUAL_DESIGN_REFERENCE.md`
+- Need PDF code to copy? → `LATEX_CODE_SNIPPETS.md`
+- Need web design specs? → `WEB_RESUME_STYLE_GUIDE.md`
