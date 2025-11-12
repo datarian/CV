@@ -242,9 +242,38 @@ Capture response with deployment URL and semantic ID.
 
 If user selects "PDF" or "both":
 
-Invoke `latex-moderncv-expert` to generate PDF.
+**Invoke latex-moderncv-expert** via Task tool:
+```
+Use Task tool with agent: "latex-moderncv-expert" and instructions:
+"Generate LaTeX PDF from approved content:
+- Source: resumes/customized/{id}/resume_content.md
+- Output LaTeX: resumes/customized/{id}/{id}.tex
+- Compile to: resumes/compiled/{timestamp}_{id}_CV_en.pdf
+- Style: moderncv fancy (REQUIRED)
+- Include GitHub repository link in footer
+- Apply style guide specifications from docs/style-guide/CV_STYLE_GUIDE.md
 
-Capture PDF path from response.
+After generation:
+1. Validate LaTeX structure (moderncvstyle=fancy, cventry has 6 args)
+2. Compile with XeLaTeX (2 passes)
+3. Clean up build artifacts
+4. Report PDF location"
+```
+
+**Expected Agent Workflow**:
+1. Parse resume_content.md (YAML frontmatter + Markdown)
+2. Generate LaTeX using CV_template.tex as base
+3. Apply style guide specifications (colors, fonts, spacing)
+4. Compile with XeLaTeX
+5. Validate PDF output
+6. Return PDF path
+
+**Error Handling**:
+- If compilation fails: Review LaTeX errors, provide to agent for fixing
+- If validation fails: Check moderncvstyle, cventry format, GitHub link
+- If output quality poor: May need to iterate with latex-design-reviewer
+
+Capture PDF path from response (e.g., `resumes/compiled/2025_11_10_14_30_company_role_CV_en.pdf`)
 
 ### Step 4: Generate Application Strategy
 

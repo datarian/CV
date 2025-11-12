@@ -160,77 +160,213 @@ This skill follows a 5-phase workflow that can be executed end-to-end or selecti
 **Tool Support**:
 - Use `swiss-resume-expert` agent (if available) for expert content planning
 
-### Phase 4: LaTeX Template Implementation
+### Phase 4: Content Generation (Content-First Approach)
 
-**Purpose**: Create customized LaTeX resume using moderncv and compile to PDF.
+**Purpose**: Transform PERSONAL_PROFILE.md and strategic guidance into structured resume content (`resume_content.md`) that serves as the single source of truth for both PDF and web renderers.
 
-**Quick Start**:
+**CRITICAL**: This is a **content-first workflow**. Content is created, reviewed, and approved BEFORE rendering to PDF or web formats.
 
-Initialize new application:
+---
+
+#### Step 4.1: Generate Structured Content
+
+**Agent**: `resume-content-generator`
+
+**Input**:
+- `docs/PERSONAL_PROFILE.md` (comprehensive professional data)
+- Strategic guidance from swiss-resume-expert (Phase 3 output)
+- Target job requirements and ATS keywords
+
+**Process**:
+
+1. **Invoke resume-content-generator** via career-planning-coach:
+   ```
+   Task: Generate resume content for [COMPANY] [ROLE] position
+   - Source: docs/PERSONAL_PROFILE.md
+   - Strategy: [strategic guidance from swiss-resume-expert]
+   - Target: resumes/customized/YYYY_MM_DD_company_role/resume_content.md
+   ```
+
+2. **Agent creates structured markdown**:
+   ```markdown
+   ---
+   metadata:
+     id: YYYY_MM_DD_company_role
+     targetRole: Senior ML Engineer
+     targetCompany: Google
+     generatedDate: 2025-11-10
+     language: en
+
+   header:
+     name: Florian Hochstrasser
+     title: Senior ML Engineer
+     location: Zurich, Switzerland
+     email: florian@example.com
+     # ... additional contact info
+   ---
+
+   # Professional Summary
+
+   Senior ML Engineer with **8+ years** building production AI systems...
+
+   ## Experience
+
+   ### Senior Data Scientist
+   **Company X** | Zurich, Switzerland | 2020 - Present
+
+   - Architected **end-to-end ML pipelines** serving **1M+ daily predictions**...
+
+   [Additional sections: Technical Skills, Education, Projects]
+   ```
+
+3. **Output location**: `resumes/customized/{id}/resume_content.md`
+
+**Key Principle**: This structured markdown is the **single source of truth**. Both LaTeX PDF and React web renderers consume this file without modifying content substance.
+
+---
+
+#### Step 4.2: Content Quality Review (Pattern A - PREFERRED)
+
+**Agent**: `swiss-tech-resume-reviewer`
+
+**Purpose**: Review content BEFORE rendering to catch issues early.
+
+**Process**:
+
+1. **Invoke reviewer** via career-planning-coach:
+   ```
+   Task: Review resume_content.md for [COMPANY] [ROLE]
+   - File: resumes/customized/{id}/resume_content.md
+   - Job posting: docs/job_postings/{id}.md
+   - Evaluate: Content quality, ATS keywords, Swiss market fit
+   ```
+
+2. **Reviewer provides feedback**:
+   - Overall rating (target: ≥8.0/10)
+   - ATS keyword match (target: ≥75%)
+   - Specific improvement recommendations
+   - Approval or iteration request
+
+3. **If improvements needed**:
+   - career-planning-coach invokes resume-content-generator with feedback
+   - Agent updates resume_content.md
+   - Re-invoke swiss-tech-resume-reviewer
+   - **Maximum 3 iterations**
+
+4. **When approved**: Proceed to Step 4.3 (Format Selection)
+
+**Why Pattern A**: Reviewing content before rendering allows faster iteration without LaTeX compilation delays and separates content quality from visual design concerns.
+
+---
+
+#### Step 4.3: Format Selection (User Decision Point)
+
+**Decision Gate**: User selects output format(s)
+
+career-planning-coach asks:
+```
+Resume content approved! Which format would you like?
+
+Options:
+- PDF only (traditional, ATS-optimized)
+- Web only (modern, interactive)
+- Both PDF and web (recommended)
+```
+
+User response determines next steps.
+
+---
+
+#### Step 4.4: PDF Generation (If Selected)
+
+**Agent**: `latex-moderncv-expert`
+
+**Triggered When**: User selects "PDF only" or "Both PDF and web"
+
+**Process**:
+
+1. **career-planning-coach invokes latex-moderncv-expert**:
+   ```
+   Task: Generate LaTeX PDF from approved content
+   - Source: resumes/customized/{id}/resume_content.md
+   - Output: resumes/customized/{id}/YYYY_MM_DD_company_role.tex
+   - Style: moderncv fancy (REQUIRED)
+   - Compile to: resumes/compiled/{timestamp}_{id}_CV_en.pdf
+   ```
+
+2. **Agent workflow**:
+   - Parse resume_content.md (YAML + Markdown)
+   - Generate LaTeX using CV_template.tex as base
+   - Apply style guide specifications
+   - Compile with XeLaTeX (2 passes)
+   - Clean up build artifacts
+   - Output PDF to compiled directory
+
+3. **Automatic validation**:
+   - `\moderncvstyle{fancy}` is set (multi-page support)
+   - All `\cventry` have exactly 6 arguments
+   - GitHub repository link included
+   - Font rendering correct
+
+4. **Output**: PDF file ready for ATS systems
+
+**Reference Materials**:
+- `references/moderncv_technical_guide.md` - Complete LaTeX reference
+- `assets/style-guide/CV_STYLE_GUIDE.md` - Design specifications
+- `assets/CV_template.tex` - Production-ready template
+
+---
+
+#### Step 4.5: Web Generation (If Selected)
+
+**Agent**: `react-resume-expert`
+
+**Triggered When**: User selects "Web only" or "Both PDF and web"
+
+**Process**:
+
+1. **Preview option** (recommended):
+   ```
+   Preview web resume before deploying? (recommended)
+
+   Options:
+   - Yes, show me a preview first
+   - No, deploy directly to CV-pages
+   ```
+
+2. **If preview requested**:
+   - career-planning-coach invokes react-resume-expert (mode: preview)
+   - Agent builds locally and opens http://localhost:4173/CV-pages/
+   - User reviews, can iterate on content if needed
+
+3. **If deploy confirmed**:
+   - career-planning-coach invokes react-resume-expert (mode: deploy)
+   - Agent builds static React site
+   - Deploys to private CV-pages repository (GitHub Pages)
+   - Returns URL: `https://datarian.github.io/CV-pages/cv/{semantic_id}`
+
+**Output**: Interactive web resume with responsive design, print styles, and accessibility
+
+---
+
+#### Quick Start Commands (Modern Workflow)
+
+**Initialize application directory**:
 ```bash
 cd skills/swiss-tech-resume-builder/scripts
 ./init_application.py --company google --role ml_engineer
 ```
 
-This creates:
-- `resumes/customized/YYYY_MM_DD_google_ml_engineer.tex`
-- `resumes/customized/YYYY_MM_DD_google_ml_engineer_application_strategy.md`
+Creates:
+- `resumes/customized/YYYY_MM_DD_google_ml_engineer/` (directory)
+- Template application_strategy.md (to be filled later)
 
-**Detailed Steps**:
-
-1. **Copy template** (if not using init script):
-   ```bash
-   cp assets/CV_template.tex resumes/customized/YYYY_MM_DD_company_role.tex
-   ```
-
-2. **Customize LaTeX document**:
-   - **Replace [PLACEHOLDER] values**:
-     - Personal information (name, email, phone, photo)
-     - Professional summary
-     - Experience entries using `\cventry{dates}{title}{company}{location}{}{description}`
-     - Skills using `\cvitem{Category}{List}`
-     - Languages using `\cvlanguage{Language}{Level}{Context}`
-
-   - **Follow style guide** (`assets/style-guide/CV_STYLE_GUIDE.md`):
-     - Typography: Font sizes, weights, hierarchy
-     - Colors: #39a7d0 (accent), #4D4D4D (secondary text)
-     - Layout: scale=0.88, hintscolumnwidth=3.5cm
-     - Spacing: Consistent throughout
-
-   - **Use code snippets** (`assets/style-guide/LATEX_CODE_SNIPPETS.md`):
-     - Complete boilerplate
-     - Professional summary variations
-     - Experience entry templates
-     - Section templates
-
-3. **Validate before compilation**:
-   ```bash
-   cd skills/swiss-tech-resume-builder/scripts
-   ./validate_latex.py ../../resumes/customized/YYYY_MM_DD_company_role.tex
-   ```
-
-   Checks:
-   - `\moderncvstyle{fancy}` is set (REQUIRED for multi-page)
-   - All `\cventry` have exactly 6 arguments
-   - No unreplaced [PLACEHOLDER] values
-   - Required packages declared
-   - GitHub repository link included
-
-4. **Compile to PDF**:
-   ```bash
-   ./compile_resume.sh ../../resumes/customized/YYYY_MM_DD_company_role.tex
-   ```
-
-   This runs:
-   - XeLaTeX compilation (2 passes for references)
-   - Automatic cleanup of build artifacts
-   - PDF generation in same directory
-
-5. **Review PDF**:
-   - Open compiled PDF
-   - Check for formatting issues
-   - Verify all content displays correctly
-   - Test text selectability (ATS compatibility)
+**Typical workflow** (orchestrated by career-planning-coach):
+1. Invoke resume-content-generator → creates resume_content.md
+2. Invoke swiss-tech-resume-reviewer → reviews content (iterative)
+3. User selects format → PDF/web/both
+4. Invoke latex-moderncv-expert and/or react-resume-expert → render outputs
+5. Proceed to Phase 5 (Quality Assurance)
 
 **Critical LaTeX Rules** (see `references/moderncv_technical_guide.md`):
 
