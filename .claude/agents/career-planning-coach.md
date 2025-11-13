@@ -251,7 +251,7 @@ Use Task tool with agent: "latex-moderncv-expert" and instructions:
 - Compile to: resumes/compiled/{timestamp}_{id}_CV_en.pdf
 - Style: moderncv fancy (REQUIRED)
 - Include GitHub repository link in footer
-- Apply style guide specifications from docs/style-guide/CV_STYLE_GUIDE.md
+- Apply style guide specifications from docs/style-guide/DESIGN_SYSTEM.md (shared) and docs/style-guide/pdf/CV_STYLE_GUIDE.md (PDF-specific)
 
 After generation:
 1. Validate LaTeX structure (moderncvstyle=fancy, cventry has 6 args)

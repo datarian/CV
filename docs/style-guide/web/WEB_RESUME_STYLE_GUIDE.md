@@ -1,8 +1,8 @@
 # Web Resume Style Guide - Florian Hochstrasser
 ## Comprehensive Design Specification for React Web Resume Documents
 
-**Document Version:** 1.0
-**Date:** 2025-11-11
+**Document Version:** 1.1
+**Date:** 2025-11-13
 **Technology Stack:** React 18 + TypeScript + Tailwind CSS + Vite
 **Deployment:** GitHub Pages (CV-pages repository)
 
@@ -24,233 +24,43 @@ This style guide documents the visual design system, content format, and impleme
 
 ## 1. Content Format Specification
 
-### 1.1 File Structure
+**📄 For complete content format documentation, see:**
+- **Canonical Reference:** [`../../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
+- **Component Examples:** [`../../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md`](../../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
 
-Web resumes use `resume_content.md` files with **YAML frontmatter + Markdown content**:
+### Quick Summary
 
-```markdown
----
-metadata:
-  id: sample_resume
-  targetRole: Senior ML Engineer
-  targetCompany: Demo Company
-  generatedDate: 2025-11-11
-  language: en
-  salaryTarget: 140000
+**Format:** YAML frontmatter + Markdown content (`resume_content.md`)
 
-header:
-  name: Full Name
-  title: Professional Title
-  location: City, Country
-  email: email@example.com
-  phone: +XX XX XXX XX XX
-  linkedin: https://linkedin.com/in/username
-  github: https://github.com/username
-  website: https://example.com
+**Required Fields:**
+- `metadata`: id, targetRole, targetCompany, generatedDate, language
+- `header`: name, title, location, email (phone/linkedin/github optional)
 
-# OPTIONAL: Manual Summary Highlights
-summary_highlights:
-  - metric: "8+ Years"
-    label: "ML Engineering"
-    icon: "calendar"
-  - metric: "1M+"
-    label: "Daily Requests"
-    icon: "activity"
-  - metric: "99.9%"
-    label: "Uptime"
-    icon: "target"
----
+**Optional Fields:**
+- `summary_highlights`: Array of highlight objects (metric, label, icon)
+  - **If omitted:** System auto-extracts from bold text in summary
 
-# Professional Summary
+**Content Sections:**
+1. Professional Summary (use **bold** for metrics → enables auto-extraction)
+2. Experience (bullets with **bold** key terms)
+3. Technical Skills (**Category**: skill1, skill2, skill3)
+4. Education
 
-Your summary text here with **bold** formatting for key terms...
+**Formatting:**
+- **Bold** (`**text**`) → Rendered in brand blue (#2C5F7F)
+- *Italic* (`*text*`) → Rendered in coral (#E87461)
 
-## Experience
+**Summary Highlights Feature:**
+- **Auto-Extraction:** Scans for years (`8+`), scale (`1M+`), percentages (`99.9%`), multipliers (`4x`)
+- **Manual Override:** Specify exact metrics/icons in YAML
+- **Icons:** calendar, activity, target, trending, users, zap, award, clock
 
-### Job Title
-**Company Name** | Location | Dates
-
-- Achievement with **bold key terms**
-- Another achievement
-
-## Technical Skills
-
-**Category Name**: Skill1, Skill2, Skill3
-
-## Education
-
-### Degree Name
-**Institution** | Location | Dates
-
-Description text
-```
-
-### 1.2 YAML Frontmatter Schema
-
-#### Required Fields
-
-**metadata:**
-- `id`: Unique identifier (format: `YYYY_MM_DD_company_role`)
-- `targetRole`: Target job title (e.g., "Senior ML Engineer")
-- `targetCompany`: Target company name
-- `generatedDate`: Date in YYYY-MM-DD format
-- `language`: Language code (en, de, fr, it)
-
-**header:**
-- `name`: Full name (required)
-- `title`: Professional title/tagline (required)
-- `location`: City, Country (required)
-- `email`: Email address (required)
-- `phone`: Phone with country code (optional but recommended for Swiss market)
-- `linkedin`: Full LinkedIn URL (optional)
-- `github`: Full GitHub URL (optional)
-- `website`: Personal website URL (optional)
-
-#### Optional Fields
-
-**summary_highlights:** (array of 2-4 highlight objects)
-- `metric`: Large metric text (e.g., "8+", "1M+", "99.9%", "4x")
-- `label`: Descriptive label (e.g., "Years Experience", "Daily Requests")
-- `icon`: Icon name from Lucide React library (see Section 1.5)
-
-**Note:** If `summary_highlights` is omitted, the system will **automatically extract** highlights from **bold text** in the Professional Summary section.
-
-### 1.3 Markdown Content Structure
-
-#### Required Sections
-
-1. **Professional Summary** (`# Professional Summary`)
-   - First section after frontmatter
-   - 2-4 paragraphs summarizing expertise
-   - Use **bold** for key metrics and terms (enables auto-extraction)
-   - Use *italic* for emphasis
-
-2. **Experience** (`## Experience`)
-   - Each role as H3 (`### Job Title`)
-   - Company, location, dates on next line with bold company
-   - Bullet points for achievements
-   - Quantifiable metrics in **bold**
-
-3. **Technical Skills** (`## Technical Skills`)
-   - Categorized by type (e.g., "ML/AI Frameworks:", "Languages:")
-   - Category name in **bold** followed by comma-separated list
-
-4. **Education** (`## Education`)
-   - Each degree as H3 (`### Degree Name`)
-   - Institution, location, dates on next line with bold institution
-   - Optional description text
-
-#### Optional Sections
-
-- **Projects** (`## Projects`)
-- **Publications** (`## Publications`)
-- **Certifications** (`## Certifications`)
-- **Languages** (`## Languages`)
-- **Awards** (`## Awards`)
-
-### 1.4 Markdown Formatting Rules
-
-**Emphasis:**
-- **Bold** (`**text**`): Key metrics, company names, category labels, important terms
-  - Rendered in brand blue color (#2C5F7F)
-- *Italic* (`*text*`): Subtle emphasis, role context
-  - Rendered in coral color (#E87461)
-
-**Lists:**
-- Use `-` for unordered lists (rendered as bullet points)
-- Start each bullet with action verb
-- Include quantifiable metrics where possible
-
-**Links:**
-- Use standard Markdown link syntax: `[text](url)`
-- All external links open in new tab automatically
-
-**Line Breaks:**
-- Single line break between paragraphs
-- Double line break between sections
-
-### 1.5 Summary Highlights Feature
-
-#### Auto-Extraction (Default Behavior)
-
-If `summary_highlights` is **NOT** provided in YAML, the web resume will **automatically extract** highlights from the summary text using pattern matching.
-
-**Extracted Patterns:**
-
-1. **Years of Experience**: `"8+ years"`, `"10 years"` → Calendar icon
-2. **Scale Metrics**: `"1M+"`, `"500K+"`, `"100+ models"` → Activity icon
-3. **Percentages**: `"99.9% uptime"`, `"23% improvement"` → Target icon
-4. **Multipliers**: `"4x faster"`, `"3x improvement"` → Trending icon
-
-**Auto-Extraction Logic:**
-- Scans summary text for numeric patterns
-- Extracts up to 4 highlights automatically
-- Assigns appropriate icons based on context
-- Uses metric + context as label
-
-**Example Summary for Auto-Extraction:**
-```markdown
-# Professional Summary
-
-Experienced ML Engineer with **8+ years** building production systems.
-Led development of systems serving **1M+ daily requests** with **99.9% uptime**.
-Improved model accuracy by **23%** over baseline.
-```
-
-**Generated Highlights:**
-- `8+ years` → Experience (calendar icon)
-- `1M+` → Daily requests (activity icon)
-- `99.9%` → Uptime (target icon)
-- `23%` → Improvement (trending icon)
-
-#### Manual Override (Optional)
-
-For precise control, include `summary_highlights` in YAML frontmatter:
-
-```yaml
-summary_highlights:
-  - metric: "10+"
-    label: "Production Models"
-    icon: "zap"
-  - metric: "4x"
-    label: "Performance Boost"
-    icon: "trending"
-  - metric: "$2M"
-    label: "Cost Savings"
-    icon: "award"
-```
-
-#### Available Icons (Lucide React)
-
-| Icon Name | Use Case | Visual |
-|-----------|----------|--------|
-| `calendar` | Years of experience, tenure | 📅 |
-| `activity` | Scale metrics, throughput, requests | 📊 |
-| `target` | Accuracy, precision, percentages | 🎯 |
-| `trending` | Improvements, growth metrics | 📈 |
-| `users` | Team size, user counts | 👥 |
-| `zap` | Performance, speed metrics | ⚡ |
-| `award` | Achievements, recognition | 🏆 |
-| `clock` | Time-related metrics | ⏰ |
-
-#### Best Practices for Content Agents
-
-**When auto-extraction is sufficient:**
-- Summary contains clear numeric metrics (years, percentages, scale)
-- Natural language makes metrics stand out (e.g., bold formatting)
-- 3-4 key metrics are evident in the text
-
-**When to use manual highlights:**
-- Need specific metrics not easily auto-extracted
-- Want custom icon choices for better visual storytelling
-- Metrics use non-standard formats (e.g., "4x", "$2M", "50+ models")
-- Need exact control over which metrics are highlighted
-
-**Writing for Auto-Extraction:**
-To ensure good auto-extraction, include metrics in bold within the summary:
-- Use formats like `**8+ years**`, `**1M+ daily requests**`, `**99.9% uptime**`
-- Include context words near metrics: "years", "requests", "uptime", "users", "models"
-- Place most important metrics early in the summary
+**👉 Refer to canonical documentation for:**
+- Complete YAML schema with all fields and types
+- Detailed markdown content structure requirements
+- Summary highlights auto-extraction patterns and examples
+- Available Lucide React icons and usage guidelines
+- Best practices for writing content that auto-extracts well
 
 ---
 
