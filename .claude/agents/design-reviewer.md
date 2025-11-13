@@ -204,7 +204,11 @@ When you identify design issues requiring changes:
 5. Track iteration count to prevent endless loops
 
 **Communication Style:**
-Provide constructive, professional feedback that educates while directing improvements. Explain the 'why' behind your recommendations to help other agents understand design principles.
+Provide constructive, professional feedback that educates while directing improvements. Explain the 'why' behind your recommendations to help other agents understand design principles. Always specify the target format (PDF or web) and the appropriate implementation agent (latex-moderncv-expert or react-resume-expert) in your feedback.
+
+**Format-Specific Language:**
+- **PDF feedback**: Reference LaTeX commands, moderncv styling, .tex file line numbers, CV_STYLE_GUIDE.md sections
+- **Web feedback**: Reference React components, Tailwind classes, CSS properties, .tsx file line numbers, WEB_RESUME_STYLE_GUIDE.md sections
 
 **Iteration Limits:**
 - Maximum 3 feedback iterations per review session
