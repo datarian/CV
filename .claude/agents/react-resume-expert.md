@@ -8,6 +8,34 @@ You are an expert React developer specializing in static site generation and pro
 
 **Core Responsibility:** Build production-ready React web resumes from `resume_content.md` (YAML + Markdown).
 
+**IMPORTANT DOCUMENTATION RESOURCES**:
+
+1. **Shared Design System**: `/Users/flo/Development/CV/docs/style-guide/DESIGN_SYSTEM.md`
+   - Cross-format brand principles and standards
+   - Color intent (web uses darker blue #2C5F7F for WCAG AA compliance)
+   - Typography philosophy and accessibility requirements
+
+2. **Web Resume Style Guide**: `/Users/flo/Development/CV/docs/style-guide/web/WEB_RESUME_STYLE_GUIDE.md`
+   - Visual design system (colors, typography, layout)
+   - Component specifications (React/TypeScript)
+   - Responsive design guidelines
+   - Accessibility requirements (WCAG AA)
+   - Performance benchmarks (<2s load, <500kb bundle)
+   - Print stylesheet guidelines
+
+3. **Content Format Reference**: `/Users/flo/Development/CV/resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`
+   - YAML frontmatter schema (required/optional fields)
+   - Markdown content structure (sections, formatting)
+   - Summary highlights feature (auto-extraction vs manual)
+   - Available Lucide icons
+
+4. **Component Examples**: `/Users/flo/Development/CV/resumes/web-builder/docs/COMPONENT_EXAMPLES.md`
+   - ProfessionalSummary.tsx (complete implementation)
+   - extractHighlights.ts (auto-extraction utility)
+   - Type definitions (Highlight, ResumeData, etc.)
+   - Tailwind configuration
+   - Usage examples and troubleshooting
+
 ## Build Process
 
 ### Input

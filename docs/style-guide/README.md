@@ -1,422 +1,373 @@
 # CV Design System Documentation
-## Complete Style Guide Package for Florian Hochstrasser's CV
+## Complete Style Guide Package for Florian Hochstrasser's Resume System
 
-**Version:** 1.0  
-**Date:** 2025-10-16  
-**Based on:** CV-Florian-Hochstrasser.pdf (Frontify Application)
-
----
-
-## Overview
-
-This style guide package provides comprehensive documentation of the visual design system, typography, layout specifications, and LaTeX implementation details for creating consistent, professional CV documents in the Swiss market for technical roles.
-
-**Design Philosophy:** Clean modernism with Swiss design principles, emphasizing readability, professionalism, and scannable content structure.
-
-**Key Color:** Light Blue (#39a7d0) as brand accent
+**Version:** 2.0
+**Last Updated:** 2025-11-13
+**Applies to:** PDF resumes, Web resumes
 
 ---
 
-## Documentation Files
+## Quick Navigation
 
-### 1. CV_STYLE_GUIDE.md (21KB)
-**Purpose:** Comprehensive design specification and reference manual
-
-**Contents:**
-- Complete typography specifications (fonts, sizes, weights, hierarchy)
-- Full color palette with usage rules and accessibility guidelines
-- Layout and spacing system documentation
-- Section-by-section styling guides
-- LaTeX implementation details
-- Swiss market specifications
-- Quality assurance checklist
-- Common issues and troubleshooting
-- Design rationale and decision explanations
-
-**When to use:** 
-- Understanding design decisions
-- Implementing new templates from scratch
-- Resolving design questions
-- Comprehensive reference during development
-
-**Sections:** 18 major sections covering every aspect of CV design
+| Resource | Purpose | When to Use |
+|----------|---------|-------------|
+| 📋 [**DESIGN_SYSTEM.md**](DESIGN_SYSTEM.md) | Shared cross-format definitions | Understanding brand principles, color intent, typography philosophy |
+| 📄 [**PDF Guides**](pdf/) | PDF resume specifications | Creating or updating LaTeX PDF resumes |
+| 🌐 [**Web Guides**](web/) | Web resume specifications | Building React web resumes |
+| 📦 [**Archive**](archive/) | Historical documents | Reference only (analysis reports, old versions) |
 
 ---
 
-### 2. VISUAL_DESIGN_REFERENCE.md (8.2KB)
-**Purpose:** One-page quick reference cheat sheet
+## Getting Started
 
-**Contents:**
-- Color palette (quick lookup table)
-- Typography scale (at-a-glance sizing)
-- Spacing system (all key measurements)
-- Layout structure (ASCII art diagram)
-- Section ordering
-- Common formatting patterns
-- Action verbs and metrics guidelines
-- Critical LaTeX settings
-- Quality checklist (abbreviated)
-- Common mistakes to avoid
+### For PDF Resumes
 
-**When to use:**
-- Quick lookups during active development
-- Verifying specific measurements
-- Checking color codes
-- Confirming spacing values
-- Rapid reference without context switching
+**1. Quick Reference:**
+- Colors, fonts, spacing: [`pdf/VISUAL_DESIGN_REFERENCE.md`](pdf/VISUAL_DESIGN_REFERENCE.md)
 
-**Format:** Tables, lists, code snippets optimized for speed
+**2. Code Templates:**
+- Ready-to-copy LaTeX: [`pdf/LATEX_CODE_SNIPPETS.md`](pdf/LATEX_CODE_SNIPPETS.md)
 
----
+**3. Comprehensive Guide:**
+- Full design specification: [`pdf/CV_STYLE_GUIDE.md`](pdf/CV_STYLE_GUIDE.md)
 
-### 3. LATEX_CODE_SNIPPETS.md (17KB)
-**Purpose:** Copy-paste code library for rapid development
+**4. Technical Reference:**
+- ModernCV package docs: [`pdf/MODERNCV_REFERENCE.md`](pdf/MODERNCV_REFERENCE.md)
 
-**Contents:**
-- Complete document boilerplate
-- Professional summary variations (ML Engineer, MLOps, Manager)
-- Technical skills blocks (multiple formats)
-- Professional experience entries (all roles, multiple lengths)
-- Education entries (all degrees)
-- Language section variations
-- Optional section templates
-- Page management commands
-- Special formatting snippets
-- Date format examples
-- Bullet point templates with best practices
-- Icon usage examples
-- Customization workflow guide
+**Quick Start Workflow:**
+```bash
+# 1. Copy boilerplate from LATEX_CODE_SNIPPETS.md
+# 2. Customize title and summary
+# 3. Compile with xelatex
+xelatex filename.tex
+# 4. Verify against checklist in VISUAL_DESIGN_REFERENCE.md
+```
 
-**When to use:**
-- Creating new CV documents
-- Copying standardized sections
-- Implementing consistent formatting
-- Quick scaffolding of new content
-- Ensuring format consistency
+### For Web Resumes
 
-**Format:** Ready-to-copy LaTeX code blocks with explanations
+**1. Content Format:**
+- YAML + Markdown structure: [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
+
+**2. Component Examples:**
+- React TypeScript code: [`../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md`](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
+
+**3. Comprehensive Guide:**
+- Full design specification: [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md)
+
+**Quick Start Workflow:**
+```bash
+# 1. Create resume_content.md (YAML + Markdown)
+# 2. Copy to web-builder/public/
+# 3. Build
+cd resumes/web-builder && npm run build
+# 4. Preview locally
+npm run preview
+```
 
 ---
 
-### 4. MODERNCV_REFERENCE.md (10KB)
-**Purpose:** Technical reference for moderncv LaTeX package
-
-**Contents:**
-- ModernCV package overview and features
-- Document class declaration and options
-- Available styles (casual, classic, banking, oldstyle, fancy)
-- Color schemes and custom colors
-- Personal information commands
-- CV content commands (cventry, cvitem, cvlistitem, etc.)
-- Section commands and structure
-- Timeline integration
-- Icon usage (FontAwesome, Marvosym)
-- Multi-language support
-- Compilation instructions
-- Common issues and solutions
-
-**When to use:**
-- Understanding moderncv package capabilities
-- Looking up command syntax
-- Troubleshooting LaTeX compilation errors
-- Exploring alternative styles and colors
-- Technical reference for LaTeX implementation
-
-**Format:** Technical documentation with code examples and syntax reference
-
----
-
-### 5. WEB_RESUME_STYLE_GUIDE.md (55KB)
-**Purpose:** Comprehensive design specification for React web resumes
-
-**Contents:**
-- Content format specification (YAML frontmatter + Markdown)
-- Visual design system (colors, typography, layout)
-- Component specifications (React/TypeScript)
-- Responsive design guidelines
-- Accessibility requirements (WCAG AA)
-- Performance benchmarks (<2s load, <500kb bundle)
-- Print stylesheet guidelines
-- Summary highlights feature (auto-extraction + manual override)
-- Browser support and compatibility
-- Quality assurance checklist
-
-**When to use:**
-- Building web resumes with react-resume-expert
-- Understanding web content format (resume_content.md)
-- Implementing responsive components
-- Ensuring accessibility compliance
-- Optimizing performance
-- Debugging web resume issues
-
-**Format:** Comprehensive reference with code examples, component specs, and troubleshooting
-
----
-
-## Quick Start Guide
-
-### For Creating a New CV:
-
-1. **Start with boilerplate** from `LATEX_CODE_SNIPPETS.md`
-2. **Customize title and summary** using provided templates
-3. **Copy skill categories** and adjust for target role
-4. **Add experience entries** using appropriate length templates
-5. **Compile and verify** against checklist in `VISUAL_DESIGN_REFERENCE.md`
-6. **Fine-tune** with reference to `CV_STYLE_GUIDE.md`
-
-### For Design Questions:
-
-1. **Quick lookup:** Check `VISUAL_DESIGN_REFERENCE.md` first
-2. **Detailed info:** Reference `CV_STYLE_GUIDE.md` for complete context
-3. **Implementation:** Copy code from `LATEX_CODE_SNIPPETS.md`
-
-### For Web Resume Development:
-
-1. **Content format:** Check `WEB_RESUME_STYLE_GUIDE.md` Section 1
-2. **Visual design:** Reference `WEB_RESUME_STYLE_GUIDE.md` Section 2
-3. **Component specs:** Use `WEB_RESUME_STYLE_GUIDE.md` Section 3
-4. **Troubleshooting:** Check `WEB_RESUME_STYLE_GUIDE.md` Section 11
-
-### For Quality Assurance:
-
-1. **Visual check:** Compare against original PDF
-2. **Checklist:** Use abbreviated checklist in `VISUAL_DESIGN_REFERENCE.md`
-3. **Detailed review:** Full checklist in `CV_STYLE_GUIDE.md` section 11
-
----
-
-## File Structure
+## Documentation Structure
 
 ```
 docs/style-guide/
-├── README.md                       (This file - Navigation guide)
-├── CV_STYLE_GUIDE.md               (PDF design specification - 21KB)
-├── VISUAL_DESIGN_REFERENCE.md      (PDF quick reference - 8.2KB)
-├── LATEX_CODE_SNIPPETS.md          (PDF code library - 17KB)
-├── MODERNCV_REFERENCE.md           (LaTeX package reference - 10KB)
-└── WEB_RESUME_STYLE_GUIDE.md       (Web specification - 55KB)
+│
+├── README.md                    ← You are here (master navigation)
+├── DESIGN_SYSTEM.md             ← Shared principles across formats
+│
+├── pdf/                         ← PDF-specific documentation
+│   ├── CV_STYLE_GUIDE.md        ← Comprehensive (21KB, 18 sections)
+│   ├── VISUAL_DESIGN_REFERENCE.md ← Quick reference (8KB, cheat sheet)
+│   ├── LATEX_CODE_SNIPPETS.md   ← Code library (17KB, templates)
+│   └── MODERNCV_REFERENCE.md    ← LaTeX package reference (10KB)
+│
+├── web/                         ← Web-specific documentation
+│   └── WEB_RESUME_STYLE_GUIDE.md ← Comprehensive (29KB, 15 sections)
+│
+└── archive/                     ← Historical documents (reference only)
+    ├── ANALYSIS_SUMMARY.md      ← 2025-10-16 design analysis
+    ├── GETTING_STARTED.md       ← Merged into this README
+    ├── PACKAGE_SUMMARY.txt      ← Merged into this README
+    └── *.bak                    ← Backup files
 ```
 
 ---
 
-## Key Design Specifications (Summary)
+## Key Design Specifications
 
-### Colors
-- **Light Blue:** #39a7d0 (Section headers, links, icons)
-- **Dark Grey:** #4D4D4D (Name, metadata)
-- **Black:** #000000 (Body text)
+### Shared Definitions (All Formats)
 
-### Typography
-- **Name:** 24pt Bold Dark Grey
-- **Job Title:** 14pt Regular Black
-- **Section Headers:** 11pt Bold Light Blue
-- **Body Text:** 11pt Regular Black
+**Brand Philosophy:**
+- Clean modernism
+- Swiss design principles
+- Professional minimalism
+- Technical credibility
 
-### Layout
-- **Page Margins:** 12% (scale=0.88)
-- **Hints Column:** 3.5cm
-- **Page Count:** 2-3 pages target
-- **Line Spacing:** 1.2x default
+**Color Intent:**
+- **Primary Blue:** Professional, trustworthy
+  - PDF: #39a7d0 (light blue, optimized for print)
+  - Web: #2C5F7F (darker blue, WCAG AA compliant)
+- **Body Text:** Near-black for readability
+  - PDF: #000000 (pure black)
+  - Web: #4A4A4A (softer for screens)
 
-### Critical LaTeX Settings
+**Typography Principles:**
+- Sans-serif for modern technical appeal
+- Clear hierarchy (name > title > sections > body)
+- PDF: 11pt base (print standard)
+- Web: 16px base (accessibility standard)
+
+**See [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) for complete shared definitions**
+
+### PDF-Specific
+
+**Colors:**
+- Light Blue: #39a7d0
+- Dark Grey: #4D4D4D
+- Black: #000000
+
+**Typography:**
+- Name: 24pt Bold Dark Grey
+- Section Headers: 11pt Bold Light Blue
+- Body: 11pt Regular Black
+
+**Layout:**
+- Margins: 12% (scale=0.88)
+- Hints Column: 3.5cm
+- Page Count: 2-3 pages
+
+**Critical LaTeX:**
 ```latex
 \documentclass[11pt,a4paper,sans]{moderncv}
 \moderncvstyle{fancy}  % MANDATORY
-\moderncvcolor{blue}
 \geometry{scale=0.88}
 \setlength{\hintscolumnwidth}{3.5cm}
 ```
 
----
+### Web-Specific
 
-## Usage Workflows
+**Colors:**
+- cv-blue: #2C5F7F
+- cv-coral: #E87461
+- cv-gray: #4A4A4A
+- cv-light: #F5F5F5
 
-### Workflow 1: New CV from Scratch
-1. Copy boilerplate → Customize header → Add sections → Compile → Review
+**Typography:**
+- Name: 36px (2.25rem) Bold
+- Section Headers: 24px (1.5rem) Bold
+- Body: 16px (1rem) Regular
 
-### Workflow 2: Customize Existing CV
-1. Copy template → Modify summary → Reorder skills → Adjust experience → Compile → Review
+**Layout:**
+- Max-width: 1200px
+- Responsive padding: 16-64px
+- Mobile-first design
 
-### Workflow 3: Quick Reference Lookup
-1. Check quick reference → Find specification → Apply → Verify
-
-### Workflow 4: Troubleshooting Issue
-1. Check common mistakes → Review detailed guide → Apply fix → Test
-
----
-
-## Design Principles Summary
-
-### 1. Clarity Over Decoration
-- Clean layouts
-- Ample white space
-- Clear visual hierarchy
-- No unnecessary embellishment
-
-### 2. Scanability
-- Section headers highly visible
-- Bullet points for achievements
-- Metrics highlighted
-- Consistent structure
-
-### 3. Professionalism
-- Conservative color palette
-- Professional typography
-- Swiss market standards met
-- Technical credibility emphasized
-
-### 4. Swiss Market Fit
-- All required information included
-- Professional photo present
-- Education with grades
-- Languages with CEFR levels
-- 2-3 page format acceptable
-
-### 5. Technical Credibility
-- Technology stack detailed
-- Metrics quantified
-- Scale demonstrated
-- Production focus emphasized
+**Performance:**
+- Bundle size: <500kb
+- Load time: <2s on 3G
 
 ---
 
-## Compliance Checklist
+## Workflows
 
-### Design Compliance
-- [ ] Colors match specification (#39a7d0, #4D4D4D, #000000)
-- [ ] Typography scale consistent (24pt/14pt/11pt/10pt)
-- [ ] Layout uses correct margins (scale=0.88)
-- [ ] Section headers styled correctly
+### Workflow 1: Create New PDF Resume
+
+1. **Reference shared definitions:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+2. **Copy boilerplate:** From [`pdf/LATEX_CODE_SNIPPETS.md`](pdf/LATEX_CODE_SNIPPETS.md)
+3. **Customize:** Title, summary, skills, experience
+4. **Compile:** `xelatex filename.tex`
+5. **Quality check:** Against [`pdf/VISUAL_DESIGN_REFERENCE.md`](pdf/VISUAL_DESIGN_REFERENCE.md) checklist
+6. **Design questions?** Consult [`pdf/CV_STYLE_GUIDE.md`](pdf/CV_STYLE_GUIDE.md)
+
+### Workflow 2: Create New Web Resume
+
+1. **Reference shared definitions:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+2. **Create content:** YAML + Markdown in `resume_content.md`
+   - Format reference: [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
+3. **Build:** `cd resumes/web-builder && npm run build`
+4. **Preview:** `npm run preview` (http://localhost:4173)
+5. **Quality check:** Against [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md)
+6. **Deploy:** Commit changes (GitHub Actions handles deployment)
+
+### Workflow 3: Troubleshooting
+
+**PDF Issues:**
+1. Check [`pdf/VISUAL_DESIGN_REFERENCE.md`](pdf/VISUAL_DESIGN_REFERENCE.md) common mistakes
+2. Review [`pdf/CV_STYLE_GUIDE.md`](pdf/CV_STYLE_GUIDE.md) Section 12 (troubleshooting)
+3. Consult [`pdf/MODERNCV_REFERENCE.md`](pdf/MODERNCV_REFERENCE.md) for LaTeX specifics
+
+**Web Issues:**
+1. Check [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md) Section 11 (common issues)
+2. Review component implementations in [`../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md`](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
+3. Verify content format in [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
+
+---
+
+## Agent References
+
+### design-reviewer
+- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- **PDF:** All files in [`pdf/`](pdf/)
+- **Web:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
+
+### latex-moderncv-expert
+- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- **Technical:** [pdf/MODERNCV_REFERENCE.md](pdf/MODERNCV_REFERENCE.md)
+- **Design:** [pdf/CV_STYLE_GUIDE.md](pdf/CV_STYLE_GUIDE.md)
+- **Quick Ref:** [pdf/VISUAL_DESIGN_REFERENCE.md](pdf/VISUAL_DESIGN_REFERENCE.md)
+- **Code:** [pdf/LATEX_CODE_SNIPPETS.md](pdf/LATEX_CODE_SNIPPETS.md)
+
+### react-resume-expert
+- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- **Style Guide:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
+- **Content Format:** [../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
+- **Components:** [../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
+
+### swiss-tech-resume-reviewer
+- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- **PDF:** [pdf/CV_STYLE_GUIDE.md](pdf/CV_STYLE_GUIDE.md)
+- **Web:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
+
+### career-planning-coach
+- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- **PDF:** [pdf/CV_STYLE_GUIDE.md](pdf/CV_STYLE_GUIDE.md)
+
+---
+
+## Swiss Market Compliance
+
+### Required Elements (All Formats)
+
+- [ ] Full name
+- [ ] Date of birth (DD.MM.YYYY)
+- [ ] Nationality
+- [ ] Complete address
+- [ ] Phone (+41 format)
+- [ ] Email
+- [ ] Professional photo (PDF only)
+- [ ] Languages with CEFR levels
+- [ ] Education with grades
+
+### Cultural Expectations
+
+- **Length:** 2-3 pages acceptable for senior technical roles
+- **Detail:** Technology stack specifics valued
+- **Metrics:** Quantified achievements emphasized
+- **Tone:** Formal but approachable
+
+**See [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) Section 6 for complete requirements**
+
+---
+
+## Quality Standards
+
+### Visual Quality (All Formats)
+
+- [ ] No overlapping text
+- [ ] Consistent spacing
+- [ ] Proper alignment
+- [ ] Color usage consistent
+- [ ] Typography hierarchy clear
 - [ ] White space balanced
+- [ ] Professional appearance
 
-### Content Compliance
-- [ ] Professional summary compelling and tailored
-- [ ] Skills categorized appropriately
-- [ ] All achievements include metrics
-- [ ] Action verbs used consistently
-- [ ] Date formatting consistent
+### Content Quality (All Formats)
 
-### Technical Compliance
-- [ ] Compiles with xelatex
+- [ ] No typos
+- [ ] Dates accurate and consistent
+- [ ] Metrics included for achievements
+- [ ] Action verbs used
+- [ ] Technical terms correct
+- [ ] No unexplained acronyms
+
+### Format-Specific Quality
+
+**PDF:**
+- [ ] Compiles without errors (xelatex)
 - [ ] Uses moderncvstyle{fancy}
 - [ ] Colors defined correctly
-- [ ] No compilation warnings
-- [ ] PDF output clean
+- [ ] All \cventry have 6 arguments
 
-### Swiss Market Compliance
-- [ ] Photo included (64x64pt)
-- [ ] Birth date present (DD.MM.YYYY)
-- [ ] Nationality stated
-- [ ] Complete address
-- [ ] Languages with CEFR levels
-- [ ] Education grades included
+**Web:**
+- [ ] Lighthouse score 90+ (accessibility)
+- [ ] Responsive on all viewports
+- [ ] Print stylesheet works
+- [ ] Bundle size <500kb
+- [ ] Load time <2s
 
 ---
 
 ## Version History
 
+**Version 2.0 (2025-11-13):**
+- Major refactoring: Created hierarchical structure
+- Added DESIGN_SYSTEM.md (shared definitions)
+- Organized into subdirectories (pdf/, web/, archive/)
+- Extracted React components to COMPONENT_EXAMPLES.md
+- Removed content format duplication from WEB_RESUME_STYLE_GUIDE.md
+- Consolidated README (merged GETTING_STARTED + PACKAGE_SUMMARY)
+
 **Version 1.0 (2025-10-16):**
 - Initial comprehensive style guide creation
-- Based on Frontify application CV (CV-Florian-Hochstrasser.pdf)
-- Three-document system established
+- Based on Frontify application CV
+- Three-document PDF system established
 - Full design system documented
-- LaTeX implementation detailed
-- Code snippet library created
 
 ---
 
-## Maintenance Notes
+## Maintenance
 
-### Updating the Style Guide
+### When to Update
 
-**When to update:**
 - Design changes approved
-- New best practices identified
-- LaTeX techniques improved
+- New format added (e.g., Typst, plain text)
+- Best practices identified
 - Market requirements change
-- Feedback from applications
+- Agent feedback incorporated
 
-**Update process:**
-1. Document changes in all three files
-2. Update version numbers
-3. Add to version history
-4. Test with actual compilation
-5. Verify against quality checklist
+### Update Process
 
-### Adding New Snippets
-
-**Process:**
-1. Create and test new LaTeX code
-2. Add to `LATEX_CODE_SNIPPETS.md`
-3. Document design rationale in `CV_STYLE_GUIDE.md`
-4. Add quick reference to `VISUAL_DESIGN_REFERENCE.md` if frequently used
+1. Update [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) if shared principle changes
+2. Update format-specific guides as needed
+3. Update agent definitions
+4. Test with actual compilation/build
+5. Document changes in version history
 
 ---
 
-## Reference Links
+## Support
 
-### Internal Documentation
-- Source CV: `/Users/flo/Development/CV/resumes/customized/CV-Florian-Hochstrasser.pdf`
-- LaTeX Source: `/Users/flo/Development/CV/resumes/customized/2025_10_14_frontify_senior_llm_engineer.tex`
-- Personal Profile: `/Users/flo/Development/CV/docs/PERSONAL_PROFILE.md`
-- ModernCV Docs: `/Users/flo/Development/CV/docs/MODERNCV_DOC.md`
+**Need Help?**
 
-### External Resources
-- ModernCV Package: CTAN moderncv
-- FontAwesome Icons: fontawesome.com
-- XeLaTeX Documentation: tug.org/xelatex
-- Swiss CV Standards: careers.ch
+| Question Type | Resource |
+|---------------|----------|
+| Design questions | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) + format-specific guides |
+| PDF implementation | [pdf/LATEX_CODE_SNIPPETS.md](pdf/LATEX_CODE_SNIPPETS.md) |
+| Web implementation | [../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md) |
+| Quick lookups | [pdf/VISUAL_DESIGN_REFERENCE.md](pdf/VISUAL_DESIGN_REFERENCE.md) |
+| Troubleshooting | Section 12 of respective style guides |
 
----
-
-## Support and Questions
-
-### For Design Questions
-- Reference: `CV_STYLE_GUIDE.md` Section 18 (Design Rationale)
-- Quick Check: `VISUAL_DESIGN_REFERENCE.md`
-
-### For Implementation Questions
-- Code Examples: `LATEX_CODE_SNIPPETS.md`
-- Technical Details: `CV_STYLE_GUIDE.md` Section 9
-
-### For Troubleshooting
-- Common Issues: `CV_STYLE_GUIDE.md` Section 12
-- Quick Fixes: `LATEX_CODE_SNIPPETS.md` (Quick Fixes section)
-
----
-
-## Document Statistics
-
-| File | Size | Sections | Purpose |
-|------|------|----------|---------|
-| CV_STYLE_GUIDE.md | 21KB | 18 | PDF comprehensive reference |
-| VISUAL_DESIGN_REFERENCE.md | 8.2KB | 20 | PDF quick lookup |
-| LATEX_CODE_SNIPPETS.md | 17KB | 25 | PDF code library |
-| MODERNCV_REFERENCE.md | 10KB | 12 | LaTeX package reference |
-| WEB_RESUME_STYLE_GUIDE.md | 55KB | 15 | Web comprehensive reference |
-| **Total** | **111KB** | **90** | **Complete system** |
+**Contact:** fl.ho@proton.me
 
 ---
 
 ## Key Takeaways
 
-1. **Five complementary documents:** PDF design system (guide, quick reference, code library), LaTeX technical reference, Web design system
-2. **Consistent design system:** All specifications derived from successful CV
-3. **Swiss market optimized:** Meets all local requirements and expectations
-4. **Production tested:** Based on actual application CV with proven results
-5. **Maintainable:** Clear structure allows easy updates and extensions
-6. **Developer friendly:** Copy-paste snippets for rapid development
+1. **Hierarchical Structure:** Shared → Format-specific → Implementation
+2. **Color Differences Intentional:** Print vs screen optimization documented
+3. **Agent-Friendly:** Clear paths for each agent's needs
+4. **Reduced Duplication:** Single source of truth for shared and format-specific content
+5. **Scalable:** Easy to add new formats while maintaining consistency
 
 ---
 
-**Created:** 2025-10-16 by latex-design-reviewer agent  
-**Based on:** CV-Florian-Hochstrasser.pdf (Frontify Senior AI LLM Engineer Application)  
+**Created:** 2025-10-16
+**Major Refactor:** 2025-11-13
 **Repository:** github.com/datarian/CV
 
 ---
 
 **Quick Access:**
-- Need PDF design specs? → `CV_STYLE_GUIDE.md`
-- Need PDF quick lookup? → `VISUAL_DESIGN_REFERENCE.md`
-- Need PDF code to copy? → `LATEX_CODE_SNIPPETS.md`
-- Need web design specs? → `WEB_RESUME_STYLE_GUIDE.md`
+- 🎨 Shared principles? → [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+- 📄 PDF guides? → [pdf/](pdf/)
+- 🌐 Web guides? → [web/](web/)
+- 💾 Historical docs? → [archive/](archive/)
