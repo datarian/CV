@@ -64,9 +64,18 @@ Description text
 
 ## Summary Highlights Feature
 
-### Auto-Extraction (Default Behavior)
+### Primary Approach: Content Generator Provides Highlights
 
-If `summary_highlights` is NOT provided in YAML, the web resume will **automatically extract** highlights from the summary text using pattern matching:
+The **resume-content-generator** agent strategically selects 3-4 key metrics and includes them in the YAML `summary_highlights` field. This ensures:
+- Both PDF and web formats highlight the same metrics
+- Strategic selection aligned with target role
+- Consistent storytelling across formats
+
+**Expected workflow:** Content generator ALWAYS provides summary_highlights.
+
+### Fallback: Auto-Extraction (Backward Compatibility)
+
+If `summary_highlights` is NOT provided in YAML (legacy content or manual files), the web resume will **automatically extract** highlights from the summary text using pattern matching:
 
 **Extracted Patterns:**
 1. **Years of Experience**: `"8+ years"`, `"10 years"` → Calendar icon
@@ -128,22 +137,19 @@ Icon names from Lucide React library:
 
 ### Best Practices for Content Agents
 
-**When auto-extraction is sufficient:**
-- Summary contains clear numeric metrics (years, percentages, scale)
-- Natural language makes metrics stand out (e.g., bold formatting)
-- 3-4 key metrics are evident in the text
+**Primary Workflow (resume-content-generator):**
+- ALWAYS provide `summary_highlights` in YAML frontmatter
+- Select 3-4 strategic metrics aligned with target role
+- Choose appropriate icons for each metric type
+- Ensure summary text mentions the same metrics (with **bold** formatting)
+- This ensures consistency across PDF and web formats
 
-**When to use manual highlights:**
-- Need specific metrics not easily auto-extracted
-- Want custom icon choices for better visual storytelling
-- Metrics use non-standard formats (e.g., "4x", "$2M", "50+ models")
-- Need exact control over which metrics are highlighted
-
-**Writing for Auto-Extraction:**
-To ensure good auto-extraction, include metrics in bold within the summary:
+**Fallback Workflow (manual or legacy content):**
+If creating content manually without using resume-content-generator:
+- Either provide explicit `summary_highlights` in YAML
+- OR write summary with clear **bold** metrics for auto-extraction
 - Use formats like `**8+ years**`, `**1M+ daily requests**`, `**99.9% uptime**`
-- Include context words near metrics: "years", "requests", "uptime", "users", "models"
-- Place most important metrics early in the summary
+- Include context words: "years", "requests", "uptime", "users", "models"
 
 **Example Well-Formatted Summary:**
 ```markdown
