@@ -13,7 +13,8 @@ This skill provides a comprehensive system for creating professional, ATS-optimi
 - **Swiss Market Specialization**: Resume conventions, cultural expectations, salary norms, language requirements
 - **LaTeX moderncv Expertise**: Technical implementation, troubleshooting, multi-page support
 - **Data-Driven Approach**: Structured personal profiles as single source of truth
-- **Multi-Agent Workflow**: Market analysis → strategy → implementation → quality assurance
+- **Multi-Agent Workflow**: Market analysis → strategy → content generation → quality assurance
+- **Orchestration**: The `career-planning-coach` agent coordinates the workflow and manages user interactions
 - **Complete Application Support**: Resumes + application strategy documents (cover letters, salary negotiation, interview prep)
 
 **Target Users:**
@@ -223,6 +224,34 @@ This skill follows a 5-phase workflow that can be executed end-to-end or selecti
 
 **Key Principle**: This structured markdown is the **single source of truth**. Both LaTeX PDF and React web renderers consume this file without modifying content substance.
 
+**Important YAML Field - `summary_highlights`**:
+
+The YAML frontmatter includes a **required** `summary_highlights` field with 3-4 strategic metrics:
+
+```yaml
+summary_highlights:
+  - metric: "8+ Years"
+    label: "ML Engineering"
+    icon: "calendar"
+  - metric: "1M+"
+    label: "Daily Requests"
+    icon: "activity"
+  - metric: "99.9%"
+    label: "Uptime"
+    icon: "target"
+```
+
+**Why Required**: Ensures both PDF and web formats emphasize the same key metrics for consistency:
+- **PDF**: latex-moderncv-expert reads these and **bolds** the same metrics in Professional Summary
+- **Web**: react-resume-expert renders these as interactive highlight cards
+
+**Full Specification**: See `resume-content-generator` agent documentation for:
+- Available icons (calendar, activity, target, trending, users, zap, award, clock)
+- Strategic selection guidelines
+- Complete field structure
+
+**Also see**: `/Users/flo/Development/CV/resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md` for web-specific details
+
 ---
 
 #### Step 4.2: Content Quality Review (Pattern A - PREFERRED)
@@ -311,8 +340,10 @@ User response determines next steps.
 4. **Output**: PDF file ready for ATS systems
 
 **Reference Materials**:
-- `references/moderncv_technical_guide.md` - Complete LaTeX reference
-- `assets/style-guide/CV_STYLE_GUIDE.md` - Design specifications
+- `references/moderncv_technical_guide.md` - Quick LaTeX troubleshooting guide
+- `docs/style-guide/pdf/CV_STYLE_GUIDE.md` - PDF design specifications
+- `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` - LaTeX code templates
+- `docs/style-guide/DESIGN_SYSTEM.md` - Shared cross-format principles
 - `assets/CV_template.tex` - Production-ready template
 
 ---
@@ -394,8 +425,10 @@ Footer: "Curious how this resume was built? Explore the system at github.com/dat
 | "Package fontspec error" | Using pdflatex | Use xelatex instead |
 
 **Reference Materials**:
-- `references/moderncv_technical_guide.md` - Complete LaTeX reference
-- `assets/style-guide/` - Design specifications and code snippets
+- `references/moderncv_technical_guide.md` - Quick LaTeX troubleshooting guide
+- `docs/style-guide/pdf/CV_STYLE_GUIDE.md` - PDF design specifications
+- `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` - LaTeX code templates
+- `docs/style-guide/DESIGN_SYSTEM.md` - Shared cross-format principles
 - `assets/CV_template.tex` - Production-ready template
 
 **Tool Support**:
@@ -532,7 +565,10 @@ Use Task tool:
 Use Task tool:
 - subagent_type: latex-design-reviewer
 - prompt: "Review the design and layout of resumes/customized/YYYY_MM_DD_company_role.pdf
-           Reference style guide at: docs/style-guide/CV_STYLE_GUIDE.md
+           Reference style guides:
+           - Shared principles: docs/style-guide/DESIGN_SYSTEM.md
+           - PDF specifications: docs/style-guide/pdf/CV_STYLE_GUIDE.md
+           - LaTeX code snippets: docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md
 
            Evaluate:
            - Typography hierarchy and consistency
@@ -565,7 +601,10 @@ Use Task tool:
                 [PASTE SPECIFIC FEEDBACK]
 
                 File: resumes/customized/YYYY_MM_DD_company_role.tex
-                Reference: docs/style-guide/CV_STYLE_GUIDE.md
+                Reference style guides:
+                - docs/style-guide/DESIGN_SYSTEM.md (shared principles)
+                - docs/style-guide/pdf/CV_STYLE_GUIDE.md (PDF specifications)
+                - docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md (code templates)
                 After implementation, compile PDF and confirm changes."
      ```
 
@@ -784,7 +823,7 @@ Before considering Phase 5 complete:
 
 **Automatic Generation**:
 
-When resume is finalized, generate application strategy document:
+When `career-planning-coach` approves the finalized resume, it automatically generates the application strategy document:
 
 1. **Use template**:
    ```bash
@@ -863,19 +902,28 @@ cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md
 cd skills/swiss-tech-resume-builder/scripts
 ./init_application.py --company google --role ml_engineer
 
-# 3. Customize LaTeX (output shows path)
+# 3. Content generation and format selection (orchestrated by career-planning-coach)
+#    - Invokes resume-content-generator → creates resume_content.md
+#    - Invokes swiss-tech-resume-reviewer → reviews content (iterative until approved)
+#    - Asks user: "PDF, web, or both?"
+#    - Invokes appropriate renderers:
+#      * latex-moderncv-expert (if PDF selected) → generates .tex and compiles PDF
+#      * react-resume-expert (if web selected) → builds and deploys web resume
+
+# 4. Quality assurance (for PDF outputs)
+#    - swiss-tech-resume-reviewer → content verification
+#    - latex-design-reviewer → visual design review
+#    - Iterative improvements until quality standards met
+
+# 5. Final approval
+#    - career-planning-coach → holistic review and final approval
+#    - Automatic generation of application_strategy.md
+
+# 6. Manual customization (optional)
+# If needed, you can still manually customize LaTeX:
 # Edit: resumes/customized/2025_11_10_google_ml_engineer.tex
-
-# 4. Validate
-./validate_latex.py ../../resumes/customized/2025_11_10_google_ml_engineer.tex
-
-# 5. Compile
-./compile_resume.sh ../../resumes/customized/2025_11_10_google_ml_engineer.tex
-
-# 6. Review PDF and iterate if needed
-
-# 7. Fill in application strategy
-# Edit: resumes/customized/2025_11_10_google_ml_engineer_application_strategy.md
+# Validate: ./validate_latex.py ../../resumes/customized/2025_11_10_google_ml_engineer.tex
+# Compile: ./compile_resume.sh ../../resumes/customized/2025_11_10_google_ml_engineer.tex
 ```
 
 ## Troubleshooting Guide
@@ -921,7 +969,7 @@ cd skills/swiss-tech-resume-builder/scripts
 
 **Formatting inconsistent**
 - **Fix**: Follow style guide specifications exactly
-- **Reference**: `assets/style-guide/CV_STYLE_GUIDE.md`
+- **Reference**: `docs/style-guide/pdf/CV_STYLE_GUIDE.md`
 
 **Layout problems (orphans, widows, spacing)**
 - **Fix**: Use `\vspace{}`, `\newpage`, adjust `hintscolumnwidth`
@@ -1029,12 +1077,13 @@ cd skills/swiss-tech-resume-builder/scripts
 - Interview preparation checklist
 - Timeline recommendations
 
-**`assets/style-guide/`** (Complete design system)
-- `CV_STYLE_GUIDE.md`: Typography, colors, layout specs
-- `VISUAL_DESIGN_REFERENCE.md`: One-page cheat sheet
-- `LATEX_CODE_SNIPPETS.md`: Copy-paste code library
-- `GETTING_STARTED.md`: Quick start guide
-- Additional technical documentation
+**Design System** (`docs/style-guide/`)
+- `DESIGN_SYSTEM.md`: Cross-format brand principles and standards
+- `pdf/CV_STYLE_GUIDE.md`: PDF typography, colors, layout specifications
+- `pdf/VISUAL_DESIGN_REFERENCE.md`: One-page PDF design cheat sheet
+- `pdf/LATEX_CODE_SNIPPETS.md`: LaTeX code templates and snippets
+- `pdf/MODERNCV_REFERENCE.md`: Complete LaTeX package documentation
+- `web/WEB_RESUME_STYLE_GUIDE.md`: Web resume design specifications
 
 ## Advanced Usage
 
@@ -1068,7 +1117,7 @@ To adapt templates for personal branding:
    ```
 
 2. **Modify style guide**:
-   - Update `assets/style-guide/CV_STYLE_GUIDE.md`
+   - Update `docs/style-guide/pdf/CV_STYLE_GUIDE.md`
    - Adjust color palette section
    - Maintain consistency across applications
 
@@ -1124,7 +1173,7 @@ Track these KPIs to optimize your approach:
 **Skill Documentation**:
 - This SKILL.md (overview and workflow)
 - Reference files in `references/` (deep dives)
-- Style guide in `assets/style-guide/` (design specs)
+- Design system in `docs/style-guide/` (cross-format design specifications)
 
 **External Resources**:
 - ModernCV GitHub: https://github.com/xdanaux/moderncv
