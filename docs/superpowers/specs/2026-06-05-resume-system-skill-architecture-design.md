@@ -56,7 +56,18 @@ Owns **only**:
 The parent `SKILL.md` body must stay **lean** (budget: under ~200 lines). Heavy,
 phase-specific instructions live in sub-skills and load only when that phase runs.
 
-### Sub-skills (siblings, `resume-` / `swiss-` prefix)
+### Sub-skills (flat siblings of the parent)
+
+Each sub-skill is its own top-level directory under `.claude/skills/`. The directory
+name **is** the skill name shown in the table's first column verbatim
+(e.g. `.claude/skills/resume-market-analysis/SKILL.md`). The parent retains its existing
+name `swiss-tech-resume-builder`; all new sub-skills use the `resume-` prefix. There is
+no nesting and no `swiss-tech-resume-builder-` compound prefix.
+
+Sub-skills marked "Dispatched subagent" are invoked **by skill name via a general-purpose
+subagent** — they do **not** get their own named agent file. Only the two reviewers have
+named agent files.
+
 
 | Sub-skill | Replaces agent | Owns | Execution |
 |---|---|---|---|
@@ -119,7 +130,8 @@ Driven by the parent skill. Brackets show where control hands off.
 7. **Render** *(→ `resume-render-pdf` and/or `resume-render-web`, subagents, parallel if
    both)* from the approved `resume_content.md`.
 8. **Post-render QA (PDF):** dispatch `swiss-tech-resume-reviewer` (content-in-PDF
-   verify) + `design-reviewer` agents; iterate ≤3 → design ≥9.0/10.
+   verify, carry forward the ≥8.0/10 content target) + `design-reviewer` agents; iterate
+   ≤3 → design ≥9.0/10.
 9. **Finalize** *(parent)* → holistic review + paired `..._application_strategy.md`.
 
 Property: the only places that spin up fresh context are the dispatched subagents
