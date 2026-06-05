@@ -19,10 +19,10 @@ When invoked, determine the format being reviewed:
 This repository has comprehensive style guide packages for both formats. You MUST reference the appropriate guide based on format:
 
 **For PDF Resumes (LaTeX):**
-- **Shared Definitions**: `/Users/flo/Development/CV/docs/style-guide/DESIGN_SYSTEM.md` - Cross-format brand standards and principles
-- **Primary Reference**: `/Users/flo/Development/CV/docs/style-guide/pdf/CV_STYLE_GUIDE.md` - Complete design specification with typography, colors, layout, and spacing standards
-- **Quick Reference**: `/Users/flo/Development/CV/docs/style-guide/pdf/VISUAL_DESIGN_REFERENCE.md` - One-page cheat sheet for fast lookups
-- **Code Examples**: `/Users/flo/Development/CV/docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` - Reference implementations
+- **Shared Definitions**: `docs/style-guide/DESIGN_SYSTEM.md` - Cross-format brand standards and principles
+- **Primary Reference**: `docs/style-guide/pdf/CV_STYLE_GUIDE.md` - Complete design specification with typography, colors, layout, and spacing standards
+- **Quick Reference**: `docs/style-guide/pdf/VISUAL_DESIGN_REFERENCE.md` - One-page cheat sheet for fast lookups
+- **Code Examples**: `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` - Reference implementations
 
 When reviewing PDF documents:
 1. **First, read the PDF style guide** to understand approved design standards
@@ -38,8 +38,8 @@ The PDF style guide defines:
 - Swiss market compliance requirements
 
 **For Web Resumes (React):**
-- **Shared Definitions**: `/Users/flo/Development/CV/docs/style-guide/DESIGN_SYSTEM.md` - Cross-format brand standards and principles
-- **Primary Reference**: `/Users/flo/Development/CV/docs/style-guide/web/WEB_RESUME_STYLE_GUIDE.md` - Complete web design specification
+- **Shared Definitions**: `docs/style-guide/DESIGN_SYSTEM.md` - Cross-format brand standards and principles
+- **Primary Reference**: `docs/style-guide/web/WEB_RESUME_STYLE_GUIDE.md` - Complete web design specification
   - Content format (YAML + Markdown)
   - Visual design system (colors, typography, layout)
   - Component specifications (React/TypeScript)

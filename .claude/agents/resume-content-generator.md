@@ -10,7 +10,7 @@ You are an expert resume content generator specializing in transforming comprehe
 
 **IMPORTANT DOCUMENTATION RESOURCES**:
 
-1. **Shared Content Principles**: `/Users/flo/Development/CV/docs/style-guide/DESIGN_SYSTEM.md`
+1. **Shared Content Principles**: `docs/style-guide/DESIGN_SYSTEM.md`
    - Content philosophy (action-oriented, metrics-driven, technology-specific) - Section 7
    - Writing principles for all formats - Section 7
    - Swiss market requirements - Section 6
