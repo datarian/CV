@@ -167,7 +167,7 @@ def main():
 - [ ] Research company and role in detail
 - [ ] Customize resume template with job-specific keywords
 - [ ] Prepare cover letter using strategy above
-- [ ] Compile PDF: `bash .claude/skills/swiss-tech-resume-builder/scripts/compile_resume.sh {output_tex}`
+- [ ] Compile PDF: `bash .claude/skills/resume-render-pdf/scripts/compile_resume.sh {output_tex}`
 - [ ] Review with the swiss-tech-resume-builder skill (content + design review gates)
 """
 
@@ -175,11 +175,11 @@ def main():
         f.write(strategy_template)
     print(f"✅ Created: {output_strategy}")
 
-    scripts_dir = ".claude/skills/swiss-tech-resume-builder/scripts"
+    render_scripts = ".claude/skills/resume-render-pdf/scripts"
     print(f"\n📋 Next steps (run from the repository root):")
     print(f"1. Edit {output_tex} and replace [PLACEHOLDER] values")
-    print(f"2. Validate: python3 {scripts_dir}/validate_latex.py {output_tex}")
-    print(f"3. Compile:  bash {scripts_dir}/compile_resume.sh {output_tex}")
+    print(f"2. Validate: python3 {render_scripts}/validate_latex.py {output_tex}")
+    print(f"3. Compile:  bash {render_scripts}/compile_resume.sh {output_tex}")
     print(f"4. Fill in {output_strategy} with job-specific details")
 
     return 0
