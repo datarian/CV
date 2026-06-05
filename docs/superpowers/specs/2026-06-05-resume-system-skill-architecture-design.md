@@ -73,16 +73,21 @@ named agent files.
 |---|---|---|---|
 | `resume-market-analysis` | swiss-tech-job-market-analyst | Swiss salary/keyword/role research | Dispatched subagent |
 | `resume-strategy` | swiss-resume-expert | Positioning, section emphasis, ATS keyword plan | Inline |
-| `resume-content-generation` | resume-content-generator | Produce format-agnostic `resume_content.md` from profile + strategy | Inline |
+| `resume-content-generation` | resume-content-generator | Produce format-agnostic `resume_content.md` from profile + strategy | Dispatched subagent |
 | `resume-render-pdf` | latex-moderncv-expert | `resume_content.md` → LaTeX → PDF; owns `validate_latex.py`, `compile_resume.sh`, `moderncv_technical_guide.md` | Dispatched subagent |
 | `resume-render-web` | react-resume-expert | `resume_content.md` → React static site (preview/deploy) | Dispatched subagent |
 | `resume-content-review` | swiss-tech-resume-reviewer (logic) | ATS / Swiss-fit / quality rubric + rating | Subagent (via thin agent) |
 | `resume-design-review` | design-reviewer (logic) | Visual QA rubric for PDF **and** web | Subagent (via thin agent) |
 
-**Note on content-generation:** it is its own sub-skill (not folded into the parent)
-specifically to keep the parent's resident context lean. It runs **inline** because the
-`resume_content.md` artifact is central and tightly coupled to strategy and review, but
-it lives in a separate skill file so its instructions are not always-loaded.
+**Note on content-generation:** it is its own sub-skill (not folded into the parent) and
+runs as a **dispatched subagent**. Its work is bulky (reading the full
+`PERSONAL_PROFILE.md`, crafting achievement bullets, ATS tuning) and its only downstream
+output is the `resume_content.md` *file* — which the review gate and renderers read
+directly. None of that reasoning needs to remain in the orchestrator's context. The
+orchestrator passes the (compact) strategy output and the target customized-dir path in
+the dispatch prompt; the subagent writes `resume_content.md` and returns a short summary.
+On a review-gate revision, the orchestrator re-dispatches with the reviewer feedback plus
+the existing file path.
 
 ### Kept agents (thin, ~10 lines each)
 
@@ -102,15 +107,22 @@ tools, auto-trigger on description match.
 
 The orchestrator runs **inline in the main thread** for light, coupled steps and
 **dispatches subagents** (each loading the relevant skill) for heavy / isolatable /
-parallelizable steps.
+parallelizable steps. The deciding test:
+
+- **Inline** when the output is *compact* **and** the orchestrator *reuses* it later
+  (e.g. `resume-strategy`: its positioning/keywords/target-salary feed the
+  application-strategy doc and final review). `resume-strategy` is the only inline
+  sub-skill.
+- **Subagent** when the work is *bulky/noisy* **and** the output is a *file or summary*
+  consumed downstream (market analysis, content generation, renders, reviews).
 
 - A skill is just instructions; it does not act on its own. The main thread, while
   following the parent skill, uses the Agent/Task tool to spawn a subagent and instructs
   it to load a named sub-skill. The subagent runs in isolated context and returns a
   summary.
-- Market analysis and the two renderers are dispatched as **general-purpose** subagents
-  pointed at their skill — **no named agent files needed** for them. Only the 2 reviewers
-  remain as named agents (for auto-trigger + tool scoping).
+- Market analysis, content generation, and the two renderers are dispatched as
+  **general-purpose** subagents pointed at their skill — **no named agent files needed**
+  for them. Only the 2 reviewers remain as named agents (for auto-trigger + tool scoping).
 - PDF and web rendering can run **in parallel** when both formats are selected.
 
 ## Pipeline Flow & Gates
@@ -121,8 +133,10 @@ Driven by the parent skill. Brackets show where control hands off.
 2. **Market analysis** *(→ `resume-market-analysis`, subagent)* — when targeting a
    specific role → market + keyword insights.
 3. **Strategy** *(→ `resume-strategy`, inline)* → positioning + keyword/emphasis plan.
-4. **Content generation** *(→ `resume-content-generation`, inline)* → `resume_content.md`
-   (format-agnostic YAML+MD, single source for both renderers).
+4. **Content generation** *(→ `resume-content-generation`, subagent)* →
+   `resume_content.md` (format-agnostic YAML+MD, single source for both renderers). The
+   orchestrator passes the strategy output + target dir in the dispatch prompt; the
+   subagent writes the file and returns a summary.
 5. **GATE — content review (Pattern A, pre-render):** parent dispatches the
    `swiss-tech-resume-reviewer` agent (isolated context, loads `resume-content-review`).
    Iterate ≤3 → target ≥8.0/10, ≥75% ATS match.
@@ -135,7 +149,8 @@ Driven by the parent skill. Brackets show where control hands off.
 9. **Finalize** *(parent)* → holistic review + paired `..._application_strategy.md`.
 
 Property: the only places that spin up fresh context are the dispatched subagents
-(market, renders, reviews). Everything else runs inline with skills loaded progressively.
+(market, content generation, renders, reviews). The orchestrator stays inline, loading
+`resume-strategy` progressively and otherwise coordinating gates and hand-offs.
 Reviewer rubrics live in skills, so identical criteria apply whether reviewed via the
 agent or inline.
 
