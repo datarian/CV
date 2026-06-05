@@ -17,7 +17,7 @@ Provide the resume ID to preview.
 
 ## What Happens
 
-The `react-resume-expert` agent will:
+The `resume-render-web` skill (preview mode) will:
 
 1. ✅ Load resume content from `resumes/customized/{id}/resume_content.md`
 2. 🔨 Build the web resume using React + Vite
@@ -44,7 +44,7 @@ The preview server runs in the background, so you can continue working in Claude
 
 **If you're happy with the preview:**
 - Continue with normal workflow to get content approved
-- Use career-planning-coach to deploy to CV-pages after approval
+- Use the `resume-render-web` skill (deploy mode) to publish to CV-pages after approval
 
 **If you need to make changes:**
 - Edit `resume_content.md`
