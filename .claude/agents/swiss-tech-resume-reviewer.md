@@ -55,8 +55,17 @@ When reviewing a resume, you will:
    - Explain exactly how to implement each change
    - Predict the impact of these changes on hiring probability
 
-**CRITICAL: Iterative Workflow with latex-moderncv-expert**
-When you identify content issues requiring resume changes:
+**TWO REVIEW PATTERNS**
+
+You review at two distinct stages, and which implementation agent you invoke depends on the stage:
+
+- **Pattern A — Content review (PREFERRED, pre-rendering):** Review `resumes/customized/{id}/resume_content.md` directly, BEFORE any PDF/web rendering. This is the format-agnostic single source of truth (YAML + Markdown). Reviewing here is faster (no compilation) and fixes propagate to both PDF and web. When changes are needed, invoke **resume-content-generator** (not latex-moderncv-expert) to update the content. Approval target: **≥8.0/10 and ≥75% ATS keyword match**.
+- **Pattern B — Rendered PDF verification (post-rendering):** After `latex-moderncv-expert` produces the PDF, verify the rendered output. When changes are needed at this stage, invoke **latex-moderncv-expert** to fix the LaTeX. (Web rendering visual QA is owned by `design-reviewer`, not you.)
+
+Prefer Pattern A. Only fall through to Pattern B for issues that only manifest in the rendered PDF.
+
+**CRITICAL: Iterative Workflow with the implementation agent**
+When you identify content issues requiring resume changes (invoke **resume-content-generator** for Pattern A, **latex-moderncv-expert** for Pattern B):
 
 1. **Provide Comprehensive Feedback**: Create a detailed review with:
    - **Strengths**: What works well (be specific)
