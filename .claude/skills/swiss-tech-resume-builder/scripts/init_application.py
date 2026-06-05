@@ -168,7 +168,7 @@ def main():
 - [ ] Customize resume template with job-specific keywords
 - [ ] Prepare cover letter using strategy above
 - [ ] Compile PDF: `bash .claude/skills/swiss-tech-resume-builder/scripts/compile_resume.sh {output_tex}`
-- [ ] Review with career-planning-coach agent
+- [ ] Review with the swiss-tech-resume-builder skill (content + design review gates)
 """
 
     with open(output_strategy, 'w') as f:

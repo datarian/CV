@@ -98,7 +98,7 @@
 
 ### Target Compensation Analysis
 
-**Market Research** (from swiss-tech-job-market-analyst):
+**Market Research** (from resume-market-analysis):
 - **Market Range for Role**: CHF [min]-[max]k
 - **Your Experience Level**: [X years] → CHF [min]-[max]k expected
 - **Location Multiplier**: [City] = [0.85-1.0x] of Zurich baseline

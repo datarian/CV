@@ -102,4 +102,4 @@ Deal-breakers: [gap, recommendation]
 [Any region or industry specifics that affect resume or salary strategy]
 ```
 
-Keep the summary under one page. The orchestrator (career-planning-coach or swiss-tech-resume-builder) will incorporate findings directly into resume strategy without further elaboration.
+Keep the summary under one page. The `swiss-tech-resume-builder` orchestrator skill will incorporate findings directly into resume strategy without further elaboration.
