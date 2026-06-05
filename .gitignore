@@ -52,6 +52,7 @@ resumes/templates/CV_portrait_casual.jpg
 .worktrees/
 
 # Web builder outputs (never commit private resume content)
+resumes/web-builder/node_modules/
 resumes/web-builder/dist/
 resumes/web-builder/public/resume_content.md
 resumes/web-builder/.vite/
