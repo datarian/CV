@@ -581,7 +581,7 @@ Produce a minimal valid `resume_content.md` for the smoketest (or reuse the scaf
 python3 .claude/skills/resume-render-pdf/scripts/validate_latex.py resumes/customized/<date>_smoketest_ml_engineer.tex
 bash .claude/skills/resume-render-pdf/scripts/compile_resume.sh resumes/customized/<date>_smoketest_ml_engineer.tex
 ```
-Expected: validation passes; XeLaTeX compiles a PDF; build artifacts are cleaned. This confirms the moved scripts resolve repo-relative paths correctly.
+Expected: validation passes; XeLaTeX compiles a PDF; build artifacts are cleaned. This confirms the moved scripts still run correctly from their new skill location when given a `.tex` path from the repo root. (Note: `compile_resume.sh` `cd`s into the `.tex` file's own directory before invoking xelatex, so what's being proven is that invocation-by-new-path works — not an internal repo-relative lookup.)
 
 - [ ] **Step 3: Confirm the orchestrator workflow reads end-to-end**
 
