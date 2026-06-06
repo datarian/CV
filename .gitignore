@@ -13,6 +13,8 @@
 # Personal profile with sensitive information
 docs/PERSONAL_PROFILE.md
 docs/MISSING_INFORMATION.md
+# Per-user market research built up through the skill (private data)
+docs/JOB_AGENT_RESEARCH.md
 
 # Portrait photos
 resources/CV_Portrait_*.jpg
