@@ -25,9 +25,37 @@ from datetime import datetime
 from pathlib import Path
 
 
+# The plugin/repo root is four levels up from this script:
+#   <root>/.claude/skills/swiss-tech-resume-builder/scripts/init_application.py
+PLUGIN_ROOT = Path(__file__).resolve().parents[4]
+
+
 def sanitize_name(name: str) -> str:
     """Convert company/role name to filename-safe format."""
     return name.lower().replace(' ', '_').replace('-', '_')
+
+
+def resolve_template(explicit: str | None) -> Path:
+    """Find the bundled CV template.
+
+    Works both when running from the source repo and when running from an
+    installed plugin (where bundled files live under ${CLAUDE_PLUGIN_ROOT}).
+    Resolution order: explicit --template, $CLAUDE_PLUGIN_ROOT, this script's
+    own location, then the current working directory.
+    """
+    if explicit:
+        return Path(explicit)
+    rel = "resumes/templates/CV_template.tex"
+    candidates = []
+    env_root = os.environ.get("CLAUDE_PLUGIN_ROOT")
+    if env_root:
+        candidates.append(Path(env_root) / rel)
+    candidates.append(PLUGIN_ROOT / rel)   # script-relative (covers both modes)
+    candidates.append(Path(rel))           # current working directory
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[-1]  # report the CWD path in the not-found error
 
 
 def main():
@@ -37,10 +65,10 @@ def main():
     parser.add_argument('--company', required=True, help='Company name')
     parser.add_argument('--role', required=True, help='Role title')
     parser.add_argument('--date', help='Date in YYYY_MM_DD format (default: today)')
-    parser.add_argument('--template', default='resumes/templates/CV_template.tex',
-                        help='Path to template file')
+    parser.add_argument('--template', default=None,
+                        help='Path to template file (default: bundled CV_template.tex)')
     parser.add_argument('--output-dir', default='resumes/customized',
-                        help='Output directory for customized resumes')
+                        help='Output directory for customized resumes (in the current project)')
 
     args = parser.parse_args()
 
@@ -58,7 +86,7 @@ def main():
     base_name = f"{date_str}_{company}_{role}"
 
     # Define paths
-    template_path = Path(args.template)
+    template_path = resolve_template(args.template)
     output_dir = Path(args.output_dir)
     # All artifacts for an application live inside its own {id} folder
     app_dir = output_dir / base_name
@@ -169,7 +197,7 @@ def main():
 - [ ] Research company and role in detail
 - [ ] Customize resume template with job-specific keywords
 - [ ] Prepare cover letter using strategy above
-- [ ] Compile PDF: `bash .claude/skills/resume-render-pdf/scripts/compile_resume.sh {output_tex}`
+- [ ] Compile PDF: `bash {PLUGIN_ROOT}/.claude/skills/resume-render-pdf/scripts/compile_resume.sh {output_tex}`
 - [ ] Review with the swiss-tech-resume-builder skill (content + design review gates)
 """
 
@@ -177,8 +205,8 @@ def main():
         f.write(strategy_template)
     print(f"✅ Created: {output_strategy}")
 
-    render_scripts = ".claude/skills/resume-render-pdf/scripts"
-    print(f"\n📋 Next steps (run from the repository root):")
+    render_scripts = PLUGIN_ROOT / ".claude/skills/resume-render-pdf/scripts"
+    print(f"\n📋 Next steps:")
     print(f"1. Edit {output_tex} and replace [PLACEHOLDER] values")
     print(f"2. Validate: python3 {render_scripts}/validate_latex.py {output_tex}")
     print(f"3. Compile:  bash {render_scripts}/compile_resume.sh {output_tex}")

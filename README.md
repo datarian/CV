@@ -353,38 +353,43 @@ The swiss-tech-resume-builder skill is a complete, self-contained package that i
 - **Swiss Market Expertise**: Salary data, conventions, and ATS optimization
 - **Complete Documentation**: 1000+ lines covering every aspect of Swiss tech resume creation
 
-### Installation Options
+### Installation as a Claude Code plugin (recommended)
 
-**Option 1: Use Within This Repository** (Automatic)
+This repository is a **Claude Code plugin marketplace**. Anyone can install the
+full resume-builder system — all skills plus the review agents — with two
+commands, no cloning or symlinking required.
 
-When working in this repository, Claude Code automatically has access to the skill:
+In Claude Code:
 
-```bash
-cd /path/to/CV
-claude-code
-
-# In Claude Code:
-> Use the swiss-tech-resume-builder skill to create a resume for...
+```text
+/plugin marketplace add datarian/CV
+/plugin install swiss-tech-resume-builder@swiss-tech-resume
 ```
 
-**Option 2: Install Globally** (Use in Any Project)
+That's it. The plugin bundles the orchestrator skill, all phase sub-skills, the
+content/design review agents, the LaTeX template, knowledge base, and style
+guide. Once installed, just ask:
 
-To use this skill across all your Claude Code sessions:
-
-```bash
-# Create global skills directory
-mkdir -p ~/.claude/skills
-
-# Symlink (recommended - stays updated)
-ln -s /path/to/CV/skills/swiss-tech-resume-builder \
-      ~/.claude/skills/swiss-tech-resume-builder
-
-# Or copy (independent version)
-cp -r /path/to/CV/skills/swiss-tech-resume-builder \
-      ~/.claude/skills/swiss-tech-resume-builder
+```text
+> How do I use the Swiss tech resume builder?
 ```
 
-After installation, the skill is available in all Claude Code sessions system-wide.
+The `swiss-tech-resume-setup` skill walks you through prerequisites, scaffolds a
+personal profile and workspace **in your own project**, and hands off to the
+builder. Update later with `/plugin marketplace update swiss-tech-resume`.
+
+> **Scope — v0.1.0 ships the PDF pipeline.** The interactive **web resume**
+> renderer and its `deploy` mode are author-only and not bundled (they depend on
+> a Vite app and a private GitHub Pages repo). The PDF path is fully
+> self-contained and is the supported workflow for installers.
+
+**Prerequisites:** XeLaTeX (TeX Live / MacTeX) with the `moderncv`,
+`moderntimeline`, and `fontawesome` packages; the Roboto, Lato, and Roboto Slab
+fonts; and Python 3 for the scaffolding helper. The setup skill checks these for
+you.
+
+**Working in this repository directly:** if you've cloned the repo, Claude Code
+auto-discovers the skills from `.claude/skills/` — no install step needed.
 
 ### Skill Features
 
@@ -435,40 +440,24 @@ You: "Use the swiss-tech-resume-builder skill to create a resume
 
 ### Sharing and Contributing
 
-**To share this skill with others**:
+**To share with others:** point them at the marketplace — `/plugin marketplace
+add datarian/CV` then `/plugin install swiss-tech-resume-builder@swiss-tech-resume`
+(see [Installation as a Claude Code plugin](#installation-as-a-claude-code-plugin-recommended)).
+No cloning, tarballs, or manual symlinks needed.
 
-1. **Via GitHub** (current approach):
-   - Users clone this repository
-   - Skill is available in `skills/swiss-tech-resume-builder/`
-   - Can symlink to `~/.claude/skills/` for global use
-
-2. **As Standalone Package**:
-   ```bash
-   # Package for distribution
-   tar czf swiss-tech-resume-builder.tar.gz \
-       skills/swiss-tech-resume-builder/
-
-   # Others can extract and install
-   tar xzf swiss-tech-resume-builder.tar.gz
-   mv swiss-tech-resume-builder ~/.claude/skills/
-   ```
-
-3. **Fork and Customize**:
-   - Adapt for other markets (German market, US market)
-   - Modify for other industries (non-tech, consulting)
-   - Customize templates and styling
-
-**Skill Documentation**: See `skills/swiss-tech-resume-builder/README.md` for complete installation and usage guide.
+**Fork and customize:** adapt the knowledge base and template for other markets
+(e.g. German or US) or industries, then publish your fork as its own marketplace
+by editing `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json`.
 
 ### Dependencies
 
-The skill requires:
-- **Agents**: All 6 specialized agents in `.claude/agents/`
-- **LaTeX**: XeLaTeX with moderncv package
-- **Python**: For automation scripts
-- **References**: Market data and technical guides in `skills/swiss-tech-resume-builder/references/`
+The plugin bundles its own skills, review agents, knowledge base, style guide,
+and LaTeX template. The PDF pipeline additionally requires, on the user's machine:
+- **LaTeX**: XeLaTeX with the `moderncv`, `moderntimeline`, and `fontawesome` packages
+- **Fonts**: Roboto, Lato, Roboto Slab
+- **Python 3**: for the application-scaffolding helper script
 
-If sharing the skill standalone, ensure recipients have these dependencies.
+The `swiss-tech-resume-setup` skill checks these and reports anything missing.
 
 ## Repository Structure
 
