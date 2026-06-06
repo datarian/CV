@@ -44,13 +44,16 @@ When the resume is finalized (step 9), always produce a paired strategy document
 
 - **Template:** `assets/application_strategy_template.md` — copy it and fill every section (Executive Summary, Position Overview, Cover Letter Strategy, Salary Negotiation, Interview Prep, Timeline, Success Metrics, Strategic Assessment, Key Talking Points, Final Recommendations).
 - **Inputs:** the market-analysis output (salary data, company intel), the strategy brief, the job posting, and the holistic-review findings.
-- **Naming & pairing:** `YYYY_MM_DD_company_role_application_strategy.md`, written to `resumes/customized/` alongside the resume:
+- **Naming & pairing:** `YYYY_MM_DD_company_role_application_strategy.md`, written **inside the application's `{id}/` folder** alongside the resume content and rendered artifacts (NOT one level up in `resumes/customized/`):
   ```
   resumes/customized/
-  ├── 2025_11_10_google_ml_engineer.tex          (or resume_content.md / {id}/)
-  ├── 2025_11_10_google_ml_engineer.pdf
-  └── 2025_11_10_google_ml_engineer_application_strategy.md
+  └── 2025_11_10_google_ml_engineer/             ({id} folder — all artifacts co-located)
+      ├── resume_content.md
+      ├── 2025_11_10_google_ml_engineer.tex
+      ├── 2025_11_10_google_ml_engineer.pdf
+      └── 2025_11_10_google_ml_engineer_application_strategy.md
   ```
+  (A timestamped copy of the final PDF still also goes to `resumes/compiled/`.)
 - The helper script `scripts/init_application.py` can scaffold the `{id}` and a strategy stub. Run it from the repository root:
   ```bash
   python3 .claude/skills/swiss-tech-resume-builder/scripts/init_application.py --company google --role ml_engineer

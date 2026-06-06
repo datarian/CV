@@ -60,16 +60,18 @@ def main():
     # Define paths
     template_path = Path(args.template)
     output_dir = Path(args.output_dir)
-    output_tex = output_dir / f"{base_name}.tex"
-    output_strategy = output_dir / f"{base_name}_application_strategy.md"
+    # All artifacts for an application live inside its own {id} folder
+    app_dir = output_dir / base_name
+    output_tex = app_dir / f"{base_name}.tex"
+    output_strategy = app_dir / f"{base_name}_application_strategy.md"
 
     # Check if template exists
     if not template_path.exists():
         print(f"❌ Error: Template not found at {template_path}")
         return 1
 
-    # Create output directory if needed
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Create the application's {id} folder if needed
+    app_dir.mkdir(parents=True, exist_ok=True)
 
     # Check if files already exist
     if output_tex.exists():
