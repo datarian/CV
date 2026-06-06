@@ -26,11 +26,28 @@ Is eligibility to work in Switzerland stated clearly? Missing work authorization
 ### 5. Cultural Fit Indicators
 Does the resume demonstrate Swiss values — precision, reliability, quality? Vague or hyperbolic language undermines credibility.
 
+**Tone & register** (full standard: `docs/knowledge/tone_and_register.md`): Swiss reviewers value understatement and hard evidence over American-style self-promotion. Flag over-confident phrasing as a weakness and name the specific line:
+- Inflated verbs (Spearheaded, Pioneered, Revolutionized, Transformed) → recommend the plain, literally-true verb.
+- Marketing adjectives / superlatives / self-ratings with no evidence (world-class, cutting-edge, passionate, deep expertise) → recommend cutting or replacing with the evidence.
+- Intensifiers attached to metrics (a massive 1M+, dramatically reduced) → recommend removing the intensifier, keeping the number.
+- Sole-ownership claims on team work → recommend honest attribution.
+
+This is the same standard the content generator writes to, so reviewer and generator stay aligned.
+
 ### 6. Quantifiable Achievements
 Are accomplishments measurable and compelling by Swiss standards? Generic descriptions without measurable impact are a significant weakness.
 
 ### 7. Format & Presentation
 Does the structure meet Swiss expectations for clarity, conciseness, and professionalism?
+
+**Bullet budget**: Check each role against the per-role limits in
+`docs/knowledge/experience_bullet_standards.md` — current/most-recent role **3–5**
+(typically 4–5, intentionally the most prominent role; hard cap 5), prior roles 2–3, older
+roles 1–2. The current role *should* carry the most bullets — that prominence is correct,
+not a defect. Flag only a role **over** its ceiling (most often the current role at 6+
+bullets) as a High-priority weakness: name the specific bullets to merge or cut, and flag
+related achievements that should be combined or padding that should be removed. This is the
+same budget the content generator works to, so reviewer and generator stay aligned.
 
 For detailed Swiss market conventions, see `docs/knowledge/swiss_market_conventions.md`.
 

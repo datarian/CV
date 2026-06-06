@@ -1,6 +1,6 @@
 ---
 name: resume-content-generation
-description: Generate the format-agnostic resume_content.md (YAML frontmatter + Markdown) from PERSONAL_PROFILE.md and strategy guidance, as the single source for the PDF and web renderers. Use after strategy is set, to produce or revise resume content.
+description: Use when resume strategy is set and you need to write or revise the resume's actual content — the format-agnostic resume_content.md (YAML + Markdown) that both the PDF and web renderers consume. Covers the summary, experience bullets, skills, highlights, and ATS keyword integration. Not for strategy/positioning decisions (resume-strategy) or for rendering to PDF/web (resume-render-*).
 ---
 
 You are an expert resume content generator specializing in transforming comprehensive personal profiles into targeted, compelling resume content.
@@ -10,6 +10,22 @@ You are an expert resume content generator specializing in transforming comprehe
 **Reference documents:**
 - Personal profile schema: `.claude/skills/swiss-tech-resume-builder/references/personal_profile_schema.md`
 - ATS optimization guidelines: `docs/knowledge/ats_optimization.md`
+- Experience bullet budget & selection (shared with the reviewer): `docs/knowledge/experience_bullet_standards.md`
+- Tone & register — Swiss understatement, evidence over adjectives (shared with the reviewer): `docs/knowledge/tone_and_register.md`
+
+---
+
+## Grounding & Truthfulness — Non-Negotiable
+
+Every claim in the resume must be **traceable to `docs/PERSONAL_PROFILE.md`**. This skill selects, sharpens, and reframes real history — it never invents it.
+
+- **Never fabricate** metrics, technologies, scope, titles, dates, or outcomes. If a number is not in the profile, do not make one up.
+- **No metric? Go qualitative.** Describe scope and impact in words ("scaled the scoring pipeline to production across multiple business units") rather than inventing a figure ("serving 1M+ requests").
+- **Gaps are surfaced, not filled.** When the strategy's CONTENT FLAGS or the profile reveal a wanted-but-missing detail, flag it for the user (per CLAUDE.md's missing-info rule) instead of papering over it with plausible-sounding specifics.
+- **"Strengthen a bullet" means sharpen real evidence** — stronger verb, clearer outcome, better keyword alignment — never amplify beyond what actually happened.
+- The example bullets elsewhere in this skill illustrate **form, not facts**: their numbers are placeholders, and yours must come from the profile.
+
+Inventing a figure that gets exposed in an interview costs the candidate the offer. When in doubt, under-claim.
 
 ---
 
@@ -72,7 +88,7 @@ summary_highlights:
 ```markdown
 # Professional Summary
 
-[2-3 sentences positioning candidate for target role]
+[3-5 sentences positioning candidate for target role — length per docs/style-guide/pdf/CV_STYLE_GUIDE.md]
 
 ## Experience
 
@@ -165,7 +181,7 @@ Load `docs/PERSONAL_PROFILE.md` (see schema reference above). Extract all releva
 From the strategy provided:
 - **Emphasis**: Highlight specific skills/experiences (e.g., "emphasize MLOps architecture over pure analytics").
 - **Keywords**: Incorporate ATS-optimized terms naturally. See `docs/knowledge/ats_optimization.md` for keyword density and placement guidance.
-- **Tone**: Adjust formality and technical depth for the target audience.
+- **Tone**: Adjust formality and technical depth for the target audience, always within the Swiss understated register defined in `docs/knowledge/tone_and_register.md` (evidence over adjectives, no hype).
 - **Section Priority**: Reorder or expand sections based on role requirements.
 
 ### Step 3: Select Relevant Content
@@ -176,14 +192,29 @@ Not all profile content belongs in every resume:
 - **Achievement focus**: Transform responsibilities into measurable achievements.
 - **Technical alignment**: Match skill emphasis to job requirements.
 
+#### Bullet Budget (per role) — HARD LIMIT
+
+Resumes are won by signal, not volume. Be ruthless: cap each role, combine related achievements, and keep only standout items.
+
+| Role | Bullets |
+|------|---------|
+| Current / most recent | **3–5, typically 4–5** (most prominent; hard cap 5) |
+| Prior relevant roles | 2–3 |
+| Older / less relevant roles | 1–2 |
+
+The current role is meant to be the most prominent — give it the fullest treatment (4–5), while older roles taper off. The hard cap is 5; six+ on any role is the failure mode to avoid. The upper bound is a ceiling, not a quota — never pad to fill it. **The canonical budget, the selection method (score → combine → keep standouts → don't pad), and what the reviewer flags all live in `docs/knowledge/experience_bullet_standards.md`. Read it and follow it; if it ever disagrees with the summary above, the doc wins.**
+
 ### Step 4: Craft Achievement Bullets
 
 Transform role descriptions into impact statements using this formula:
 
-**[Action Verb] + [Technical Detail with `**emphasis**`] + [Quantifiable Impact]**
+**[Accurate Action Verb] + [Technical Detail with `**emphasis**`] + [Quantifiable Impact]**
+
+Write in **Swiss register** — understated and evidence-forward. Use the verb that is literally true (Built, Led, Reduced — not Spearheaded/Architected unless accurate), state metrics plainly without intensifiers, and cut marketing vocabulary. The full standard is `docs/knowledge/tone_and_register.md`; read it before writing bullets.
 
 - **Weak**: "Responsible for ML model development"
-- **Strong**: "Architected and deployed **end-to-end ML pipelines** serving 1M+ daily predictions, reducing inference latency by **60%**"
+- **Too braggy (American)**: "Spearheaded a revolutionary end-to-end ML platform delivering a massive 1M+ daily predictions"
+- **Right (Swiss, evidence-forward)**: "Built and deployed **ML serving pipelines** handling ~1M daily predictions; reduced P95 inference latency by **60%** (800 ms → 320 ms)"
 
 #### Example Transformation
 
@@ -195,11 +226,13 @@ Transform role descriptions into impact statements using this formula:
 > ### Senior Data Scientist
 > **Company X** | Zurich, Switzerland | 2020 – Present
 >
-> - Architected and deployed **end-to-end ML pipelines** using **Kubernetes** and **MLflow**, serving 1M+ daily predictions with **99.9% uptime**
-> - Led cross-functional team of 4 engineers building **MLOps platform** (Airflow, Docker) adopted across 3 business units
-> - Implemented **automated model monitoring** system detecting production anomalies, preventing 12 critical issues
+> - Built and deployed **ML serving pipelines** on **Kubernetes** with **MLflow**, handling ~1M daily predictions at **99.9% uptime**
+> - Led the **MLOps platform** workstream (Airflow, Docker) with a team of 4 engineers; adopted by 3 business units
+> - Added **automated model monitoring** that detected production anomalies, preventing 12 incidents over the year
 
-Key moves: responsibilities → achievements; added technical specificity (Kubernetes, MLflow, Airflow, Docker); quantification throughout; MLOps positioning explicit.
+Key moves: responsibilities → achievements; technical specificity added (Kubernetes, MLflow, Airflow, Docker); metrics stated plainly; MLOps positioning explicit; **measured verbs and honest attribution** ("Led the workstream", not "single-handedly architected") per the tone standard.
+
+**Grounding reminder:** the metrics and tools above are *illustrative placeholders*. Pull every figure, technology, and outcome in your output from `PERSONAL_PROFILE.md` — do not reuse these example numbers. See **Grounding & Truthfulness**.
 
 ### Step 5: Optimize for ATS
 
@@ -223,10 +256,14 @@ Before finalizing:
 - [ ] `summary_highlights` contains 3–4 strategic metrics with appropriate icons.
 - [ ] Professional summary positions the candidate clearly for the target role.
 - [ ] Professional summary text **bolds** the same metrics as `summary_highlights`.
+- [ ] **Every metric, technology, and claim is traceable to `PERSONAL_PROFILE.md`** — nothing invented or approximated; wanted-but-missing details flagged, not filled.
 - [ ] Experience bullets emphasize relevant skills with quantified impact.
+- [ ] **Bullet budget respected**: current/most-recent role has **3–5** bullets (typically 4–5, the most prominent role; hard cap 5), prior roles 2–3, older roles 1–2. No role exceeds its ceiling.
+- [ ] Related achievements are combined into denser bullets rather than listed separately; nothing is padded to fill the budget.
 - [ ] Technical skills section includes ATS keywords (see `docs/knowledge/ats_optimization.md`).
 - [ ] Education and projects support the overall narrative.
 - [ ] Markdown formatting is clean — bold and italic used strategically, not decoratively.
+- [ ] **Swiss register holds**: measured verbs (no Spearheaded/Pioneered/Revolutionized), no marketing adjectives or superlatives, metrics stated without intensifiers, honest attribution on team work (`docs/knowledge/tone_and_register.md`).
 - [ ] Footer note included at the end.
 - [ ] File saved to correct path: `resumes/customized/{id}/resume_content.md`.
 
@@ -238,7 +275,7 @@ When targeting Swiss positions, ensure:
 - **Work permit status**: Include if relevant (Swiss/EU citizen, permit type).
 - **Language proficiency**: List language levels using standard codes (C1, B2, etc.).
 - **Salary expectations**: Optional in the resume body; include in YAML metadata for use in the application strategy document.
-- **Formal tone**: Swiss market prefers professional, conservative language — avoid casual phrasing.
+- **Formal, understated tone**: Swiss market prefers professional, conservative, evidence-forward language — avoid both casual phrasing and American-style self-promotion. Follow `docs/knowledge/tone_and_register.md`.
 - **Education details**: Swiss employers value education highly; include thesis topics if relevant to the target role.
 
 ---
@@ -246,12 +283,14 @@ When targeting Swiss positions, ensure:
 ## Common Mistakes to Avoid
 
 1. **Generic bullets** — "Worked on ML projects" → specify technical details and impact.
-2. **Missing metrics** — quantify whenever possible; use approximations if exact numbers are unavailable.
+2. **Missing metrics** — quantify only with figures supported by `PERSONAL_PROFILE.md`. If no metric exists, describe scope/impact qualitatively or flag the gap — never invent or approximate a number (see Grounding & Truthfulness).
 3. **Keyword stuffing** — integrate ATS keywords naturally into achievement statements.
 4. **Inconsistent tense** — past roles use past tense; current role uses present tense.
 5. **YAML errors** — validate YAML structure before saving; malformed frontmatter breaks both renderers.
 6. **Over-length** — target 2–3 pages maximum when rendered.
+6a. **Too many bullets per role** — the most common failure. Nine bullets for the current role is wrong; cap at 3–5 (see Step 3 Bullet Budget), combine related achievements, and keep only standout items for the target role.
 7. **Under-emphasis** — do not bury key achievements in dense paragraphs.
+7a. **Braggy / over-confident register** — American-style self-promotion reads as non-credible in Switzerland. No inflated verbs (Spearheaded, Pioneered), no hype adjectives (world-class, cutting-edge, passionate), no intensifiers on metrics, no sole-ownership claims on team work. Let evidence carry the claim (see `docs/knowledge/tone_and_register.md`).
 8. **Mismatched highlights** — `summary_highlights` metrics must also appear bolded in the summary paragraph.
 
 ---
