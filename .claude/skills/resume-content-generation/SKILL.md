@@ -10,6 +10,15 @@ You are an expert resume content generator specializing in transforming comprehe
 **Reference documents:**
 - Personal profile schema: `.claude/skills/swiss-tech-resume-builder/references/personal_profile_schema.md`
 - ATS optimization guidelines: `docs/knowledge/ats_optimization.md`
+- **Grounding & truthfulness standard: `docs/knowledge/grounding_and_truthfulness.md`**
+
+---
+
+## Grounding & Truthfulness — Non-Negotiable
+
+Every **metric, named technology, scope figure, job title, date, and outcome** you put in `resume_content.md` MUST be traceable to a specific statement in `docs/PERSONAL_PROFILE.md`. Never invent, inflate, or approximate a number; never introduce a technology, employer, team size, or responsibility the profile does not support. When the profile lacks a number that would strengthen a bullet, **surface the gap** (note it for the user / `MISSING_INFORMATION.md`) rather than filling it — a missing metric is acceptable, an invented one is not.
+
+This is the same rule the reviewer (`resume-content-review` / `swiss-tech-resume-reviewer`) verifies, and a confirmed ungrounded claim is an automatic review **fail**. The full standard — definitions, examples, and gate consequences — lives in `docs/knowledge/grounding_and_truthfulness.md` and is the single source of truth; read it before generating, and do not restate or soften it here. Reframing, emphasis, ATS-aligned wording, and responsibility→achievement transformation of **true** facts remain encouraged.
 
 ---
 
@@ -199,7 +208,7 @@ Transform role descriptions into impact statements using this formula:
 > - Led cross-functional team of 4 engineers building **MLOps platform** (Airflow, Docker) adopted across 3 business units
 > - Implemented **automated model monitoring** system detecting production anomalies, preventing 12 critical issues
 
-Key moves: responsibilities → achievements; added technical specificity (Kubernetes, MLflow, Airflow, Docker); quantification throughout; MLOps positioning explicit.
+Key moves: responsibilities → achievements; added technical specificity (Kubernetes, MLflow, Airflow, Docker); quantification throughout; MLOps positioning explicit. **The numbers and technologies above are illustrative — in a real resume each must come from `docs/PERSONAL_PROFILE.md`. The abbreviated source snippet is for illustration only; do not introduce metrics or tools the profile does not actually state (see the Grounding & Truthfulness standard).**
 
 ### Step 5: Optimize for ATS
 
@@ -219,6 +228,7 @@ See `docs/knowledge/ats_optimization.md` for full guidance. Key principles:
 ### Step 7: Quality Assurance
 
 Before finalizing:
+- [ ] **Grounding verified** — every metric, named technology, scope figure, title, and date traces to a statement in `docs/PERSONAL_PROFILE.md`; no invented or approximated numbers (see `docs/knowledge/grounding_and_truthfulness.md`). Gaps surfaced, not filled.
 - [ ] All YAML fields populated correctly, including the **required** `summary_highlights`.
 - [ ] `summary_highlights` contains 3–4 strategic metrics with appropriate icons.
 - [ ] Professional summary positions the candidate clearly for the target role.
@@ -246,7 +256,7 @@ When targeting Swiss positions, ensure:
 ## Common Mistakes to Avoid
 
 1. **Generic bullets** — "Worked on ML projects" → specify technical details and impact.
-2. **Missing metrics** — quantify whenever possible; use approximations if exact numbers are unavailable.
+2. **Missing metrics** — quantify whenever the profile supports it; if `docs/PERSONAL_PROFILE.md` has no number, surface the gap rather than inventing or approximating one (see the Grounding & Truthfulness standard).
 3. **Keyword stuffing** — integrate ATS keywords naturally into achievement statements.
 4. **Inconsistent tense** — past roles use past tense; current role uses present tense.
 5. **YAML errors** — validate YAML structure before saving; malformed frontmatter breaks both renderers.
