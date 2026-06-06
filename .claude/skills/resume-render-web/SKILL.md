@@ -7,6 +7,16 @@ description: Render an approved resume_content.md to an interactive React web re
 
 This skill builds production-ready React web resumes from an approved `resume_content.md` file (YAML frontmatter + Markdown). It is invoked by the `swiss-tech-resume-builder` orchestrator skill after content approval, or directly via `/preview-web-resume {id}`.
 
+> **Author-only — not bundled in the distributed plugin (v0.1.0).** This skill
+> depends on a Vite/React app at `resumes/web-builder/` (`package.json`, `src/`,
+> `npm run build`) that is **not version-controlled** and therefore does **not**
+> ship with the `swiss-tech-resume-builder` plugin. Before doing anything else,
+> verify the app exists: if `resumes/web-builder/package.json` is absent, **stop
+> and report** that web rendering is not included in this release and point the
+> user to the PDF pipeline (`resume-render-pdf`). Do not attempt `npm run build`
+> against a missing app. Web rendering is supported only in the author's source
+> repository until the app is bundled or scaffolded in a future release.
+
 ## Documentation Resources
 
 - **Web Resume Style Guide**: `docs/style-guide/web/WEB_RESUME_STYLE_GUIDE.md`

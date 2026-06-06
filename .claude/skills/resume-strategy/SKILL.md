@@ -3,6 +3,12 @@ name: resume-strategy
 description: Plan resume content strategy for a Swiss tech role — positioning, section emphasis, and ATS keyword selection from market analysis plus the personal profile. Use after market analysis and before generating resume content.
 ---
 
+> **Bundled reference files.** Paths in this skill beginning with `docs/` are bundled with
+> the plugin. When the plugin is installed, read them under `${CLAUDE_PLUGIN_ROOT}/` (e.g.
+> `${CLAUDE_PLUGIN_ROOT}/docs/knowledge/…`) — the variable expands to the plugin's install
+> directory automatically. When working from the source repository the variable is unset,
+> so read the same paths relative to the repo root (exactly as written).
+
 # Resume Strategy
 
 Given a target role and the output of a market analysis, this skill produces a **strategy brief** that tells the content generator exactly what to emphasize, in what order, and with which keywords. The brief is compact enough for the `swiss-tech-resume-builder` orchestrator skill to hold inline and pass directly to content generation.
@@ -65,7 +71,7 @@ Swiss tech resumes follow a conventional structure; reordering is possible but m
 
 ## 4. Keyword Integration
 
-See [`docs/knowledge/ats_optimization.md`](../../docs/knowledge/ats_optimization.md) for the full ATS optimization methodology. Apply that methodology through this lens:
+See `docs/knowledge/ats_optimization.md` for the full ATS optimization methodology. Apply that methodology through this lens:
 
 - **Source keywords from**: the job posting (verbatim phrases score highest), the market analysis output, and the archetype's canonical skill set.
 - **Placement hierarchy**: title/summary first, skills section second, experience bullets third. ATS scanners weight earlier placement.
@@ -76,7 +82,7 @@ See [`docs/knowledge/ats_optimization.md`](../../docs/knowledge/ats_optimization
   - Engineering Manager: hiring, performance management, OKRs, delivery, stakeholder management
   - MLOps / Platform: Kubernetes, Docker, CI/CD (GitHub Actions, GitLab CI, ArgoCD), data pipelines, observability (Prometheus, Grafana), infrastructure-as-code
 
-For Swiss-specific terminology and regional conventions, see [`docs/knowledge/swiss_market_conventions.md`](../../docs/knowledge/swiss_market_conventions.md).
+For Swiss-specific terminology and regional conventions, see `docs/knowledge/swiss_market_conventions.md`.
 
 ---
 
