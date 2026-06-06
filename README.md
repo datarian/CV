@@ -1,808 +1,268 @@
-# AI-Powered Resume Generation System for Swiss Tech Market
-
-A next-generation CV/Resume repository powered by Claude Code and specialized AI agents. Instead of manually crafting LaTeX documents, you work with intelligent agents that handle market research, resume strategy, content optimization, and professional design—automatically.
-
-## Table of Contents
-- [Overview](#overview)
-- [How It Works](#how-it-works)
-- [Getting Started](#getting-started)
-- [Working with AI Agents](#working-with-ai-agents)
-- [Usage Examples](#usage-examples)
-- [Repository Structure](#repository-structure)
-- [Technical Details](#technical-details)
-- [Privacy & Security](#privacy--security)
-
-## Overview
-
-### What Makes This Different?
-
-Traditional approach: Manually edit LaTeX, compile PDFs, guess at keywords, hope for the best.
-
-**This system**: Talk to AI agents that:
-- Research the Swiss tech job market for salary ranges and skill requirements
-- Analyze job postings to identify key requirements
-- Craft targeted resume strategies optimized for both ATS and human reviewers
-- Generate professional LaTeX documents with perfect formatting
-- Iteratively review and improve content and design quality
-- Provide comprehensive application strategies including cover letter guidance and interview prep
-
-### Key Features
-
-- **AI Agent Coordination**: A team of specialized agents works together to create optimal resumes
-- **Data-Driven**: Single source of truth in `docs/PERSONAL_PROFILE.md`
-- **Swiss Market Expertise**: Agents understand Swiss tech market conventions and expectations
-- **Template System**: Single generic template with comprehensive customization guidance for all role types
-- **Quality Assurance**: Iterative review loops ensure professional results
-- **Application Strategy**: Automatic generation of tailored application guidance
-- **Privacy-First**: Personal data never committed to version control
-
-### Target Market
-
-- **Geographic**: Switzerland (German-speaking regions)
-- **Roles**: ML Engineer, MLOps Engineer, Engineering Manager, AI Software Architect
-- **Industry**: Tech, Fintech, SaaS
-
-## How It Works
-
-### The Agent-Powered Workflow
-
-```
-You: "I found a job posting for ML Engineer at Company X. The posting is available at https://company.awesome/career/posting"
-    ↓
-┌─────────────────────────────────────────────────────┐
-│  career-planning-coach (Coordinator)                │
-│  "Let me help you with that application"            │
-└─────────────────────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────────────────────┐
-│  swiss-tech-job-market-analyst                      │
-│  • Analyzes job posting                             │
-│  • Researches company tech stack                    │
-│  • Identifies salary range                          │
-│  • Determines critical skills                       │
-└─────────────────────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────────────────────┐
-│  swiss-resume-expert                                │
-│  • Develops content strategy                        │
-│  • Selects optimal template                         │
-│  • Plans section emphasis                           │
-│  • Identifies keywords for ATS                      │
-└─────────────────────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────────────────────┐
-│  latex-moderncv-expert                              │
-│  • Creates customized LaTeX resume                  │
-│  • Compiles professional PDF                        │
-│  • Implements feedback from reviewers               │
-└─────────────────────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────────────────────┐
-│  Quality Assurance Loop (Iterative)                 │
-│  ┌───────────────────────────────────────┐          │
-│  │ swiss-tech-resume-reviewer            │          │
-│  │ • Reviews content quality             │          │
-│  │ • Checks ATS optimization             │          │
-│  │ • Validates keywords                  │          │
-│  └───────────────────────────────────────┘          │
-│  ┌───────────────────────────────────────┐          │
-│  │ latex-design-reviewer                 │          │
-│  │ • Assesses visual design              │          │
-│  │ • Checks formatting consistency       │          │
-│  │ • Ensures professional appearance     │          │
-│  └───────────────────────────────────────┘          │
-│  ┌───────────────────────────────────────┐          │
-│  │ career-planning-coach (Final Gate)    │          │
-│  │ • Holistic career narrative review    │          │
-│  │ • Strategic positioning validation    │          │
-│  │ • Career goal alignment check         │          │
-│  └───────────────────────────────────────┘          │
-└─────────────────────────────────────────────────────┘
-    ↓
-You receive:
-  • Optimized resume PDF
-  • Comprehensive application strategy document
-  • Cover letter guidance
-  • Interview preparation points
-  • Salary negotiation strategy
-```
-
-### Three Simple Steps
-
-1. **Share Your Goals**: "I'm targeting ML Engineer roles at Swiss fintech companies"
-2. **Let Agents Work**: They research, strategize, create, and refine automatically
-3. **Review and Apply**: Get a polished resume and detailed application strategy
-
-## Getting Started
-
-### Prerequisites
-
-**Required Software**:
-- [Claude Code](https://docs.claude.com/claude-code) - AI agent orchestration
-- LaTeX distribution with XeLaTeX:
-  - **macOS**: `brew install --cask mactex` (or `basictex` for minimal install)
-  - **Ubuntu/Debian**: `sudo apt-get install texlive-xetex texlive-fonts-extra texlive-latex-extra`
-
-**Required LaTeX Packages** (usually included):
-- `moderncv`, `fontspec`, `fontawesome`, `babel`, `datetime2`, `graphicx`
-
-### Initial Setup
-
-1. **Clone and Navigate**
-   ```bash
-   git clone <your-repo-url>
-   cd CV
-   ```
-
-2. **Create Your Personal Profile**
-   ```bash
-   cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md
-   ```
-   Edit `docs/PERSONAL_PROFILE.md` with your actual professional information.
-
-3. **Add Your Portrait Photo**
-   ```bash
-   cp /path/to/your/photo.jpg resources/CV_Portrait_casual.jpg
-   ```
-
-4. **Start Claude Code**
-   ```bash
-   claude-code
-   ```
-
-That's it! The agents will guide you from here.
-
-## Working with AI Agents
-
-### The Agent Team
-
-#### 🎯 career-planning-coach (Primary Coordinator)
-**When it helps**: Always—coordinates all other agents and manages your application workflow
-
-**What it does**:
-- Understands your career goals and target roles
-- Coordinates specialized agents based on your needs
-- Performs final holistic review of career narrative
-- Generates comprehensive application strategy documents
-- Provides personalized career guidance
-
-**You interact by**: Sharing job postings, asking for resume optimization, requesting career advice
-
----
-
-#### 📊 swiss-tech-job-market-analyst
-**When it helps**: Job market research and company analysis
-
-**What it does**:
-- Analyzes Swiss tech job market trends
-- Researches salary ranges for specific roles
-- Identifies in-demand skills and technologies
-- Evaluates company culture and tech stacks
-- Assesses job posting requirements
-
-**Automatically invoked when**: You mention a company, role, or ask about market conditions
-
----
-
-#### ✍️ swiss-resume-expert
-**When it helps**: Resume strategy and content planning
-
-**What it does**:
-- Develops targeted resume strategies
-- Optimizes content for ATS (Applicant Tracking Systems)
-- Selects appropriate templates for role types
-- Plans section emphasis and keyword integration
-- Ensures Swiss market conventions are followed
-
-**Automatically invoked when**: Creating or optimizing resumes
-
----
-
-#### 🛠️ latex-moderncv-expert
-**When it helps**: LaTeX document creation and technical implementation
-
-**What it does**:
-- Creates professional LaTeX resume documents
-- Implements feedback from reviewer agents
-- Compiles PDFs with XeLaTeX
-- Handles technical formatting and styling
-- Ensures moderncv best practices
-
-**Automatically invoked when**: Generating or modifying resume documents
-
----
-
-#### 🎨 latex-design-reviewer
-**When it helps**: Visual design and layout assessment
-
-**What it does**:
-- Reviews visual presentation and layout
-- Ensures consistent formatting
-- Checks professional appearance
-- Validates design choices
-- Provides actionable design improvements
-
-**Automatically invoked when**: Resume design needs review
-
----
-
-#### ⭐ swiss-tech-resume-reviewer
-**When it helps**: Content quality and ATS optimization
-
-**What it does**:
-- Reviews resume content quality
-- Validates ATS optimization
-- Scores resume effectiveness
-- Checks keyword optimization
-- Provides content improvement suggestions
-
-**Automatically invoked when**: Resume content needs validation
-
----
-
-### The Iterative Quality Loop
-
-Agents don't just create—they **iterate until perfect**:
-
-1. **latex-moderncv-expert** generates the resume
-2. **swiss-tech-resume-reviewer** reviews content → provides feedback → expert improves
-3. **latex-design-reviewer** reviews design → provides feedback → expert improves
-4. **career-planning-coach** performs final holistic review → can trigger full iteration if needed
-5. Repeat until all agents approve
-
-This ensures every resume meets professional standards for Swiss tech market.
-
-## Usage Examples
-
-### Example 1: Generic Resume for Job Search
-
-```
-You: "I need a resume for ML Engineer positions in Switzerland"
-
-career-planning-coach: I'll help you create an optimized ML Engineer
-resume. Let me coordinate with the team.
-
-[Agents work automatically]
-- swiss-tech-job-market-analyst researches ML Engineer market
-- swiss-resume-expert develops content strategy
-- latex-moderncv-expert creates resume
-- Quality reviewers iterate until perfect
-
-Result:
-✓ resumes/compiled/2025_10_16_generic_ml_engineer_CV_en.pdf
-✓ Professional, ATS-optimized, Swiss market ready
-```
-
-### Example 2: Company-Specific Application
-
-```
-You: "I want to apply for Senior ML Engineer at Frontify"
-
-career-planning-coach: I'll analyze this opportunity and create
-a tailored application package.
-
-[Agents work automatically]
-- Analyze Frontify's tech stack and culture
-- Research salary range for this role
-- Create customized resume emphasizing relevant experience
-- Generate comprehensive application strategy
-
-Result:
-✓ resumes/customized/2025_10_16_frontify_senior_ml_engineer.pdf
-✓ resumes/customized/2025_10_16_frontify_senior_ml_engineer_application_strategy.md
-  - Cover letter strategy
-  - Salary negotiation guidance (target: 145 kCHF)
-  - Interview preparation points
-  - Strategic fit assessment
-```
-
-### Example 3: Resume Review and Improvement
-
-```
-You: "Review my current resume and suggest improvements"
-
-career-planning-coach: I'll have our review team assess your resume
-and identify optimization opportunities.
-
-[Agents analyze]
-- swiss-tech-resume-reviewer scores content
-- latex-design-reviewer evaluates design
-- swiss-tech-job-market-analyst checks market alignment
-
-Result:
-• Content Score: 7.5/10
-• Design Score: 8/10
-• Recommendations:
-  - Add quantifiable achievements to project descriptions
-  - Emphasize MLOps skills more prominently
-  - Improve keyword density for ATS
-
-[Agents implement improvements automatically]
-```
-
-### Example 4: Market Research
-
-```
-You: "What's the current market for MLOps Engineers in Zurich?"
-
-swiss-tech-job-market-analyst: I'll research the MLOps market
-in Zurich for you.
-
-Result:
-• Salary Range: 130-165 kCHF (depending on experience)
-• In-Demand Skills: Kubernetes, CI/CD, ML monitoring, cloud platforms
-• Active Employers: Banks, insurers, tech companies
-• Job Volume: High demand, especially in fintech
-• Recommendations: Emphasize production ML experience and infrastructure skills
-```
-
-## Swiss Tech Resume Builder Skill
-
-### Standalone Skill for Global Use
-
-In addition to the AI agent system, this repository includes a **comprehensive Claude Code skill** that packages the entire resume creation workflow into a reusable, portable skill.
-
-**Location**: `skills/swiss-tech-resume-builder/`
-
-### What is the Skill?
-
-The swiss-tech-resume-builder skill is a complete, self-contained package that includes:
-- **6-Phase Workflow**: From personal profile setup to application strategy generation
-- **Multi-Agent Orchestration**: Coordinates all specialized agents automatically
-- **Iterative Quality Assurance**: Built-in review loops with swiss-tech-resume-reviewer and latex-design-reviewer
-- **Swiss Market Expertise**: Salary data, conventions, and ATS optimization
-- **Complete Documentation**: 1000+ lines covering every aspect of Swiss tech resume creation
-
-### Installation as a Claude Code plugin (recommended)
-
-This repository is a **Claude Code plugin marketplace**. Anyone can install the
-full resume-builder system — all skills plus the review agents — with two
-commands, no cloning or symlinking required.
-
-In Claude Code:
+# Swiss Tech Resume Builder
+
+A Claude Code **plugin** that builds ATS-optimized resumes for the Swiss technology job
+market. Instead of hand-editing LaTeX and guessing at keywords, you work with a set of
+specialized Claude Code skills that research the market, plan a strategy, write grounded
+content, render a polished PDF, and review the result against quality gates — then hand you
+a paired application strategy.
+
+Install it into any project in two commands; no cloning or file copying required.
 
 ```text
 /plugin marketplace add datarian/CV
 /plugin install swiss-tech-resume-builder@swiss-tech-resume
 ```
 
-That's it. The plugin bundles the orchestrator skill, all phase sub-skills, the
-content/design review agents, the LaTeX template, knowledge base, and style
-guide. Once installed, just ask:
+> **Curious how this resume system was built? Explore it at
+> [github.com/datarian/CV](https://github.com/datarian/CV).**
+
+## Table of Contents
+
+- [Install](#install)
+- [How it works](#how-it-works)
+- [Getting started](#getting-started)
+- [Usage examples](#usage-examples)
+- [Repository structure](#repository-structure)
+- [PDF rendering & LaTeX details](#pdf-rendering--latex-details)
+- [Web resume (author-only)](#web-resume-author-only)
+- [Privacy & security](#privacy--security)
+- [Fork & customize](#fork--customize)
+- [Resources](#resources)
+
+## Install
+
+This repository is a Claude Code plugin **marketplace**. In Claude Code:
+
+```text
+/plugin marketplace add datarian/CV
+/plugin install swiss-tech-resume-builder@swiss-tech-resume
+```
+
+The plugin bundles everything the pipeline needs: the orchestrator skill, all phase
+sub-skills, the two review agents, the LaTeX template, the Swiss-market knowledge base, and
+the style guide. Update later with `/plugin marketplace update swiss-tech-resume`.
+
+Once installed, just ask:
 
 ```text
 > How do I use the Swiss tech resume builder?
 ```
 
-The `swiss-tech-resume-setup` skill walks you through prerequisites, scaffolds a
-personal profile and workspace **in your own project**, and hands off to the
-builder. Update later with `/plugin marketplace update swiss-tech-resume`.
+That triggers the `swiss-tech-resume-setup` skill, which checks your prerequisites,
+scaffolds a personal profile and workspace **in your own project**, and hands off to the
+builder.
 
-> **Scope — v0.1.0 ships the PDF pipeline.** The interactive **web resume**
-> renderer and its `deploy` mode are author-only and not bundled (they depend on
-> a Vite app and a private GitHub Pages repo). The PDF path is fully
-> self-contained and is the supported workflow for installers.
-
-**Prerequisites:** XeLaTeX (TeX Live / MacTeX) with the `moderncv`,
-`moderntimeline`, and `fontawesome` packages; the Roboto, Lato, and Roboto Slab
-fonts; and Python 3 for the scaffolding helper. The setup skill checks these for
-you.
+> **Scope — v0.1.0 ships the PDF pipeline.** The interactive web-resume renderer and its
+> deploy mode are author-only and not bundled (they depend on a Vite app and a private
+> GitHub Pages repo). The PDF path is fully self-contained and is the supported workflow for
+> installers. See [Web resume](#web-resume-author-only).
 
 **Working in this repository directly:** if you've cloned the repo, Claude Code
 auto-discovers the skills from `.claude/skills/` — no install step needed.
 
-### Skill Features
+## How it works
 
-**Automated Workflows**:
-- Initialize new applications with one script command
-- Validate LaTeX before compilation
-- Compile with automatic cleanup
-- Iterate with expert reviewers until quality gates met
+The system is a **lean orchestrator skill** plus focused sub-skills and two review agents.
+The orchestrator (`swiss-tech-resume-builder`) owns the pipeline and the decision gates; each
+step delegates to the skill or agent that does the work.
 
-**Comprehensive References**:
-- `swiss_market_conventions.md` - Swiss resume standards, salary ranges, cultural expectations
-- `ats_optimization.md` - Applicant Tracking System best practices
-- `moderncv_technical_guide.md` - LaTeX troubleshooting and commands
-- `personal_profile_schema.md` - Complete data structure guide
+| Step | Skill / agent | Role |
+|------|---------------|------|
+| Profile setup | `swiss-tech-resume-setup` | Prerequisites, scaffold `docs/PERSONAL_PROFILE.md` and the workspace |
+| Market analysis | `resume-market-analysis` | Salary benchmarks, in-demand skills, ATS keywords for a target role |
+| Strategy | `resume-strategy` | Positioning, section emphasis, keyword selection (a compact brief) |
+| Content generation | `resume-content-generation` | Writes the format-agnostic `resume_content.md` (runs on Opus) |
+| **Content review (gate)** | `swiss-tech-resume-reviewer` agent | Scores content + ATS match; **must pass** before rendering |
+| PDF render | `resume-render-pdf` | Renders `resume_content.md` to a moderncv PDF, compiles with XeLaTeX |
+| **Design review (gate)** | `design-reviewer` agent | Visual QA against the style guide |
+| Finalize | `swiss-tech-resume-builder` | Holistic narrative review + paired application strategy |
 
-**Templates & Style Guides**:
-- Production-ready LaTeX template with Swiss market optimization
-- Complete style guide (typography, colors, layout specifications)
-- Code snippets library for rapid development
-- Application strategy template
+Content data flows one way: everything is generated from your single source of truth,
+`docs/PERSONAL_PROFILE.md`. A core principle is **grounding** — every metric, technology, and
+claim in the resume must trace back to a statement in your profile; the content reviewer
+fails any resume containing an unsupported claim.
 
-### Using the Skill
+### The quality loop
 
-**Quick Start**:
+The two review agents are gates, not suggestions. Content review must pass before anything is
+rendered; design review runs after rendering. If a gate fails, the relevant step re-runs with
+the reviewer's feedback (capped at three iterations) before escalating to you. This keeps the
+output honest and on-standard without endless churn.
+
+## Getting started
+
+### Prerequisites
+
+The PDF pipeline needs, on your machine:
+
+- **XeLaTeX** (TeX Live / MacTeX) with the `moderncv`, `moderntimeline`, and `fontawesome`
+  packages. **Never use pdflatex** — this project requires XeLaTeX.
+  - macOS: `brew install --cask mactex` (or `basictex` for a minimal install)
+  - Ubuntu/Debian: `sudo apt-get install texlive-xetex texlive-fonts-extra texlive-latex-extra`
+- **Fonts**: Roboto, Lato, Roboto Slab (used by the template via `fontspec`).
+- **Python 3**: for the application-scaffolding helper.
+
+The `swiss-tech-resume-setup` skill checks all of these and reports anything missing, so the
+simplest path is to install the plugin and ask it to set you up.
+
+### Create your profile
+
+Your profile is the single source of truth. The setup skill creates it from the bundled
+example; manually, that is:
+
 ```bash
-# Initialize new application
-cd skills/swiss-tech-resume-builder/scripts
-./init_application.py --company google --role ml_engineer
-
-# This creates:
-# - resumes/customized/2025_11_10_google_ml_engineer.tex
-# - resumes/customized/2025_11_10_google_ml_engineer_application_strategy.md
+cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md
+# then fill it in with your real experience — keep it comprehensive and quantified
 ```
 
-**With Claude Code**:
+Keep **all** of your experience here, then let the pipeline pull the relevant slice per
+application. A real `PERSONAL_PROFILE.md` must never be committed (it's gitignored).
+
+## Usage examples
+
+These are conversational — you talk to the builder and it runs the pipeline. Company names
+below are placeholders.
+
+### A generic resume
+
+```text
+You: "Create a Swiss-market resume for ML Engineer roles."
+
+→ strategy → content generation → content review gate → PDF render → design review
+Result: resumes/compiled/{date}_generic_ml_engineer_CV_en.pdf
 ```
-You: "Use the swiss-tech-resume-builder skill to create a resume
-      for the Senior ML Engineer position at Company X"
 
-[Skill guides you through all 6 phases automatically]
-- Phase 1: Personal profile validation
-- Phase 2: Market analysis (salary, skills, company research)
-- Phase 3: Resume strategy (keywords, section emphasis)
-- Phase 4: LaTeX implementation (template customization)
-- Phase 5: Quality assurance (iterative reviews until 8/10 content, 9/10 design)
-- Phase 6: Application strategy (cover letter, interview prep, salary negotiation)
+### A company-specific application
+
+```text
+You: "I want to apply for the Senior ML Engineer role at <Company X>. Here is the posting: <url>"
+
+→ market analysis (salary, stack, keywords) → strategy → content → review gates → render → finalize
+Result:
+  resumes/customized/{date}_companyx_senior_ml_engineer/...        (resume)
+  resumes/customized/{date}_companyx_senior_ml_engineer_application_strategy.md
+    – cover-letter strategy, salary negotiation, interview prep, fit assessment
 ```
 
-### Sharing and Contributing
+### Scaffold an application from the CLI
 
-**To share with others:** point them at the marketplace — `/plugin marketplace
-add datarian/CV` then `/plugin install swiss-tech-resume-builder@swiss-tech-resume`
-(see [Installation as a Claude Code plugin](#installation-as-a-claude-code-plugin-recommended)).
-No cloning, tarballs, or manual symlinks needed.
+```bash
+# Installed plugin:
+python3 "${CLAUDE_PLUGIN_ROOT}/.claude/skills/swiss-tech-resume-builder/scripts/init_application.py" \
+  --company companyx --role ml_engineer
+# Source repository:
+python3 .claude/skills/swiss-tech-resume-builder/scripts/init_application.py \
+  --company companyx --role ml_engineer
+```
 
-**Fork and customize:** adapt the knowledge base and template for other markets
-(e.g. German or US) or industries, then publish your fork as its own marketplace
-by editing `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json`.
+This creates `{date}_companyx_ml_engineer.tex` and a strategy stub under
+`resumes/customized/` in your current project, finding the bundled template automatically.
 
-### Dependencies
-
-The plugin bundles its own skills, review agents, knowledge base, style guide,
-and LaTeX template. The PDF pipeline additionally requires, on the user's machine:
-- **LaTeX**: XeLaTeX with the `moderncv`, `moderntimeline`, and `fontawesome` packages
-- **Fonts**: Roboto, Lato, Roboto Slab
-- **Python 3**: for the application-scaffolding helper script
-
-The `swiss-tech-resume-setup` skill checks these and reports anything missing.
-
-## Repository Structure
-
-### Directory Overview
+## Repository structure
 
 ```
 CV/
-├── .claude/                          # AI agent configurations
-│   ├── agents/                       # Specialized agent definitions
-│   │   ├── career-planning-coach.md
-│   │   ├── swiss-resume-expert.md
-│   │   ├── swiss-tech-job-market-analyst.md
-│   │   ├── latex-moderncv-expert.md
-│   │   ├── latex-design-reviewer.md
-│   │   └── swiss-tech-resume-reviewer.md
-│   └── .mcp.json                     # Model context protocol config
+├── .claude-plugin/                 # Marketplace + plugin manifests
+│   ├── marketplace.json            #   marketplace "swiss-tech-resume"
+│   └── plugin.json                 #   plugin "swiss-tech-resume-builder"
 │
-├── skills/                           # Claude Code skills
-│   └── swiss-tech-resume-builder/   # Comprehensive resume creation skill
-│       ├── SKILL.md                  # Complete workflow documentation (1000+ lines)
-│       ├── README.md                 # Installation and usage guide
-│       ├── scripts/                  # Automation tools
-│       │   ├── init_application.py
-│       │   ├── validate_latex.py
-│       │   └── compile_resume.sh
-│       ├── assets/                   # Templates and style guides
-│       │   ├── CV_template.tex
-│       │   ├── application_strategy_template.md
-│       │   └── style-guide/          # Typography, colors, layout specs
-│       └── references/               # Swiss market expertise
-│           ├── swiss_market_conventions.md
-│           ├── ats_optimization.md
-│           ├── moderncv_technical_guide.md
-│           └── personal_profile_schema.md
+├── .claude/
+│   ├── skills/                     # The pipeline (auto-discovered locally, bundled when installed)
+│   │   ├── swiss-tech-resume-builder/   # Orchestrator (+ scripts, references, assets)
+│   │   ├── swiss-tech-resume-setup/     # First-run setup & "how do I use this?"
+│   │   ├── resume-market-analysis/
+│   │   ├── resume-strategy/
+│   │   ├── resume-content-generation/
+│   │   ├── resume-content-review/
+│   │   ├── resume-render-pdf/
+│   │   ├── resume-render-web/            # Author-only (see below)
+│   │   └── resume-design-review/
+│   ├── agents/                     # Review gates
+│   │   ├── swiss-tech-resume-reviewer.md
+│   │   └── design-reviewer.md
+│   └── commands/                   # Slash commands (e.g. /preview-web-resume)
 │
-├── docs/                             # Documentation and data
-│   ├── PERSONAL_PROFILE.md           # **YOUR DATA SOURCE** (private)
-│   ├── PERSONAL_PROFILE.example.md   # Template with placeholders
-│   ├── JOB_AGENT_RESEARCH.md         # Market research findings
-│   ├── MODERNCV_DOC.md               # LaTeX technical documentation
-│   └── [other docs]
+├── docs/
+│   ├── PERSONAL_PROFILE.md         # YOUR data source (private, gitignored)
+│   ├── PERSONAL_PROFILE.example.md # Template with placeholders (bundled)
+│   ├── knowledge/                  # Swiss-market standards: ATS, tone, bullets, grounding, conventions
+│   ├── style-guide/                # pdf/ and web/ design specifications
+│   └── plans/                      # Design & implementation notes
 │
 ├── resumes/
-│   ├── templates/                    # Generic template with comprehensive guidance
-│   │   └── CV_template.tex           # Universal template for all role types
-│   │
-│   ├── customized/                   # Job-specific customizations
-│   │   ├── YYYY_MM_DD_company_role.tex
-│   │   ├── YYYY_MM_DD_company_role.pdf
-│   │   └── YYYY_MM_DD_company_role_application_strategy.md
-│   │
-│   └── compiled/                     # Final timestamped PDFs
-│       └── YYYY_MM_DD_HH_MM_company_role_CV_lang.pdf
+│   ├── templates/CV_template.tex   # Universal moderncv template (bundled)
+│   ├── customized/                 # Per-application output (private, gitignored)
+│   └── compiled/                   # Final timestamped PDFs (private, gitignored)
 │
-├── resources/                        # Assets for CVs
-│   └── CV_Portrait_*.jpg             # Portrait photos (private)
-│
-├── CLAUDE.md                         # Agent instructions
-├── MISSING_INFORMATION.md            # Information gap tracking
-├── README.md                         # This file
-└── .gitignore                        # Privacy protection
+├── resources/                      # Portrait photos (private, gitignored)
+├── CLAUDE.md                       # Project instructions for Claude Code
+├── LICENSE                         # CC BY-NC-SA 4.0
+└── README.md                       # This file
 ```
 
-### Key Files Explained
+The skills reference the bundled knowledge base, style guide, and template under
+`${CLAUDE_PLUGIN_ROOT}/` when installed, or relative to the repo root when run from source —
+so the same skills work both ways.
 
-#### `docs/PERSONAL_PROFILE.md` (Private)
-**Single source of truth** for all your professional information:
-- Personal details
-- Professional summary
-- Work experience with quantifiable achievements
-- Skills and technologies
-- Projects and contributions
-- Education and certifications
-- Languages
+## PDF rendering & LaTeX details
 
-Agents read this file to generate resumes—keep it updated!
-
-#### `resumes/templates/`
-Single generic template (`CV_template.tex`) with comprehensive inline guidance for customization:
-- Adaptable for all role types: ML Engineer, MLOps, Engineering Manager, Senior Data Scientist
-- Includes placeholder replacements and section customization instructions
-- Built-in guidance for role-specific emphasis (technical depth vs leadership vs infrastructure)
-- Swiss market best practices integrated throughout
-
-#### `resumes/customized/`
-Job-specific resumes tailored for particular applications:
-- `.tex` files: LaTeX source
-- `.pdf` files: Compiled resumes
-- `_application_strategy.md`: Comprehensive application guidance
-
-#### Application Strategy Documents
-Auto-generated by `career-planning-coach` for each application:
-- Cover letter strategy with opening hooks
-- Salary negotiation tactics and target ranges
-- Interview preparation and STAR stories
-- Strategic fit assessment
-- Timeline and follow-up recommendations
-
-## Technical Details
-
-### LaTeX Compilation
-
-**IMPORTANT**: Always use XeLaTeX (never pdflatex)
-
-Agents handle compilation automatically, but if you need manual control:
+The PDF is produced by `resume-render-pdf` from the approved `resume_content.md`, using the
+`CV_template.tex` moderncv template and compiled with XeLaTeX. If you ever compile manually:
 
 ```bash
-# Navigate to resume location
 cd resumes/customized/
-
-# Compile (agents do this automatically)
-xelatex YYYY_MM_DD_company_role.tex
-
-# Clean up build artifacts
-rm *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg
+xelatex {date}_companyx_role.tex
+rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg   # clean build artifacts
 ```
 
-### Critical LaTeX Configuration
+Key configuration the template relies on:
 
-All templates use:
-- **Document class**: `moderncv` with `fancy` style (MANDATORY for multi-page support)
-- **Compiler**: XeLaTeX (required for custom fonts)
-- **Fonts**: Roboto, Lato, Roboto Slab (via `fontspec`)
+- **Document class**: `moderncv` with the **`fancy`** style — mandatory for reliable
+  multi-page output. Never use `casual` (it breaks on multi-page documents).
+- **Compiler**: XeLaTeX (required for the custom fonts).
+- **Fonts**: Roboto, Lato, Roboto Slab via `fontspec`.
 
-**Never use `casual` style**—it has bugs with multi-page documents.
+## Web resume (author-only)
 
-### Template Variables
+An interactive React/Vite web resume and a private GitHub Pages deploy exist in the author's
+workflow (`resume-render-web`, `/preview-web-resume`), but the Vite app is **not part of the
+distributed plugin** in v0.1.0. When the app is absent, the web skill stops and points you to
+the PDF pipeline. Bundling or scaffolding the web app for installers is a planned follow-up
+(see `docs/plans/2026-06-06-plugin-marketplace-plan.md`).
 
-Templates pull data from `docs/PERSONAL_PROFILE.md`:
-- `\name`, `\email`, `\phone` - Personal information
-- `\cventry{dates}{title}{company}{location}{}{description}` - Experience entries
-- Skills, projects, and achievements mapped to appropriate sections
+## Privacy & security
 
-### Build Artifacts
+The public repository — and therefore the installable plugin — contains only the **generic
+system**. Your personal data never ships. The following are gitignored and never committed:
 
-After compilation, these temporary files are created:
-- `*.aux`, `*.log`, `*.out` - Build metadata
-- `*.fls`, `*.fdb_latexmk` - File tracking
-- `*.gz` - Synctex files
-- `*.toc`, `*.bbl`, `*.blg` - Table of contents and bibliography
+- `docs/PERSONAL_PROFILE.md` — your real data
+- everything under `resumes/customized/` and `resumes/compiled/`
+- all `*.pdf` files and portrait photos in `resources/`
+- the legacy personal `CV_*_*.tex` sources
 
-Agents clean these automatically.
+What's tracked and safe to share: the skills, agents, knowledge base, style guide, the LaTeX
+template, and `docs/PERSONAL_PROFILE.example.md` (placeholders only). Before pushing a fork,
+run `git status` and confirm no `PERSONAL_PROFILE.md`, PDFs, `resumes/customized/`, or photos
+are staged.
 
-## Privacy & Security
+## Fork & customize
 
-### What's Excluded from Git
+The system is built to be adapted:
 
-**NEVER committed to version control**:
-- `docs/PERSONAL_PROFILE.md` - Your actual personal data
-- All `*.pdf` files - Compiled resumes
-- `resumes/templates/*.tex` (unless `.example.tex`)
-- `resumes/customized/` - Job-specific resumes
-- `resources/*.jpg` - Portrait photos
-
-### What's Included in Git
-
-**Safe to commit**:
-- `.claude/` - Agent configurations
-- `docs/PERSONAL_PROFILE.example.md` - Template with placeholders
-- `docs/*.md` - Documentation
-- `CLAUDE.md`, `README.md` - Instructions
-- `.gitignore` - Privacy rules
-
-### Safety Checklist
-
-Before pushing to git:
-
-```bash
-git status
-
-# Should NOT see:
-✗ docs/PERSONAL_PROFILE.md
-✗ Any *.pdf files
-✗ resumes/customized/
-✗ resources/*.jpg
-
-# Should see:
-✓ .claude/ directory
-✓ docs/PERSONAL_PROFILE.example.md
-✓ README.md, CLAUDE.md
-✓ Documentation files
-```
-
-### Sharing This System
-
-When sharing this repository:
-1. Fork to your own account
-2. Verify no personal data leaked
-3. Test with `git status` before pushing
-4. Consider using `git-secrets` for extra protection
-
-## Setup for Web Resume Deployment
-
-### Preview (Local Testing)
-
-No setup required! Preview works immediately:
-
-```bash
-/preview-web-resume 2025_11_10_quantumbasel_ai_specialist
-```
-
-Preview opens at: http://localhost:4173/CV-pages/
-
-### Deployment (CV-pages Repository)
-
-To deploy web resumes to the private CV-pages repository, configure:
-
-#### CV_PAGES_TOKEN: GitHub Personal Access Token
-
-**Required for:** Web resume deployment to private repository
-**Not required for:** Local preview
-
-**Setup steps:**
-
-1. **Create token** at: https://github.com/settings/tokens
-   - Click "Generate new token (classic)"
-   - Name: "CV Web Resume Deployment"
-   - Scopes: Select `repo` (Full control of private repositories)
-   - Generate and copy token
-
-2. **Configure environment variable:**
-   ```bash
-   # Add to ~/.zshrc (or ~/.bashrc for bash)
-   echo 'export CV_PAGES_TOKEN="ghp_your_token_here"' >> ~/.zshrc
-
-   # Reload shell configuration
-   source ~/.zshrc
-   ```
-
-3. **Verify configuration:**
-   ```bash
-   echo $CV_PAGES_TOKEN | grep -q "ghp_" && echo "✅ Token configured" || echo "❌ Token missing"
-   ```
-
-**Security notes:**
-- ⚠️ Never commit this token to the repository
-- 🔒 Token grants write access to private repositories
-- 🔄 Rotate token immediately if compromised
-
-**Without this token:** Deployment will fail with authentication error (preview still works).
-
-### Web Builder Dependencies
-
-Install once (if not already installed):
-
-```bash
-cd resumes/web-builder
-npm install
-```
-
-### Usage Examples
-
-**Preview locally (no deployment):**
-```bash
-/preview-web-resume 2025_11_10_quantumbasel_ai_specialist
-```
-
-**Deploy to CV-pages (after approval):**
-- Agent workflow handles automatically via `career-planning-coach`
-- Offers preview before deployment
-- Requires `CV_PAGES_TOKEN` configured
-- Generates private URL: `https://datarian.github.io/CV-pages/cv/{semantic-id}`
-
-### Troubleshooting
-
-**Preview server won't start:**
-```bash
-# Check if port 4173 is already in use
-lsof -ti:4173 | xargs kill
-```
-
-**Deployment fails with "permission denied":**
-- Verify token has `repo` scope at https://github.com/settings/tokens
-- Check token hasn't expired
-- Ensure token is exported in current shell session
-
-**Build fails:**
-```bash
-# Reinstall web builder dependencies
-cd resumes/web-builder
-rm -rf node_modules package-lock.json
-npm install
-```
+- **Other markets or industries** — edit the knowledge base under `docs/knowledge/` and the
+  template, then publish your fork as its own marketplace by updating
+  `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json`.
+- **Share it** — point people at your marketplace; they install with the same two `/plugin`
+  commands. No tarballs or manual symlinks.
 
 ## Resources
 
-### Job Market Research
-- Swiss Tech Job Market: `docs/JOB_AGENT_RESEARCH.md`
-- Salary Calculator: https://www.salarium.bfs.admin.ch/
-
-### LaTeX Resources
-- moderncv documentation: https://ctan.org/pkg/moderncv
-- XeLaTeX guide: https://www.overleaf.com/learn/latex/XeLaTeX
-
-### Claude Code
-- Documentation: https://docs.claude.com/claude-code
-- GitHub: https://github.com/anthropics/claude-code
-
-## Troubleshooting
-
-### Common Issues
-
-**"Agents aren't responding"**
-- Ensure you're running Claude Code in the repository directory
-- Check that `.claude/agents/` contains agent definitions
-- Try: `claude-code` to restart
-
-**"LaTeX compilation failed"**
-- Agents handle this automatically, but verify XeLaTeX is installed
-- Check: `xelatex --version`
-- Install missing packages: `sudo tlmgr install moderncv fontawesome`
-
-**"Personal data showing in git"**
-```bash
-# Remove from staging
-git reset HEAD <file>
-
-# Remove from history (use with caution)
-git filter-branch --force --index-filter \
-  "git rm --cached --ignore-unmatch <file>" \
-  --prune-empty --tag-name-filter cat -- --all
-```
-
-## Contributing
-
-Adapting this system for your own use:
-1. Update `docs/PERSONAL_PROFILE.example.md` with your structure
-2. Customize agent configurations in `.claude/agents/`
-3. Create your own templates for your target roles
-4. Share anonymized improvements back to the community
-
-## Philosophy
-
-This system embodies a new approach to job applications:
-- **AI-Assisted, Human-Guided**: Agents handle tedious work, you make strategic decisions
-- **Data-Driven**: One profile, infinite targeted variations
-- **Quality-Focused**: Iterative reviews ensure professional results
-- **Privacy-First**: Your data never leaves your machine
-- **Swiss Market Optimized**: Built for the specifics of Swiss tech recruiting
-
-Let the agents handle the mechanics while you focus on landing your ideal role.
+- Swiss official salary calculator: <https://www.salarium.bfs.admin.ch/>
+- moderncv documentation: <https://ctan.org/pkg/moderncv>
+- Claude Code plugins: <https://code.claude.com/docs/en/plugins>
+- Claude Code: <https://docs.claude.com/claude-code>
 
 ---
 
-**Last Updated**: October 2025
-**Maintained for**: Swiss Tech Job Market
-**Target Roles**: ML Engineer, MLOps Engineer, Engineering Manager, AI Software Architect
-**System**: AI-Powered with Claude Code
+Licensed under **CC BY-NC-SA 4.0**. Built with [Claude Code](https://claude.com/claude-code).
+Explore the system at [github.com/datarian/CV](https://github.com/datarian/CV).
