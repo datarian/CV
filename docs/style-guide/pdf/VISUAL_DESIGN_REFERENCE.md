@@ -107,7 +107,7 @@ Brief role description paragraph (1-2 sentences).
 **Key Elements:**
 - Dates: Format as "MM/YYYY -- MM/YYYY" or "since MM/YYYY"
 - Description: 1-2 sentence summary before bullets
-- Bullets: 3-5 per entry, start with action verbs
+- Bullets: per-role budget in `docs/knowledge/experience_bullet_standards.md` (current role 3–5, capped; prior 2–3; older 1–2), start with action verbs
 - Metrics: Always include when possible (%, numbers, scale)
 
 ### Technical Skills

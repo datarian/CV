@@ -229,7 +229,7 @@ PDF 14pt ≈ Web 19px (title size)
 **Professional Tone:**
 - Formal but approachable
 - Technical but accessible
-- Confident without arrogance
+- Understated and evidence-forward — facts carry the claim (see `docs/knowledge/tone_and_register.md`)
 
 ---
 
@@ -237,10 +237,14 @@ PDF 14pt ≈ Web 19px (title size)
 
 ### Writing Principles (All Formats)
 
+> **Voice/register is governed by `docs/knowledge/tone_and_register.md`** (Swiss understatement,
+> evidence over adjectives). The principles below cover structure; defer to that doc wherever
+> wording or confidence level is concerned.
+
 **Action-Oriented:**
-- Start bullets with strong action verbs (Built, Architected, Led, Implemented)
+- Start bullets with accurate action verbs (Built, Developed, Led, Improved) — use the verb that is literally true; avoid inflated verbs (Spearheaded, Pioneered, Revolutionized). See the tone standard.
 - Focus on achievements, not responsibilities
-- Quantify everything possible
+- Quantify what is real and meaningful — do not over-quantify or inflate (let the metric carry the claim without intensifiers)
 
 **Metrics-Driven:**
 - Include numbers: percentages, scale, time, team size

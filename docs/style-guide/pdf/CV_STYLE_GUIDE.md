@@ -285,7 +285,7 @@ description paragraph
 - Start with action verbs (Built, Implemented, Led, Architected)
 - Include quantifiable metrics (99.99% uptime, 100K+ requests, 80% reduction)
 - Focus on impact and technology stack
-- 3-5 bullets per role (more for current role)
+- Bullet count per role follows the canonical budget in `docs/knowledge/experience_bullet_standards.md` (current/most-recent role **3–5**, prior 2–3, older 1–2). The current role is **capped at 5** — do not give it more; select and combine instead.
 
 ### 6.4 Education
 
@@ -460,22 +460,27 @@ rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg
 
 ### 10.1 Writing Style
 
+> **Voice/register is governed by `docs/knowledge/tone_and_register.md`** (Swiss understatement,
+> evidence over adjectives). The notes below are the PDF-local summary; defer to that doc on any conflict.
+
 **Tone:**
 - Professional but approachable
 - Technical but accessible
-- Confident without arrogance
+- Understated and evidence-forward — let facts carry the claim (not "confident" marketing voice)
 - Results-focused
 
 **Language:**
 - Active voice
-- Strong action verbs
-- Specific metrics
+- Accurate action verbs (literally true; avoid inflated verbs — see tone standard)
+- Specific metrics, stated plainly without intensifiers
 - Industry terminology
 
 **Forbidden:**
 - Passive voice (minimize)
 - Vague descriptions
 - Personal pronouns (I, me, my)
+- Marketing/hype vocabulary and superlatives (world-class, cutting-edge, passionate, etc.)
+- Inflated verbs and sole-ownership claims on team work
 - Unexplained acronyms on first use
 
 ### 10.2 Metrics and Numbers

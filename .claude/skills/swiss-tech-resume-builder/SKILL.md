@@ -23,7 +23,7 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
 1. **Profile setup** — INLINE. Ensure `docs/PERSONAL_PROFILE.md` exists and is current; it is the single data source. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
 2. **Market analysis** — DISPATCHED SUBAGENT → `resume-market-analysis`. Run when targeting a specific role/company; produces salary benchmarks, in-demand skills, and ATS keywords. Skip for a fully generic resume.
 3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream.
-4. **Content generation** — DISPATCHED SUBAGENT → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
+4. **Content generation** — DISPATCHED SUBAGENT (on **Opus**) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
 5. **GATE — content review (Pattern A, pre-render)** — DISPATCH the `swiss-tech-resume-reviewer` agent (it loads `resume-content-review`). Branch on its verdict contract: **`pass` = rating ≥ 8.0 AND ats_match ≥ 75**. If not `pass` and iterations < 3: re-dispatch step 4 (content generation) with the reviewer feedback + the existing `resume_content.md` path. If the 3-iteration cap is hit without `pass`: escalate to the user.
 6. **USER GATE — format selection** — INLINE. Ask the user: **"PDF, web, or both?"**
 7. **Render** — DISPATCHED SUBAGENT(S), run in **PARALLEL if both** are selected: `resume-render-pdf` and/or `resume-render-web`, each rendering from the approved `resume_content.md`.
@@ -61,6 +61,7 @@ When the resume is finalized (step 9), always produce a paired strategy document
 - **INLINE** when the output is compact AND reused later in this conversation: strategy brief, decision gates (content-review branch, format selection, holistic finalize).
 - **DISPATCHED SUBAGENT** when the work is bulky AND the output is a file or a summary: market analysis, content generation, the two renders, and the reviews.
 - Dispatch mechanics: `resume-market-analysis`, `resume-content-generation`, `resume-render-pdf`, and `resume-render-web` run as **general-purpose subagents loading their skill**. Content review and design review run via the **named agents** `swiss-tech-resume-reviewer` and `design-reviewer` (which load `resume-content-review` and `resume-design-review` respectively).
+- **Model selection**: dispatch `resume-content-generation` on **Opus** (`model: opus`). It is the highest-judgment step in the pipeline — selecting which achievements survive, combining related ones, and compressing to the bullet budget is exactly the reasoning that gates content-review quality (rating ≥ 8.0). The mechanical phases (renders, market analysis) may run on the default model.
 
 ## Pointers
 
