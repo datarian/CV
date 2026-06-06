@@ -49,6 +49,16 @@ bullets) as a High-priority weakness: name the specific bullets to merge or cut,
 related achievements that should be combined or padding that should be removed. This is the
 same budget the content generator works to, so reviewer and generator stay aligned.
 
+### 8. Grounding & Traceability (Anti-Fabrication)
+Is every claim true to the candidate's actual history? Cross-reference **each quantified claim and every named technology, scope figure, employer, title, and date** in the resume against `docs/PERSONAL_PROFILE.md`. A fabricated metric is the single most damaging defect a resume can carry — it survives ATS and a quick read, then collapses in the interview ("walk me through that 60%"), destroying credibility and the offer.
+
+Run the check in whichever mode applies to what you were given:
+
+- **Mode A — profile available** (`docs/PERSONAL_PROFILE.md` is readable): verify each claim against the profile. Any metric or claim with **no supporting statement** is a **confirmed ungrounded claim**.
+- **Mode B — only a rendered PDF / extracted text** (no profile to compare against): you cannot confirm fabrication, so flag claims that look **unverifiable or implausibly precise** for the candidate's history — oddly specific percentages, round-but-large scale figures, outcomes that do not fit the candidate's seniority/context — and recommend confirming each against the profile before sending.
+
+In both modes, treat every such claim as a **High-priority weakness** and name the **specific bullet**, quoting the claim. See the gate consequences under the Rating Rubric. The full standard (shared verbatim with the content generator) lives in `docs/knowledge/grounding_and_truthfulness.md` — it is the single source of truth for this rule; do not restate or soften it here.
+
 For detailed Swiss market conventions, see `docs/knowledge/swiss_market_conventions.md`.
 
 ## ATS Keyword Analysis
@@ -73,7 +83,11 @@ Provide a score from 1–10:
 
 **Approval threshold**: ≥8.0 rating AND ≥75% ATS keyword match.
 
+**Grounding override (hard gate, strictest option):** A **confirmed ungrounded claim** (Mode A — a metric, technology, scope, title, or date present in the resume with no support in `docs/PERSONAL_PROFILE.md`) is an automatic **fail**. Set `pass: false` regardless of rating and ATS match, and **cap `rating` at 4.0** — a resume containing a fabricated claim can never be a "strong candidate". This overrides the normal threshold: a polished, keyword-rich resume with one invented number still fails. In **Mode B** (no profile available) you can only *suspect* fabrication, so a suspected-unverifiable claim does **not** auto-fail on suspicion alone, but it is a High-priority weakness that must appear in `feedback` with a recommendation to confirm against the profile before sending. See `docs/knowledge/grounding_and_truthfulness.md`.
+
 ## Review Process
+
+> **Mandatory grounding pass.** Before scoring, run the criterion 8 cross-reference: list every quantified claim and named technology/scope/title/date in the resume and check each against `docs/PERSONAL_PROFILE.md` (Mode A) or, if the profile is unavailable, against plausibility for the candidate's history (Mode B). Resolve the grounding override first — a confirmed ungrounded claim fixes the verdict at `pass: false` / `rating ≤ 4.0` before any other dimension is weighed.
 
 1. **Initial Assessment**: Ask yourself: "Would I hire this person?" Let this guide the entire review.
 
@@ -81,7 +95,7 @@ Provide a score from 1–10:
 
 3. **Weaknesses**: Prioritise issues by impact on the hiring decision:
    - **Critical**: Would cause immediate rejection (missing work authorization, undisclosed employment gaps, inconsistent dates)
-   - **High**: Significantly reduces interview chances (no quantified achievements, missing key technologies, unclear seniority)
+   - **High**: Significantly reduces interview chances or undermines integrity (no quantified achievements, missing key technologies, unclear seniority, **any ungrounded/unverifiable claim** — see criterion 8; a confirmed ungrounded claim also triggers the grounding override and an automatic fail)
    - **Medium**: Hurts competitiveness (weak summary, missing language levels, generic descriptions)
    - **Low**: Minor polish items (phrasing, minor formatting, optional additions)
 
@@ -99,9 +113,9 @@ Provide a score from 1–10:
 Every review produced by this skill MUST return exactly the following structured verdict so the `swiss-tech-resume-builder` orchestrator skill can branch deterministically:
 
 ```yaml
-rating: <0-10>          # numeric, one decimal place (e.g. 7.5)
+rating: <0-10>          # numeric, one decimal place (e.g. 7.5); capped at 4.0 if any confirmed ungrounded claim
 ats_match: <0-100>      # percent, integer (e.g. 68)
-pass: <true|false>      # true when rating >= 8.0 AND ats_match >= 75
+pass: <true|false>      # true when rating >= 8.0 AND ats_match >= 75 AND no confirmed ungrounded claim (grounding override forces false)
 feedback:
   - <specific, actionable item>
   - <specific, actionable item>
@@ -121,6 +135,17 @@ feedback:
   - "Work authorization for Switzerland not stated — add 'Swiss B permit holder' or 'EU citizen, no permit required' to the header or summary"
   - "Perk role bullet points lack quantified impact — e.g. replace 'improved model performance' with 'reduced inference latency by 40% (P95) on production scoring pipeline'"
   - "Language proficiency levels missing — state German (C1) and English (C2) explicitly"
+```
+
+**Example with the grounding override** (a confirmed ungrounded claim forces `pass: false` and caps `rating` at 4.0, even when ATS match is high):
+
+```yaml
+rating: 4.0
+ats_match: 82
+pass: false
+feedback:
+  - "GROUNDING: Perk bullet claims 'reduced inference latency by 60%' but PERSONAL_PROFILE.md records no latency figure for this role — remove the number or replace it with a profile-supported metric; a fabricated figure is disqualifying in interview. (Confirmed ungrounded claim → automatic fail, see criterion 8.)"
+  - "GROUNDING: Summary states '99.9% uptime' with no supporting statement in the profile — confirm the actual figure or drop the claim"
 ```
 
 Place the structured verdict at the **top** of your review output, followed by the narrative analysis. This ensures the orchestrator can parse the verdict without reading the full narrative.

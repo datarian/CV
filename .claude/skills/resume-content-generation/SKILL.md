@@ -12,20 +12,15 @@ You are an expert resume content generator specializing in transforming comprehe
 - ATS optimization guidelines: `docs/knowledge/ats_optimization.md`
 - Experience bullet budget & selection (shared with the reviewer): `docs/knowledge/experience_bullet_standards.md`
 - Tone & register — Swiss understatement, evidence over adjectives (shared with the reviewer): `docs/knowledge/tone_and_register.md`
+- **Grounding & truthfulness standard (shared with the reviewer): `docs/knowledge/grounding_and_truthfulness.md`**
 
 ---
 
 ## Grounding & Truthfulness — Non-Negotiable
 
-Every claim in the resume must be **traceable to `docs/PERSONAL_PROFILE.md`**. This skill selects, sharpens, and reframes real history — it never invents it.
+Every **metric, named technology, scope figure, job title, date, and outcome** you put in `resume_content.md` MUST be traceable to a specific statement in `docs/PERSONAL_PROFILE.md`. Never invent, inflate, or approximate a number; never introduce a technology, employer, team size, or responsibility the profile does not support. When the profile lacks a number that would strengthen a bullet, **surface the gap** (note it for the user / `MISSING_INFORMATION.md`) rather than filling it — a missing metric is acceptable, an invented one is not.
 
-- **Never fabricate** metrics, technologies, scope, titles, dates, or outcomes. If a number is not in the profile, do not make one up.
-- **No metric? Go qualitative.** Describe scope and impact in words ("scaled the scoring pipeline to production across multiple business units") rather than inventing a figure ("serving 1M+ requests").
-- **Gaps are surfaced, not filled.** When the strategy's CONTENT FLAGS or the profile reveal a wanted-but-missing detail, flag it for the user (per CLAUDE.md's missing-info rule) instead of papering over it with plausible-sounding specifics.
-- **"Strengthen a bullet" means sharpen real evidence** — stronger verb, clearer outcome, better keyword alignment — never amplify beyond what actually happened.
-- The example bullets elsewhere in this skill illustrate **form, not facts**: their numbers are placeholders, and yours must come from the profile.
-
-Inventing a figure that gets exposed in an interview costs the candidate the offer. When in doubt, under-claim.
+This is the same rule the reviewer (`resume-content-review` / `swiss-tech-resume-reviewer`) verifies, and a confirmed ungrounded claim is an automatic review **fail**. The full standard — definitions, examples, and gate consequences — lives in `docs/knowledge/grounding_and_truthfulness.md` and is the single source of truth; read it before generating, and do not restate or soften it here. Reframing, emphasis, ATS-aligned wording, and responsibility→achievement transformation of **true** facts remain encouraged.
 
 ---
 
@@ -232,7 +227,7 @@ Write in **Swiss register** — understated and evidence-forward. Use the verb t
 
 Key moves: responsibilities → achievements; technical specificity added (Kubernetes, MLflow, Airflow, Docker); metrics stated plainly; MLOps positioning explicit; **measured verbs and honest attribution** ("Led the workstream", not "single-handedly architected") per the tone standard.
 
-**Grounding reminder:** the metrics and tools above are *illustrative placeholders*. Pull every figure, technology, and outcome in your output from `PERSONAL_PROFILE.md` — do not reuse these example numbers. See **Grounding & Truthfulness**.
+**Grounding reminder:** the metrics and tools above are *illustrative placeholders*. Pull every figure, technology, and outcome in your output from `docs/PERSONAL_PROFILE.md` — do not reuse these example numbers or introduce tools the profile does not state (see `docs/knowledge/grounding_and_truthfulness.md`).
 
 ### Step 5: Optimize for ATS
 
@@ -252,11 +247,11 @@ See `docs/knowledge/ats_optimization.md` for full guidance. Key principles:
 ### Step 7: Quality Assurance
 
 Before finalizing:
+- [ ] **Grounding verified** — every metric, named technology, scope figure, title, and date traces to a statement in `docs/PERSONAL_PROFILE.md`; no invented or approximated numbers (see `docs/knowledge/grounding_and_truthfulness.md`). Gaps surfaced, not filled.
 - [ ] All YAML fields populated correctly, including the **required** `summary_highlights`.
 - [ ] `summary_highlights` contains 3–4 strategic metrics with appropriate icons.
 - [ ] Professional summary positions the candidate clearly for the target role.
 - [ ] Professional summary text **bolds** the same metrics as `summary_highlights`.
-- [ ] **Every metric, technology, and claim is traceable to `PERSONAL_PROFILE.md`** — nothing invented or approximated; wanted-but-missing details flagged, not filled.
 - [ ] Experience bullets emphasize relevant skills with quantified impact.
 - [ ] **Bullet budget respected**: current/most-recent role has **3–5** bullets (typically 4–5, the most prominent role; hard cap 5), prior roles 2–3, older roles 1–2. No role exceeds its ceiling.
 - [ ] Related achievements are combined into denser bullets rather than listed separately; nothing is padded to fill the budget.
@@ -283,7 +278,7 @@ When targeting Swiss positions, ensure:
 ## Common Mistakes to Avoid
 
 1. **Generic bullets** — "Worked on ML projects" → specify technical details and impact.
-2. **Missing metrics** — quantify only with figures supported by `PERSONAL_PROFILE.md`. If no metric exists, describe scope/impact qualitatively or flag the gap — never invent or approximate a number (see Grounding & Truthfulness).
+2. **Missing metrics** — quantify whenever the profile supports it; if `docs/PERSONAL_PROFILE.md` has no number, surface the gap rather than inventing or approximating one (see the Grounding & Truthfulness standard).
 3. **Keyword stuffing** — integrate ATS keywords naturally into achievement statements.
 4. **Inconsistent tense** — past roles use past tense; current role uses present tense.
 5. **YAML errors** — validate YAML structure before saving; malformed frontmatter breaks both renderers.
