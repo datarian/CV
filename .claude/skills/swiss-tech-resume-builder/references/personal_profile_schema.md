@@ -434,9 +434,12 @@ Always include at least one of:
 
 ## Template Download
 
-Create your PERSONAL_PROFILE.md:
+Create your PERSONAL_PROFILE.md in your project, from the bundled example:
 
 ```bash
+# Installed plugin:
+cp "${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md" docs/PERSONAL_PROFILE.md
+# Source repository:
 cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md
 # Then fill in with your actual information
 ```

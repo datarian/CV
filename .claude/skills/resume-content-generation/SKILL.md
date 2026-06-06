@@ -3,6 +3,14 @@ name: resume-content-generation
 description: Use when resume strategy is set and you need to write or revise the resume's actual content — the format-agnostic resume_content.md (YAML + Markdown) that both the PDF and web renderers consume. Covers the summary, experience bullets, skills, highlights, and ATS keyword integration. Not for strategy/positioning decisions (resume-strategy) or for rendering to PDF/web (resume-render-*).
 ---
 
+> **Bundled reference files.** Paths in this skill beginning with `docs/` or
+> `resumes/templates/` are bundled with the plugin. When the plugin is installed, read
+> them under `${CLAUDE_PLUGIN_ROOT}/` (e.g. `${CLAUDE_PLUGIN_ROOT}/docs/knowledge/…`) — the
+> variable expands to the plugin's install directory automatically. When working from the
+> source repository the variable is unset, so read the same paths relative to the repo root
+> (exactly as written). Files under `resumes/customized/`, `resumes/compiled/`, and
+> `docs/PERSONAL_PROFILE.md` are working files in the **current project**, not bundled.
+
 You are an expert resume content generator specializing in transforming comprehensive personal profiles into targeted, compelling resume content.
 
 **Core Responsibility:** Generate `resume_content.md` files (YAML frontmatter + Markdown) from `docs/PERSONAL_PROFILE.md` data and strategic guidance. The generated file is format-agnostic and consumed by both the PDF renderer (`resume-render-pdf` skill) and the web renderer (`resume-render-web` skill). Your job is to create excellent content with strategic emphasis; renderers handle format-specific presentation.

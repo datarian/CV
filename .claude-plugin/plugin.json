@@ -1,0 +1,28 @@
+{
+  "name": "swiss-tech-resume-builder",
+  "displayName": "Swiss Tech Resume Builder",
+  "version": "0.1.0",
+  "description": "Create ATS-optimized resumes for Swiss technology positions. Orchestrates market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review. Specialized for Swiss conventions (work permits, CEFR languages, salary norms) and ML/AI/Engineering roles.",
+  "author": {
+    "name": "Florian Hochstrasser",
+    "url": "https://github.com/datarian"
+  },
+  "homepage": "https://github.com/datarian/CV",
+  "repository": "https://github.com/datarian/CV",
+  "license": "CC-BY-NC-SA-4.0",
+  "keywords": [
+    "resume",
+    "cv",
+    "ats",
+    "swiss",
+    "latex",
+    "moderncv",
+    "job-search"
+  ],
+  "skills": "./.claude/skills/",
+  "agents": [
+    "./.claude/agents/design-reviewer.md",
+    "./.claude/agents/swiss-tech-resume-reviewer.md"
+  ],
+  "commands": "./.claude/commands/"
+}
