@@ -5,6 +5,15 @@ description: Create ATS-optimized resumes for Swiss technology positions. This s
 
 # Swiss Tech Resume Builder
 
+> **Bundled reference files.** Paths in this skill (and its sub-skills) beginning with
+> `docs/` or `resumes/templates/` are bundled with the plugin. When the plugin is installed,
+> read them under `${CLAUDE_PLUGIN_ROOT}/` — the variable expands to the plugin's install
+> directory automatically. When working from the source repository the variable is unset, so
+> read the same paths relative to the repo root (exactly as written). `docs/PERSONAL_PROFILE.md`
+> and everything under `resumes/customized/` and `resumes/compiled/` are working files in the
+> **current project**, not bundled. `references/…` and `assets/…` paths are relative to this
+> skill's own directory and resolve the same way in both modes.
+
 ## Overview
 
 This skill is the **lean orchestrator** for building Swiss-market tech resumes. It owns the pipeline, the decision gates, profile setup, and the final application-strategy generation. All phase-specific procedure (market research, ATS tactics, LaTeX/moderncv rules, web build steps, design rules, troubleshooting) lives in the seven sub-skills — this file points to them rather than restating them.
@@ -34,7 +43,10 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
 
 `docs/PERSONAL_PROFILE.md` is the single source of truth — keep ALL experience here, then pull relevant slices per application.
 
-- If it does not exist, copy the example: `cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md`.
+- If it does not exist, create it from the bundled example. Copy the example into the
+  current project: source it from `${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md`
+  when installed, or `docs/PERSONAL_PROFILE.example.md` when working from the source repo —
+  writing to `docs/PERSONAL_PROFILE.md` in the user's project.
 - Fill it per the schema in `references/personal_profile_schema.md` (required sections, quantification strategy, CEFR language levels, Swiss-specific fields, privacy notes).
 - Do not commit a `PERSONAL_PROFILE.md` containing real personal data.
 
@@ -54,8 +66,13 @@ When the resume is finalized (step 9), always produce a paired strategy document
       └── 2025_11_10_google_ml_engineer_application_strategy.md
   ```
   (A timestamped copy of the final PDF still also goes to `resumes/compiled/`.)
-- The helper script `scripts/init_application.py` can scaffold the `{id}` and a strategy stub. Run it from the repository root:
+- The helper script `scripts/init_application.py` (in this skill's own directory) can scaffold
+  the `{id}` and a strategy stub. It writes into `resumes/customized/` in the current project
+  and finds the bundled template automatically. Run it from the user's project root:
   ```bash
+  # Installed plugin:
+  python3 "${CLAUDE_PLUGIN_ROOT}/.claude/skills/swiss-tech-resume-builder/scripts/init_application.py" --company google --role ml_engineer
+  # Source repository:
   python3 .claude/skills/swiss-tech-resume-builder/scripts/init_application.py --company google --role ml_engineer
   ```
 

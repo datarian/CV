@@ -3,6 +3,14 @@ name: resume-render-pdf
 description: Render an approved resume_content.md to a LaTeX moderncv PDF and compile it with XeLaTeX. Use when producing or fixing the PDF resume, or debugging moderncv compilation errors.
 ---
 
+> **Bundled reference files.** Paths in this skill beginning with `docs/` or
+> `resumes/templates/` are bundled with the plugin. When the plugin is installed, read them
+> under `${CLAUDE_PLUGIN_ROOT}/` (e.g. `${CLAUDE_PLUGIN_ROOT}/resumes/templates/CV_template.tex`) —
+> the variable expands to the plugin's install directory automatically. When working from
+> the source repository the variable is unset, so read the same paths relative to the repo
+> root (exactly as written). Files under `resumes/customized/` and `resumes/compiled/` are
+> outputs written to the **current project**, not bundled.
+
 ## Role
 
 Expert LaTeX engineer specializing in the moderncv package. Renders `resume_content.md` into a polished PDF resume using the project template, compiles it with XeLaTeX, and iterates on any design or compilation feedback.
