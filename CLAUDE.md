@@ -4,17 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Goal
 
-The goal is to polish my CV and make it ready to land my next awesome position. Target market is Switzerland. I am currently working as a Senior Data Scientist (at least by official title) with a gross salary of [redacted]. I aim for a [redacted] increase.
+This repository builds polished, ATS-optimized CVs/resumes for the Swiss technology job market, packaged as a Claude Code plugin. It targets roles such as ML Engineer, MLOps Engineer, AI Software Architect, and Engineering Manager.
 
-My next job should be more on the ML Ops / AI Software Architecture side of things. I am [redacted] position, but it might be an option if the position is a fit. Something along the job titles of Engineering Manager, ML Engineer, ML Ops.
-Mid-term I would like to transition out of the [redacted] of keeping up with current developments and become more of a mentor or coach, enabling teams in my areas of expertise.
+Work proceeds in two modes: a generic resume that fits the target roles and market, and job-specific tailoring for individual postings.
 
-For now, we are working on a generic Resume that will work for the target roles in the target market. Later on, we will work on specific job postings to tune the resume to fit perfectly.
-
+**Privacy:** the user's own career objectives, target roles, and salary expectations are personal data and live only in their private `docs/PERSONAL_PROFILE.md` (gitignored) — never in this file or any other tracked file.
 
 ## Repository Overview
 
-This is a LaTeX-based CV/Resume repository containing bilingual curriculum vitae documents in English and German for Florian Hochstrasser.
+This is a LaTeX-based CV/Resume system, with a Claude Code skill pipeline, for producing bilingual (English/German) resumes for the Swiss tech market.
 
 ## File Structure
 
