@@ -199,6 +199,13 @@ English (native). Seeking ML Ops roles in Zurich.
 - Parenthetical details (not just keywords)
 - Comma-separated for easy parsing
 
+**Order by relevance and recency, not alphabetically.** Lead each category with the
+technologies central to the target role; relegate older or peripheral languages to a clearly
+secondary line — e.g. `**Also**: R, PHP, Java (earlier roles)` — rather than mixing them into
+the headline stack where they dilute focus and make the profile look dated. Don't drop them
+(they carry ATS value and show breadth), but don't let a language last used in 2004 sit beside
+your primary modern stack.
+
 ## Swiss-Specific ATS Considerations
 
 ### Language Keywords

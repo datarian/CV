@@ -279,7 +279,7 @@ When targeting Swiss positions, ensure:
 - **Language proficiency**: List language levels using standard codes (C1, B2, etc.).
 - **Salary expectations**: Optional in the resume body; include in YAML metadata for use in the application strategy document.
 - **Formal, understated tone**: Swiss market prefers professional, conservative, evidence-forward language — avoid both casual phrasing and American-style self-promotion. Follow `docs/knowledge/tone_and_register.md`.
-- **Education details**: Swiss employers value education highly; include thesis topics if relevant to the target role.
+- **Education details**: Swiss employers value education highly; include thesis topics if relevant to the target role. Surface the **institution name, grade (e.g. 5.5/6), and any distinction** explicitly — Swiss grades and named local institutions are instant quality signals to a local recruiter and invisible without them. (Section *placement* — e.g. moving Education higher to anchor a Swiss academic credential early in the scan — is a `resume-strategy` decision, not a content one; this skill just ensures the credential detail is present and legible wherever the section sits.)
 
 ---
 
@@ -292,8 +292,9 @@ When targeting Swiss positions, ensure:
 5. **YAML errors** — validate YAML structure before saving; malformed frontmatter breaks both renderers.
 6. **Over-length** — target 2–3 pages maximum when rendered.
 6a. **Too many bullets per role** — the most common failure. Nine bullets for the current role is wrong; cap at 3–5 (see Step 3 Bullet Budget), combine related achievements, and keep only standout items for the target role.
+6b. **Wall-of-text bullets** — one bullet = one coherent achievement, ≤2 rendered lines. A bullet chaining several unrelated initiatives into a 7-line run-on must be split (see `docs/knowledge/experience_bullet_standards.md`).
 7. **Under-emphasis** — do not bury key achievements in dense paragraphs.
-7a. **Braggy / over-confident register** — American-style self-promotion reads as non-credible in Switzerland. No inflated verbs (Spearheaded, Pioneered), no hype adjectives (world-class, cutting-edge, passionate), no intensifiers on metrics, no sole-ownership claims on team work. Let evidence carry the claim (see `docs/knowledge/tone_and_register.md`).
+7a. **Braggy / over-confident register** — American-style self-promotion reads as non-credible in Switzerland. No inflated verbs (Spearheaded, Pioneered), no hype adjectives (world-class, cutting-edge, passionate), no intensifiers on metrics, no sole-ownership claims on team work, no praise/testimonial quotes (*cited as 'gold'*), no editorializing your own output (*safe, no-risk*), and right-size ownership on cross-team/multi-quarter work. Frame governance/security as enablement, not policing. Let evidence carry the claim (see `docs/knowledge/tone_and_register.md`).
 8. **Mismatched highlights** — `summary_highlights` metrics must also appear bolded in the summary paragraph.
 
 ---
