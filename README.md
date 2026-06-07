@@ -48,27 +48,31 @@ This runs the setup helper, which:
    pulls the relevant parts for each application.
 3. **Sets up your workspace** so generated resumes land in `resumes/` in your project.
 
-### Build your profile by chatting — don't fill it in by hand
+### Build your profile by chatting — meet the profile coach
 
-The profile is the foundation everything else is built on, but you don't write it manually. The
-fastest and most accurate way is to **talk to the plugin and hand it your source material** — it
-extracts the roles, achievements, metrics, and skills and structures them for you:
+You don't write the profile by hand. The plugin includes a built-in **profile coach** that builds
+it *with* you: hand it your source material and it extracts your experience, structures it onto the
+profile, and — the part that matters most — spots the gaps between where you want to go and what
+you've actually documented.
 
-- Share your **performance reviews** and **employment references / certificates** (e.g. Swiss
-  *Arbeitszeugnisse*) — paste the text or attach the files.
-- Point it at your **LinkedIn profile** (paste the content or the URL) for a quick first pass.
-- Drop in **past CVs, project write-ups, or notes** — anything that records what you did and the
-  impact you had.
+Give it whatever you already have:
 
-Then just say what you want captured, for example:
+- **Performance reviews** and **employment references / certificates** (Swiss *Arbeitszeugnisse*) —
+  paste the text or attach the files.
+- Your **LinkedIn profile** (paste the content or a URL) for a quick first pass.
+- **Past CVs, project write-ups, or notes** — anything that records what you did and the impact.
+
+For example:
 
 ```text
 > Here's my latest performance review and my LinkedIn profile. Build out my profile from them.
 ```
 
-It reads the material, writes it into your profile, and asks about anything that's missing or
-ambiguous — you confirm and correct in the conversation. Richer source material means stronger,
-more truthful resumes, because every resume is grounded in what your profile says.
+The coach reads the material, writes it into your profile, and asks focused questions about
+anything thin or missing — a few at a time, never a wall of forms. Whatever you can't answer yet it
+records in a `MISSING_INFORMATION.md` to-do list instead of guessing, so nothing gets invented and
+you're left with a clear list of what to dig up. Come back to it any time — "help me improve my
+profile" — and it picks up where you left off. Richer input means stronger, more truthful resumes.
 
 Once your profile has real content, ask for a resume:
 
@@ -105,6 +109,7 @@ You talk to the resume builder in plain language; behind the scenes it runs a re
 | Stage | What happens |
 |-------|--------------|
 | **Setup** | Checks prerequisites and scaffolds your profile and workspace |
+| **Profile coaching** | Builds your profile from your source material and flags gaps to fill |
 | **Market analysis** | Researches the target role: salary benchmarks, in-demand skills, ATS keywords |
 | **Strategy** | Decides positioning, section emphasis, and which keywords to feature |
 | **Content** | Writes the resume from your profile — every claim grounded in what you actually did |
