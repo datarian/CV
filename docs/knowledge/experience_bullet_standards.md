@@ -53,6 +53,17 @@ ones; never pad a role just to reach 5.
 A current role with many strong achievements is a *selection* problem, not a license to
 exceed the budget — pick the best and combine the rest.
 
+## One bullet, one idea — and keep it short
+
+The budget caps *how many* bullets; this caps *how big each one gets*. A bullet covers **one
+coherent achievement** and targets **≤2 rendered lines** (hard stop ~3). "Combine related
+achievements" (above) means folding items that tell *one* cause-and-effect story — built
+monitoring → prevented incidents — into a single line. It is **not** license to chain
+unrelated initiatives into one run-on bullet. A bullet that packs three distinct initiatives
+(e.g. a skills framework + an agent hand-off + a stats service) is a wall of text: split it
+into separate bullets. If splitting then breaches the budget, that's the signal you're
+carrying too many initiatives for one role — cut to the standout ones, don't cram.
+
 ## What the reviewer flags
 
 The content reviewer treats budget violations as a **Format & Presentation** weakness and
@@ -64,6 +75,8 @@ should call them out specifically:
   suggested merge.
 - Padding: weak, generic, or non-quantified bullets that exist only to fill space → flag
   for removal.
+- A bullet over ~3 rendered lines, or one packing ≥2 unrelated initiatives → flag as High
+  priority; name the bullet and the split.
 
 A resume that respects the budget but still reads thin on impact is a *content* problem
 (quantification, see `ats_optimization.md`), not a budget problem — keep the two distinct.
