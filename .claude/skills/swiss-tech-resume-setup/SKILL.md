@@ -20,11 +20,6 @@ Software Engineering, DevOps, Data Science) through a reviewed pipeline: market
 analysis → strategy → content generation → **PDF render (LaTeX/moderncv)** →
 content & design review → paired application strategy.
 
-> **v0.1.0 scope: PDF only.** The web-resume renderer (`resume-render-web`,
-> `/preview-web-resume`) and `deploy` mode are **author-only and not bundled**
-> in this release — they depend on a Vite app and a private GitHub Pages repo
-> that do not ship with the plugin. Steer new users to the PDF pipeline.
-
 ## Step 1 — Check prerequisites
 
 Confirm the tools the PDF pipeline needs are installed; report what is missing
@@ -68,7 +63,8 @@ Once prerequisites pass and `docs/PERSONAL_PROFILE.md` has real content:
   and follow its pipeline (it can skip market analysis for a fully generic CV).
 - For a **specific job posting**: give the orchestrator the posting; it runs
   market analysis → strategy → content → render → review.
-- At the format gate, choose **PDF** (web is author-only in this release).
+
+The pipeline produces a PDF resume and a paired application strategy.
 
 Point the user to the orchestrator skill as the thing they'll use from now on;
 this setup skill is only needed again if they start a fresh project.
