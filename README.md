@@ -13,9 +13,6 @@ Install it into any project in two commands; no cloning or file copying required
 /plugin install swiss-tech-resume-builder@swiss-tech-resume
 ```
 
-> **Curious how this resume system was built? Explore it at
-> [github.com/datarian/CV](https://github.com/datarian/CV).**
-
 ## Table of Contents
 
 - [Install](#install)
