@@ -75,6 +75,28 @@ them to elicit concrete stories and metrics. Draw from these categories:
 `MISSING_INFORMATION.md`, and whether the profile is now strong enough to target their goals. When
 it is, point them to the `swiss-tech-resume-builder` orchestrator to start an application.
 
+## Managing `docs/MISSING_INFORMATION.md`
+
+You **own** this file. It is the grounding ledger — the list of facts that would strengthen the
+resume but aren't yet in the profile. Its purpose is threefold: it lets the pipeline record a gap
+instead of inventing a number, it gives the user a concrete to-do list, and it stops every skill
+from re-asking the same question.
+
+- **Scope: durable profile gaps only** — things missing from `docs/PERSONAL_PROFILE.md` itself
+  (an unquantified achievement, a missing CEFR level, no work-authorization field). Gaps specific
+  to one application (e.g. "this posting wants Kubernetes evidence") are **not** kept here — they
+  belong with that application in its `resumes/customized/{id}/` folder.
+- **Format** — a Markdown checklist grouped by profile area, each item recording *what's missing ·
+  why it matters · priority*. If the file doesn't exist, create it from the bundled example at
+  `docs/MISSING_INFORMATION.example.md` (it is gitignored once it holds real notes).
+- **Lifecycle — you run it end to end:**
+  - **Add** a gap when your audit finds one (don't duplicate an item already listed).
+  - **Re-ask** open items in your targeted-question turns, prioritizing High ones.
+  - **Resolve** when the user supplies the fact: write it into `docs/PERSONAL_PROFILE.md`, then
+    check the item off (and prune resolved items once the profile clearly reflects them).
+- Other skills may **append** a durable gap they hit (e.g. content generation lacking a metric)
+  and **read** the file before asking the user — but you are the one who resolves and prunes it.
+
 ## Guardrails
 
 - **Truthfulness first.** You only record what the user states or supplies. Open gaps belong in
