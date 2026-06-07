@@ -29,7 +29,7 @@ This skill is the **lean orchestrator** for building Swiss-market tech resumes. 
 
 Run these steps in order. Each step names the sub-skill or agent to use and whether it runs **INLINE** (in this conversation) or as a **DISPATCHED SUBAGENT** (general-purpose subagent loading the named skill, or the named review agent).
 
-1. **Profile setup** — INLINE. Ensure `docs/PERSONAL_PROFILE.md` exists and is current; it is the single data source. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
+1. **Profile setup** — INLINE → `resume-profile-coach`. Ensure `docs/PERSONAL_PROFILE.md` exists, is current, and actually supports the target. The coach ingests the user's source material, audits the profile against the schema, and — when a specific role is in play — spots gaps between the user's goal and what the profile substantiates, logging open items to `docs/MISSING_INFORMATION.md`. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
 2. **Market analysis** — DISPATCHED SUBAGENT → `resume-market-analysis`. Run when targeting a specific role/company; produces salary benchmarks, in-demand skills, and ATS keywords. Skip for a fully generic resume.
 3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream.
 4. **Content generation** — DISPATCHED SUBAGENT (on **Opus**) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
@@ -47,7 +47,11 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
   current project: source it from `${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md`
   when installed, or `docs/PERSONAL_PROFILE.example.md` when working from the source repo —
   writing to `docs/PERSONAL_PROFILE.md` in the user's project.
-- Fill it per the schema in `references/personal_profile_schema.md` (required sections, quantification strategy, CEFR language levels, Swiss-specific fields, privacy notes).
+- **Don't ask the user to fill it in by hand** — delegate to `resume-profile-coach`. It builds
+  the profile out conversationally from the user's source material (performance reviews,
+  employment references / *Arbeitszeugnisse*, LinkedIn, past CVs), audits it against the schema
+  (`references/personal_profile_schema.md`), and records gaps in `docs/MISSING_INFORMATION.md`.
+  Use it on first setup and any time the profile needs work.
 - Do not commit a `PERSONAL_PROFILE.md` containing real personal data.
 
 ## Application-strategy generation
@@ -87,6 +91,7 @@ When the resume is finalized (step 9), always produce a paired strategy document
 
 | Phase | Sub-skill / agent |
 |-------|-------------------|
+| Profile setup / coaching | `resume-profile-coach` (inline) |
 | Market analysis | `resume-market-analysis` (subagent) |
 | Strategy | `resume-strategy` (inline) |
 | Content generation | `resume-content-generation` (subagent) |

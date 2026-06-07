@@ -44,9 +44,31 @@ This runs the setup helper, which:
 
 1. **Checks your prerequisites** (see [Requirements](#requirements)) and tells you what's missing.
 2. **Creates your profile** — `docs/PERSONAL_PROFILE.md`, started from a template — in your own
-   project. This is your single source of truth: put *all* your experience here, and the plugin
+   project. This is your single source of truth: it holds *all* your experience, and the plugin
    pulls the relevant parts for each application.
 3. **Sets up your workspace** so generated resumes land in `resumes/` in your project.
+
+### Build your profile by chatting — don't fill it in by hand
+
+The profile is the foundation everything else is built on, but you don't write it manually. The
+fastest and most accurate way is to **talk to the plugin and hand it your source material** — it
+extracts the roles, achievements, metrics, and skills and structures them for you:
+
+- Share your **performance reviews** and **employment references / certificates** (e.g. Swiss
+  *Arbeitszeugnisse*) — paste the text or attach the files.
+- Point it at your **LinkedIn profile** (paste the content or the URL) for a quick first pass.
+- Drop in **past CVs, project write-ups, or notes** — anything that records what you did and the
+  impact you had.
+
+Then just say what you want captured, for example:
+
+```text
+> Here's my latest performance review and my LinkedIn profile. Build out my profile from them.
+```
+
+It reads the material, writes it into your profile, and asks about anything that's missing or
+ambiguous — you confirm and correct in the conversation. Richer source material means stronger,
+more truthful resumes, because every resume is grounded in what your profile says.
 
 Once your profile has real content, ask for a resume:
 
