@@ -1,6 +1,6 @@
 ---
 name: swiss-tech-resume-builder
-description: Create ATS-optimized resumes for Swiss technology positions. This skill orchestrates the end-to-end resume pipeline — market analysis, strategy, content generation, dual-format rendering (PDF + web), and iterative quality review — and produces a paired application strategy. Use when creating or optimizing a resume for the Swiss tech job market, customizing one for a specific Swiss job application, or generating cover-letter / salary-negotiation / interview-prep guidance. Specialized for Swiss conventions (work permits, CEFR languages, salary norms) and ML/AI/Engineering roles.
+description: Create ATS-optimized resumes for Swiss technology positions. This skill orchestrates the end-to-end resume pipeline — market analysis, strategy, content generation, PDF rendering, and iterative quality review — and produces a paired application strategy. Use when creating or optimizing a resume for the Swiss tech job market, customizing one for a specific Swiss job application, or generating cover-letter / salary-negotiation / interview-prep guidance. Specialized for Swiss conventions (work permits, CEFR languages, salary norms) and ML/AI/Engineering roles.
 ---
 
 # Swiss Tech Resume Builder
@@ -16,7 +16,7 @@ description: Create ATS-optimized resumes for Swiss technology positions. This s
 
 ## Overview
 
-This skill is the **lean orchestrator** for building Swiss-market tech resumes. It owns the pipeline, the decision gates, profile setup, and the final application-strategy generation. All phase-specific procedure (market research, ATS tactics, LaTeX/moderncv rules, web build steps, design rules, troubleshooting) lives in the seven sub-skills — this file points to them rather than restating them.
+This skill is the **lean orchestrator** for building Swiss-market tech resumes. It owns the pipeline, the decision gates, profile setup, and the final application-strategy generation. All phase-specific procedure (market research, ATS tactics, LaTeX/moderncv rules, design rules, troubleshooting) lives in the sub-skills — this file points to them rather than restating them.
 
 **When to use:**
 - Creating or customizing a resume for a Swiss tech position (ML/AI, Software Engineering, DevOps, Data Science)
@@ -29,15 +29,14 @@ This skill is the **lean orchestrator** for building Swiss-market tech resumes. 
 
 Run these steps in order. Each step names the sub-skill or agent to use and whether it runs **INLINE** (in this conversation) or as a **DISPATCHED SUBAGENT** (general-purpose subagent loading the named skill, or the named review agent).
 
-1. **Profile setup** — INLINE. Ensure `docs/PERSONAL_PROFILE.md` exists and is current; it is the single data source. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
+1. **Profile setup** — INLINE → `resume-profile-coach`. Ensure `docs/PERSONAL_PROFILE.md` exists, is current, and actually supports the target. The coach ingests the user's source material, audits the profile against the schema, and — when a specific role is in play — spots gaps between the user's goal and what the profile substantiates, logging open items to `docs/MISSING_INFORMATION.md`. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
 2. **Market analysis** — DISPATCHED SUBAGENT → `resume-market-analysis`. Run when targeting a specific role/company; produces salary benchmarks, in-demand skills, and ATS keywords. Skip for a fully generic resume.
 3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream.
 4. **Content generation** — DISPATCHED SUBAGENT (on **Opus**) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
 5. **GATE — content review (Pattern A, pre-render)** — DISPATCH the `swiss-tech-resume-reviewer` agent (it loads `resume-content-review`). Branch on its verdict contract: **`pass` = rating ≥ 8.0 AND ats_match ≥ 75**. If not `pass` and iterations < 3: re-dispatch step 4 (content generation) with the reviewer feedback + the existing `resume_content.md` path. If the 3-iteration cap is hit without `pass`: escalate to the user.
-6. **USER GATE — format selection** — INLINE. Ask the user: **"PDF, web, or both?"**
-7. **Render** — DISPATCHED SUBAGENT(S), run in **PARALLEL if both** are selected: `resume-render-pdf` and/or `resume-render-web`, each rendering from the approved `resume_content.md`.
-8. **Post-render QA (PDF only)** — dispatch the `swiss-tech-resume-reviewer` agent to verify the content survived rendering (carry the ≥ 8.0 target forward) **and** the `design-reviewer` agent (it loads `resume-design-review`; **`pass` = rating ≥ 9.0**). Iterate ≤ 3 times, re-dispatching `resume-render-pdf` with the reviewer feedback.
-9. **Finalize** — INLINE. Holistic review of the narrative (does it position for the target role, justify the salary target, fit the Swiss market?), then generate the paired `..._application_strategy.md`. See "Application-strategy generation" below.
+6. **Render** — DISPATCHED SUBAGENT → `resume-render-pdf`, rendering the approved `resume_content.md` into a PDF.
+7. **Post-render QA** — dispatch the `swiss-tech-resume-reviewer` agent to verify the content survived rendering (carry the ≥ 8.0 target forward) **and** the `design-reviewer` agent (it loads `resume-design-review`; **`pass` = rating ≥ 9.0**). Iterate ≤ 3 times, re-dispatching `resume-render-pdf` with the reviewer feedback.
+8. **Finalize** — INLINE. Holistic review of the narrative (does it position for the target role, justify the salary target, fit the Swiss market?), then generate the paired `..._application_strategy.md`. See "Application-strategy generation" below.
 
 ## Profile setup
 
@@ -47,7 +46,11 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
   current project: source it from `${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md`
   when installed, or `docs/PERSONAL_PROFILE.example.md` when working from the source repo —
   writing to `docs/PERSONAL_PROFILE.md` in the user's project.
-- Fill it per the schema in `references/personal_profile_schema.md` (required sections, quantification strategy, CEFR language levels, Swiss-specific fields, privacy notes).
+- **Don't ask the user to fill it in by hand** — delegate to `resume-profile-coach`. It builds
+  the profile out conversationally from the user's source material (performance reviews,
+  employment references / *Arbeitszeugnisse*, LinkedIn, past CVs), audits it against the schema
+  (`references/personal_profile_schema.md`), and records gaps in `docs/MISSING_INFORMATION.md`.
+  Use it on first setup and any time the profile needs work.
 - Do not commit a `PERSONAL_PROFILE.md` containing real personal data.
 
 ## Application-strategy generation
@@ -78,21 +81,21 @@ When the resume is finalized (step 9), always produce a paired strategy document
 
 ## Execution-model rule
 
-- **INLINE** when the output is compact AND reused later in this conversation: strategy brief, decision gates (content-review branch, format selection, holistic finalize).
-- **DISPATCHED SUBAGENT** when the work is bulky AND the output is a file or a summary: market analysis, content generation, the two renders, and the reviews.
-- Dispatch mechanics: `resume-market-analysis`, `resume-content-generation`, `resume-render-pdf`, and `resume-render-web` run as **general-purpose subagents loading their skill**. Content review and design review run via the **named agents** `swiss-tech-resume-reviewer` and `design-reviewer` (which load `resume-content-review` and `resume-design-review` respectively).
-- **Model selection**: dispatch `resume-content-generation` on **Opus** (`model: opus`). It is the highest-judgment step in the pipeline — selecting which achievements survive, combining related ones, and compressing to the bullet budget is exactly the reasoning that gates content-review quality (rating ≥ 8.0). The mechanical phases (renders, market analysis) may run on the default model.
+- **INLINE** when the output is compact AND reused later in this conversation: strategy brief, decision gates (content-review branch, holistic finalize).
+- **DISPATCHED SUBAGENT** when the work is bulky AND the output is a file or a summary: market analysis, content generation, the render, and the reviews.
+- Dispatch mechanics: `resume-market-analysis`, `resume-content-generation`, and `resume-render-pdf` run as **general-purpose subagents loading their skill**. Content review and design review run via the **named agents** `swiss-tech-resume-reviewer` and `design-reviewer` (which load `resume-content-review` and `resume-design-review` respectively).
+- **Model selection**: dispatch `resume-content-generation` on **Opus** (`model: opus`). It is the highest-judgment step in the pipeline — selecting which achievements survive, combining related ones, and compressing to the bullet budget is exactly the reasoning that gates content-review quality (rating ≥ 8.0). The mechanical phases (render, market analysis) may run on the default model.
 
 ## Pointers
 
 | Phase | Sub-skill / agent |
 |-------|-------------------|
+| Profile setup / coaching | `resume-profile-coach` (inline) |
 | Market analysis | `resume-market-analysis` (subagent) |
 | Strategy | `resume-strategy` (inline) |
 | Content generation | `resume-content-generation` (subagent) |
 | Content review (gate) | `swiss-tech-resume-reviewer` agent → `resume-content-review` |
 | PDF render | `resume-render-pdf` (subagent) |
-| Web render | `resume-render-web` (subagent) |
 | Design review (QA) | `design-reviewer` agent → `resume-design-review` |
 
 **Bundled assets** (kept here, referenced above): `scripts/init_application.py`, `assets/application_strategy_template.md`, `references/personal_profile_schema.md`.
