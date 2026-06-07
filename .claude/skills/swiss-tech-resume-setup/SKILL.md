@@ -48,9 +48,11 @@ directory), never in the plugin cache.
      `${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md` when running as an
      installed plugin, or `docs/PERSONAL_PROFILE.example.md` when running from
      the source repo. Copy it to `docs/PERSONAL_PROFILE.md` in the user's project.
-   - Then help the user fill it in per the schema in the orchestrator's
-     `references/personal_profile_schema.md` (required sections, quantification,
-     CEFR language levels, Swiss-specific fields, privacy notes).
+   - Then hand off to the **`resume-profile-coach`** skill to build the profile out
+     conversationally — ingesting the user's performance reviews, employment references
+     (Swiss *Arbeitszeugnisse*), LinkedIn profile, and past CVs, auditing it against the
+     schema, and flagging gaps into `docs/MISSING_INFORMATION.md`. Do **not** ask the user
+     to fill in the file by hand.
    - **Privacy:** a real `docs/PERSONAL_PROFILE.md` must never be committed. Make
      sure the user's `.gitignore` excludes `docs/PERSONAL_PROFILE.md` (and
      compiled PDFs / customized resumes) before they add real data.
