@@ -206,6 +206,15 @@ the headline stack where they dilute focus and make the profile look dated. Don'
 (they carry ATS value and show breadth), but don't let a language last used in 2004 sit beside
 your primary modern stack.
 
+**List concrete tokens, not capability slogans.** Every entry should be a checkable noun — a
+language, tool, framework, platform, or named method (`Kubernetes`, `Ray Serve`, `MLflow`,
+`constrained decoding`). Cut vague slogans that name no technology — *production-grade services,
+developer experience, best-practice sharing, knowledge architecture, strong backend
+fundamentals*. They add no ATS keyword value (no recruiter searches "developer experience" as a
+skill) and they read as marketing — the most common "too many buzzwords" complaint. A real
+capability earns its place in an evidenced experience bullet, not as a free-floating skill
+token. See `docs/knowledge/tone_and_register.md` rule 7.
+
 ## Swiss-Specific ATS Considerations
 
 ### Language Keywords
