@@ -91,11 +91,11 @@ summary_highlights:
 ```markdown
 # Professional Summary
 
-[3-5 sentences positioning candidate for target role — length per docs/style-guide/pdf/CV_STYLE_GUIDE.md]
+[3-5 sentences positioning candidate for target role — length per docs/style-guide/pdf/CV_STYLE_GUIDE.md. First person ("I build…") is permitted **here in the summary only** — see tone rule 6; everything below stays third-person/implied.]
 
 ## Experience
 
-### [Job Title]
+### [Job Title — copied verbatim from PERSONAL_PROFILE.md, never embellished]
 **[Company]** | [Location] | [Dates]
 
 - [Achievement bullet with **bold** emphasis and metrics]
@@ -105,7 +105,7 @@ summary_highlights:
 
 ## Technical Skills
 
-**[Category]:** [Skills list]
+**[Category]:** [Skills list — concrete tokens only (languages, tools, frameworks, methods); no capability slogans like "developer experience" or "production-grade services" — see tone rule 7]
 
 ## Education
 
@@ -118,6 +118,10 @@ summary_highlights:
 
 ### [Project Name]
 [Description with link if applicable]
+
+## Interests
+
+[Short interests / hobbies line — a Swiss CV convention (see `docs/knowledge/swiss_market_conventions.md`). Populate from the profile when it has the material; do **not** silently drop Projects/Interests just because they aren't the headline — they humanize the candidate and signal cultural fit.]
 
 ---
 
@@ -263,10 +267,11 @@ Before finalizing:
 - [ ] Experience bullets emphasize relevant skills with quantified impact.
 - [ ] **Bullet budget respected**: current/most-recent role has **3–5** bullets (typically 4–5, the most prominent role; hard cap 5), prior roles 2–3, older roles 1–2. No role exceeds its ceiling.
 - [ ] Related achievements are combined into denser bullets rather than listed separately; nothing is padded to fill the budget.
-- [ ] Technical skills section includes ATS keywords (see `docs/knowledge/ats_optimization.md`).
-- [ ] Education and projects support the overall narrative.
+- [ ] Technical skills section includes ATS keywords and is **concrete tokens only** — no capability slogans (*developer experience, production-grade services, best-practice sharing*); buzzword padding removed (see `docs/knowledge/ats_optimization.md`).
+- [ ] Education and projects support the overall narrative; **Projects/Interests included** when the profile supports them (Swiss convention) rather than dropped.
+- [ ] Job titles copied **verbatim** from `docs/PERSONAL_PROFILE.md` — none embellished or invented.
 - [ ] Markdown formatting is clean — bold and italic used strategically, not decoratively.
-- [ ] **Swiss register holds**: measured verbs (no Spearheaded/Pioneered/Revolutionized), no marketing adjectives or superlatives, metrics stated without intensifiers, honest attribution on team work (`docs/knowledge/tone_and_register.md`).
+- [ ] **Swiss register holds**: measured verbs (no Spearheaded/Pioneered/Revolutionized), no marketing adjectives or superlatives, metrics stated without intensifiers, honest attribution on team work, no buzzword padding, first person only in the summary (`docs/knowledge/tone_and_register.md`).
 - [ ] Footer note included at the end.
 - [ ] File saved to correct path: `resumes/customized/{id}/resume_content.md`.
 
@@ -295,6 +300,9 @@ When targeting Swiss positions, ensure:
 6b. **Wall-of-text bullets** — one bullet = one coherent achievement, ≤2 rendered lines. A bullet chaining several unrelated initiatives into a 7-line run-on must be split (see `docs/knowledge/experience_bullet_standards.md`).
 7. **Under-emphasis** — do not bury key achievements in dense paragraphs.
 7a. **Braggy / over-confident register** — American-style self-promotion reads as non-credible in Switzerland. No inflated verbs (Spearheaded, Pioneered), no hype adjectives (world-class, cutting-edge, passionate), no intensifiers on metrics, no sole-ownership claims on team work, no praise/testimonial quotes (*cited as 'gold'*), no editorializing your own output (*safe, no-risk*), and right-size ownership on cross-team/multi-quarter work. Frame governance/security as enablement, not policing. Let evidence carry the claim (see `docs/knowledge/tone_and_register.md`).
+7b. **Buzzword padding** — the most common "sounds like marketing" trigger. Skills lists and the summary must contain concrete tokens (tools, frameworks, methods), not vague capability slogans (*production-grade services, developer experience, best-practice sharing, knowledge architecture, strong backend fundamentals*). If you can't attach a tool name or number, cut it or move it into an evidenced bullet (tone rule 7, `ats_optimization.md`).
+7c. **Dropping Projects/Interests** — don't silently omit the Swiss-conventional interests/hobbies (and open-source/projects) section when the profile supports it; it humanizes the candidate and signals cultural fit.
+7d. **First person outside the summary** — first person is allowed only in the Professional Summary (tone rule 6); experience bullets, skills, and projects stay third-person/implied.
 8. **Mismatched highlights** — `summary_highlights` metrics must also appear bolded in the summary paragraph.
 
 ---
