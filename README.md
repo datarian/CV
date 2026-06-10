@@ -114,6 +114,7 @@ You talk to the resume builder in plain language; behind the scenes it runs a re
 | **Strategy** | Decides positioning, section emphasis, and which keywords to feature |
 | **Content** | Writes the resume from your profile — every claim grounded in what you actually did |
 | **Content review** | An expert reviewer scores the content and ATS match; it must pass before rendering |
+| **Your review** | You get to read and edit the content — still plain markdown — before anything is rendered |
 | **PDF render** | Produces a polished moderncv PDF |
 | **Design review** | A design reviewer checks layout and typography against the style guide |
 | **Strategy doc** | Generates a paired application strategy: cover-letter angle, salary negotiation, interview prep |

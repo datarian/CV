@@ -34,9 +34,10 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
 3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream.
 4. **Content generation** — DISPATCHED SUBAGENT (on **Opus**) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
 5. **GATE — content review (Pattern A, pre-render)** — DISPATCH the `swiss-tech-resume-reviewer` agent (it loads `resume-content-review`). Branch on its verdict contract: **`pass` = rating ≥ 8.0 AND ats_match ≥ 75**. If not `pass` and iterations < 3: re-dispatch step 4 (content generation) with the reviewer feedback + the existing `resume_content.md` path. If the 3-iteration cap is hit without `pass`: escalate to the user.
-6. **Render** — DISPATCHED SUBAGENT → `resume-render-pdf`, rendering the approved `resume_content.md` into a PDF.
-7. **Post-render QA** — dispatch the `swiss-tech-resume-reviewer` agent to verify the content survived rendering (carry the ≥ 8.0 target forward) **and** the `design-reviewer` agent (it loads `resume-design-review`; **`pass` = rating ≥ 9.0**). Iterate ≤ 3 times, re-dispatching `resume-render-pdf` with the reviewer feedback.
-8. **Finalize** — INLINE. Holistic review of the narrative (does it position for the target role, justify the salary target, fit the Swiss market?), then generate the paired `..._application_strategy.md`. See "Application-strategy generation" below.
+6. **GATE — user content review (pre-render)** — INLINE. Once the reviewer passes, **pause and hand `resume_content.md` to the user before rendering**. Surface the path, summarize the reviewer's verdict, and explicitly offer them the chance to read and edit the content. See "User content-review gate" below. Do **not** proceed to render until the user approves. If they request changes, either apply their edits directly or re-dispatch step 4 with their instructions, then re-run the step 5 gate before returning here.
+7. **Render** — DISPATCHED SUBAGENT → `resume-render-pdf`, rendering the approved `resume_content.md` into a PDF.
+8. **Post-render QA** — dispatch the `swiss-tech-resume-reviewer` agent to verify the content survived rendering (carry the ≥ 8.0 target forward) **and** the `design-reviewer` agent (it loads `resume-design-review`; **`pass` = rating ≥ 9.0**). Iterate ≤ 3 times, re-dispatching `resume-render-pdf` with the reviewer feedback.
+9. **Finalize** — INLINE. Holistic review of the narrative (does it position for the target role, justify the salary target, fit the Swiss market?), then generate the paired `..._application_strategy.md`. See "Application-strategy generation" below.
 
 ## Profile setup
 
@@ -52,6 +53,22 @@ Run these steps in order. Each step names the sub-skill or agent to use and whet
   (`references/personal_profile_schema.md`), and records gaps in `docs/MISSING_INFORMATION.md`.
   Use it on first setup and any time the profile needs work.
 - Do not commit a `PERSONAL_PROFILE.md` containing real personal data.
+
+## User content-review gate
+
+After the `swiss-tech-resume-reviewer` agent passes (step 5) and **before** rendering (step 7),
+give the user a real chance to read and shape the content while it is still cheap to change
+(plain markdown, no LaTeX/PDF round-trip yet).
+
+- **Surface the artifact:** state the path to `resumes/customized/{id}/resume_content.md` and a
+  one-line summary of the reviewer's verdict (rating + ATS match), so the user knows the gate it
+  already cleared.
+- **Offer the review explicitly:** ask whether they want to read/edit the content or proceed to
+  render. Make "proceed" easy — this gate is an opportunity, not a forced step.
+- **On requested changes:** either apply their edits to `resume_content.md` directly, or
+  re-dispatch step 4 (content generation) with their instructions for larger reworks. Then
+  re-run the step 5 content-review gate before returning here.
+- **Only render on approval:** do not advance to step 7 until the user signs off on the content.
 
 ## Application-strategy generation
 
