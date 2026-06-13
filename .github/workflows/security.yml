@@ -33,21 +33,30 @@ jobs:
   npm-audit:
     name: npm Dependency Audit
     runs-on: ubuntu-latest
-    # Skip gracefully if the web-builder hasn't been committed yet
-    if: ${{ hashFiles('resumes/web-builder/package.json') != '' }}
     steps:
       - uses: actions/checkout@v4
+      - name: Check if web-builder exists
+        id: check-webbuilder
+        run: |
+          if [ -f "resumes/web-builder/package.json" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "::notice::resumes/web-builder/package.json not found — skipping npm audit"
+          fi
       - uses: actions/setup-node@v4
+        if: steps.check-webbuilder.outputs.exists == 'true'
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: resumes/web-builder/package-lock.json
       - name: Install dependencies
+        if: steps.check-webbuilder.outputs.exists == 'true'
         working-directory: resumes/web-builder
         run: npm ci
       - name: Audit for vulnerabilities (moderate+)
+        if: steps.check-webbuilder.outputs.exists == 'true'
         working-directory: resumes/web-builder
-        # --audit-level=moderate fails on moderate, high, and critical issues
         run: npm audit --audit-level=moderate
 
   # ──────────────────────────────────────────────────────────────
@@ -68,7 +77,7 @@ jobs:
 
       # --- TypeScript / React (standard auto rules) ---
       - name: Semgrep – TypeScript/React auto rules
-        if: ${{ hashFiles('resumes/web-builder/src') != '' }}
+        if: ${{ hashFiles('resumes/web-builder/src/**') != '' }}
         # Exit 0 so we always upload SARIF; pipeline gating is done via SARIF review
         run: |
           semgrep scan \
@@ -80,7 +89,7 @@ jobs:
 
       - name: Upload TypeScript SARIF
         if: always() && hashFiles('semgrep-ts.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep-ts.sarif
           category: semgrep-typescript
@@ -97,7 +106,7 @@ jobs:
 
       - name: Upload LLM OWASP SARIF
         if: always() && hashFiles('semgrep-llm.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep-llm.sarif
           category: semgrep-llm-owasp

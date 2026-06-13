@@ -33,12 +33,12 @@ rules:
       cwe: CWE-79
 
   - id: llm02-dangerous-set-inner-html
-    pattern: dangerouslySetInnerHTML={{ __html: $VAL }}
+    pattern-regex: 'dangerouslySetInnerHTML\s*=\s*\{\{'
     message: >
       LLM02 (Insecure Output Handling): dangerouslySetInnerHTML renders raw HTML,
       bypassing React's XSS protection. Sanitize AI-generated content with
       DOMPurify before passing it here, or restructure to avoid raw HTML rendering.
-    languages: [typescript, javascript]
+    languages: [generic]
     severity: WARNING
     metadata:
       owasp-llm: LLM02
@@ -71,17 +71,12 @@ rules:
       owasp-llm: LLM08
       cwe: CWE-95
 
-  - id: llm08-child-process-exec-dynamic
-    patterns:
-      - pattern: |
-          require('child_process').exec($CMD, ...)
-      - pattern-not: |
-          require('child_process').exec("...", ...)
+  - id: llm08-child-process-exec
+    pattern: require('child_process').exec($CMD, ...)
     message: >
-      LLM08 (Excessive Agency): child_process.exec() with a dynamic command
-      string can enable OS command injection if $CMD contains AI-generated or
-      user-controlled content. Use execFile() with a fixed binary and argument
-      array instead.
+      LLM08 (Excessive Agency): child_process.exec() passes the command to a
+      shell, enabling command injection if $CMD is AI-generated or user-controlled.
+      Use execFile() with a fixed binary and an argument array instead.
     languages: [typescript, javascript]
     severity: ERROR
     metadata:
