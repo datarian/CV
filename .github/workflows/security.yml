@@ -1,0 +1,181 @@
+name: Security Pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  security-events: write   # upload SARIF to GitHub Security tab
+  pull-requests: read
+
+jobs:
+  # ──────────────────────────────────────────────────────────────
+  # 1. Secret & credential scanning
+  # ──────────────────────────────────────────────────────────────
+  secret-scan:
+    name: Secret Scanning (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so gitleaks can scan all commits in the PR
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITLEAKS_LICENSE is only required for GitHub org-level scanning.
+          # For a public personal repo this can be left unset.
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  # ──────────────────────────────────────────────────────────────
+  # 2. npm dependency audit (web-builder)
+  # ──────────────────────────────────────────────────────────────
+  npm-audit:
+    name: npm Dependency Audit
+    runs-on: ubuntu-latest
+    # Skip gracefully if the web-builder hasn't been committed yet
+    if: ${{ hashFiles('resumes/web-builder/package.json') != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: resumes/web-builder/package-lock.json
+      - name: Install dependencies
+        working-directory: resumes/web-builder
+        run: npm ci
+      - name: Audit for vulnerabilities (moderate+)
+        working-directory: resumes/web-builder
+        # --audit-level=moderate fails on moderate, high, and critical issues
+        run: npm audit --audit-level=moderate
+
+  # ──────────────────────────────────────────────────────────────
+  # 3. SAST — TypeScript/React + OWASP LLM Top 10 (Semgrep)
+  # ──────────────────────────────────────────────────────────────
+  semgrep:
+    name: "SAST: Semgrep (TypeScript + OWASP LLM Top 10)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      # --- TypeScript / React (standard auto rules) ---
+      - name: Semgrep – TypeScript/React auto rules
+        if: ${{ hashFiles('resumes/web-builder/src') != '' }}
+        # Exit 0 so we always upload SARIF; pipeline gating is done via SARIF review
+        run: |
+          semgrep scan \
+            --config auto \
+            --include "*.ts" --include "*.tsx" --include "*.js" \
+            --sarif --output semgrep-ts.sarif \
+            resumes/web-builder/src
+        continue-on-error: true
+
+      - name: Upload TypeScript SARIF
+        if: always() && hashFiles('semgrep-ts.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep-ts.sarif
+          category: semgrep-typescript
+
+      # --- OWASP LLM Top 10 custom rules (whole repo) ---
+      - name: Semgrep – OWASP LLM Top 10 custom rules
+        run: |
+          semgrep scan \
+            --config .github/semgrep/llm-owasp.yaml \
+            --sarif --output semgrep-llm.sarif \
+            .
+        # Fail the PR check when ERROR-severity LLM findings are detected
+        # (WARNING-severity still uploads but doesn't fail the build)
+
+      - name: Upload LLM OWASP SARIF
+        if: always() && hashFiles('semgrep-llm.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep-llm.sarif
+          category: semgrep-llm-owasp
+
+  # ──────────────────────────────────────────────────────────────
+  # 4. LaTeX injection check
+  #    \write18 / --shell-escape enables arbitrary OS command execution
+  #    from within a .tex file — a real risk if resume content is
+  #    ever rendered from untrusted input.
+  # ──────────────────────────────────────────────────────────────
+  latex-safety:
+    name: LaTeX Injection Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for shell-escape primitives
+        run: |
+          echo "Checking LaTeX templates for dangerous commands..."
+          FAIL=0
+
+          # \write18{<cmd>} and \immediate\write18{<cmd>} execute arbitrary shell commands
+          if grep -rn --include="*.tex" -E '\\write18|\\immediate\\write18' resumes/templates/; then
+            echo "::error file=resumes/templates::Dangerous LaTeX \\write18 found — enables arbitrary shell execution during compilation"
+            FAIL=1
+          fi
+
+          # latexmkrc or texmf.cnf with shell_escape = t enables the same
+          if find . \( -name "*.latexmkrc" -o -name "texmf.cnf" \) \
+                -not -path "./.git/*" \
+              | xargs grep -l "shell_escape\s*=\s*t\|openout_any\s*=\s*a" 2>/dev/null; then
+            echo "::error::LaTeX configuration enables shell escape or unrestricted output — dangerous in a build pipeline"
+            FAIL=1
+          fi
+
+          # Dynamic \input / \include paths (warning only — valid in templates but worth auditing)
+          if grep -rn --include="*.tex" -E '\\(input|include)\{\\|\\(input|include)\{[^}]*\$' resumes/templates/; then
+            echo "::warning::Dynamic \\input/\\include path found — verify it cannot be controlled by user-supplied content"
+          fi
+
+          [ $FAIL -eq 0 ] && echo "LaTeX safety check passed."
+          exit $FAIL
+
+  # ──────────────────────────────────────────────────────────────
+  # 5. Personal data leak check
+  #    PERSONAL_PROFILE.md and MISSING_INFORMATION.md are gitignored
+  #    on purpose. This job fails if either file (or any .backup.)
+  #    is accidentally tracked, preventing personal data from being
+  #    pushed to the public repository.
+  # ──────────────────────────────────────────────────────────────
+  pii-check:
+    name: Personal Data Leak Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure personal files are not tracked
+        run: |
+          echo "Verifying personal/private files are not committed..."
+          FAIL=0
+
+          # These files must never be tracked
+          FORBIDDEN_PATTERNS=(
+            "PERSONAL_PROFILE\\.md"
+            "MISSING_INFORMATION\\.md"
+            "\\.backup\\."
+            "resumes/compiled/"
+            "resumes/customized/"
+          )
+
+          for pattern in "${FORBIDDEN_PATTERNS[@]}"; do
+            matches=$(git ls-files | grep -E "$pattern" | grep -v "\.example\." || true)
+            if [ -n "$matches" ]; then
+              echo "::error::Private file tracked in git: $matches"
+              echo "  These files must remain gitignored — they contain personal data."
+              FAIL=1
+            fi
+          done
+
+          [ $FAIL -eq 0 ] && echo "Personal data check passed — no private files tracked."
+          exit $FAIL

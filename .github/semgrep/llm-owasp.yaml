@@ -1,0 +1,181 @@
+rules:
+  # ─────────────────────────────────────────────────────────────
+  # OWASP LLM Top 10 — Custom Semgrep Rules
+  # Scope: Claude Code plugin that orchestrates LLM calls,
+  #        renders LaTeX, and serves a React web resume.
+  # ─────────────────────────────────────────────────────────────
+
+  # LLM02 — Insecure Output Handling
+  # Risk: LLM-generated text rendered as raw HTML enables stored XSS.
+
+  - id: llm02-innerhtml-assignment
+    pattern: $EL.innerHTML = $VAL
+    message: >
+      LLM02 (Insecure Output Handling): Direct innerHTML assignment bypasses
+      React's sanitization. If $VAL ever holds AI-generated content, this enables
+      stored XSS. Use a sanitization library (e.g. DOMPurify) or render via React
+      JSX instead.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM02
+      cwe: CWE-79
+
+  - id: llm02-document-write
+    pattern: document.write($X)
+    message: >
+      LLM02 (Insecure Output Handling): document.write() renders raw HTML with
+      no escaping. Do not use with AI-generated or user-supplied content.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM02
+      cwe: CWE-79
+
+  - id: llm02-dangerous-set-inner-html
+    pattern: dangerouslySetInnerHTML={{ __html: $VAL }}
+    message: >
+      LLM02 (Insecure Output Handling): dangerouslySetInnerHTML renders raw HTML,
+      bypassing React's XSS protection. Sanitize AI-generated content with
+      DOMPurify before passing it here, or restructure to avoid raw HTML rendering.
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      owasp-llm: LLM02
+      cwe: CWE-79
+
+  # LLM08 — Excessive Agency
+  # Risk: eval() / new Function() allow LLM-generated strings to execute as code.
+
+  - id: llm08-eval
+    pattern: eval($X)
+    message: >
+      LLM08 (Excessive Agency): eval() executes arbitrary JavaScript. Never pass
+      AI-generated or user-controlled content to eval(). Refactor to use a safe
+      alternative (e.g. JSON.parse for data, explicit logic for control flow).
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM08
+      cwe: CWE-95
+
+  - id: llm08-new-function
+    pattern: new Function($X)
+    message: >
+      LLM08 (Excessive Agency): new Function() is equivalent to eval() — it
+      compiles and runs arbitrary JavaScript. Do not construct Function objects
+      from AI-generated content.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM08
+      cwe: CWE-95
+
+  - id: llm08-child-process-exec-dynamic
+    patterns:
+      - pattern: |
+          require('child_process').exec($CMD, ...)
+      - pattern-not: |
+          require('child_process').exec("...", ...)
+    message: >
+      LLM08 (Excessive Agency): child_process.exec() with a dynamic command
+      string can enable OS command injection if $CMD contains AI-generated or
+      user-controlled content. Use execFile() with a fixed binary and argument
+      array instead.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM08
+      cwe: CWE-78
+
+  # LLM06 — Sensitive Information Disclosure
+  # Risk: API keys or credentials hardcoded in tracked source files.
+
+  - id: llm06-anthropic-api-key
+    pattern-regex: 'sk-ant-[A-Za-z0-9_\-]{20,}'
+    message: >
+      LLM06 (Sensitive Information Disclosure): Anthropic API key detected in
+      source. Revoke and rotate immediately; store secrets in environment
+      variables or a secrets manager, never in code.
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM06
+      cwe: CWE-798
+
+  - id: llm06-github-pat
+    pattern-regex: 'ghp_[A-Za-z0-9]{36}'
+    message: >
+      LLM06 (Sensitive Information Disclosure): GitHub Personal Access Token
+      detected. Revoke and rotate immediately.
+    languages: [generic]
+    severity: ERROR
+    metadata:
+      owasp-llm: LLM06
+      cwe: CWE-798
+
+  - id: llm06-openai-api-key
+    pattern-regex: 'sk-[A-Za-z0-9]{48}'
+    message: >
+      LLM06 (Sensitive Information Disclosure): Potential OpenAI API key detected.
+      Verify and rotate if confirmed.
+    languages: [generic]
+    severity: WARNING
+    metadata:
+      owasp-llm: LLM06
+      cwe: CWE-798
+
+  # LLM01 — Prompt Injection (detectable surface: template literals in TS/JS)
+  # Risk: user-controlled strings interpolated directly into prompt strings sent
+  # to the Claude API without any demarcation or sanitization.
+  # Note: most prompt construction in this repo is in Markdown skill files
+  # (not statically analyzable); this rule catches TypeScript prompt builders.
+
+  - id: llm01-prompt-string-concat
+    patterns:
+      - pattern: $PROMPT + $USER_INPUT
+      - metavariable-regex:
+          metavariable: $USER_INPUT
+          regex: '.*(user|input|content|query|message|prompt|text|data).*'
+    message: >
+      LLM01 (Prompt Injection): String concatenation may inject user-controlled
+      content directly into a prompt. Wrap untrusted content in explicit
+      delimiters (e.g. XML tags: <user_input>...</user_input>) to prevent
+      an adversary from overriding system instructions.
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      owasp-llm: LLM01
+      cwe: CWE-77
+
+  # LLM05 — Supply Chain
+  # Risk: install lifecycle scripts in package.json execute code during npm install.
+
+  - id: llm05-npm-preinstall-script
+    pattern-regex: '"preinstall"\s*:\s*"[^"]+'
+    message: >
+      LLM05 (Supply Chain): A preinstall script runs automatically during
+      npm install. Verify this is intentional and audited; supply-chain
+      attacks often abuse lifecycle hooks.
+    languages: [generic]
+    paths:
+      include:
+        - "**/package.json"
+    severity: WARNING
+    metadata:
+      owasp-llm: LLM05
+      cwe: CWE-494
+
+  - id: llm05-npm-postinstall-script
+    pattern-regex: '"postinstall"\s*:\s*"[^"]+'
+    message: >
+      LLM05 (Supply Chain): A postinstall script runs automatically after
+      npm install. Audit this script to ensure it has not been tampered with.
+    languages: [generic]
+    paths:
+      include:
+        - "**/package.json"
+    severity: WARNING
+    metadata:
+      owasp-llm: LLM05
+      cwe: CWE-494
