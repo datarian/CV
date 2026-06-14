@@ -197,7 +197,7 @@ cd CV
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
 | **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
 | **Gemini CLI** | Symlink `.gemini/skills → ../.agents/skills` and point Gemini at `AGENTS.md` via `.gemini/settings.json`. *(adapter pending)* |
-| **Cursor** | Symlink `.cursor/skills → ../.agents/skills`; `AGENTS.md` is read natively. *(adapter pending)* |
+| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
 Senior ML Engineer roles"*); invoke the orchestrator explicitly with `/skill:swiss-tech-resume-builder`
@@ -208,7 +208,9 @@ where your agent supports it.
 > configured per-agent (`.claude/.mcp.json` for Claude Code; Pi/Gemini/Cursor MCP wiring is a
 > documented follow-up). The mandatory render constraints (moderncv `fancy`, XeLaTeX-only, 6-arg
 > `\cventry`, GitHub footer) live inside the render skill itself, so they hold on every agent even
-> if it doesn't read `AGENTS.md`.
+> if it doesn't read `AGENTS.md`. The two review skills declare `context: fork` for isolation; where
+> an agent doesn't honor that field (e.g. Cursor today), they simply run in the main context — the
+> review still happens, just without a separate forked turn.
 
 ## Your data stays private
 
