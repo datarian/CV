@@ -3,10 +3,10 @@
 # Compile LaTeX resume using XeLaTeX and clean up build artifacts.
 #
 # Usage (run from the repository root):
-#     bash .claude/skills/swiss-tech-resume-builder/scripts/compile_resume.sh <path-to-tex-file>
+#     bash .agents/skills/swiss-tech-resume-builder/scripts/compile_resume.sh <path-to-tex-file>
 #
 # Example:
-#     bash .claude/skills/swiss-tech-resume-builder/scripts/compile_resume.sh \
+#     bash .agents/skills/swiss-tech-resume-builder/scripts/compile_resume.sh \
 #          resumes/customized/2025_11_10_company_role.tex
 #
 # Requirements:

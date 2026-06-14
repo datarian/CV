@@ -1,14 +1,35 @@
 ---
 name: resume-content-review
 description: Review resume content (resume_content.md, or a rendered PDF's extracted text) for the Swiss tech market — ATS keyword match, content quality, and Swiss conventions — returning a structured verdict with a numeric rating. Use to gate resume content before or after rendering.
+context: fork
+metadata:
+  preferred-model: opus
 ---
 
-> **Bundled reference files.** Paths in this skill beginning with `docs/` are bundled with
-> the plugin. When the plugin is installed, read them under `${CLAUDE_PLUGIN_ROOT}/` (e.g.
-> `${CLAUDE_PLUGIN_ROOT}/docs/knowledge/…`) — the variable expands to the plugin's install
-> directory automatically. When working from the source repository the variable is unset,
-> so read the same paths relative to the repo root (exactly as written).
-> `docs/PERSONAL_PROFILE.md` is a working file in the **current project**, not bundled.
+> **Bundled reference files.** Paths beginning with `docs/` are bundled with this skill
+> package and resolve relative to the **package (repository) root** — read them exactly as
+> written when working inside the repo. If your agent installs the package outside the working
+> directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that. `docs/PERSONAL_PROFILE.md` is a working file in the
+> **current project**, not bundled.
+
+## Reviewer stance (run isolated / `context: fork`)
+
+You are reviewing with **fresh eyes** content you did not write — run this skill in an isolated
+or forked context (a subagent, a `context: fork` turn, or a clean `/skill:` invocation) so prior
+generation reasoning does not bias the verdict. Prefer the strongest available model (Opus on
+Claude Code); content review is a high-judgment gate.
+
+Be deliberate about the **grounding pass** (criterion 8), because you are often handed only a
+rendered PDF's extracted text: if `docs/PERSONAL_PROFILE.md` is readable, verify every quantified
+claim and named technology/scope against it and apply the grounding override (a confirmed
+ungrounded claim is an automatic `pass: false`, `rating ≤ 4.0`); if the profile is not available,
+flag any implausibly precise or unverifiable claim as a High-priority weakness and recommend
+confirming it against the profile.
+
+**Output discipline:** return ONLY the structured verdict defined below — `rating`, `ats_match`,
+`pass`, and a `feedback` list of specific, actionable items — and nothing else. Do **not** edit
+any files; you are a reviewer.
 
 ## Role
 

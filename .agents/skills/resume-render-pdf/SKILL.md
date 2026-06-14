@@ -3,13 +3,12 @@ name: resume-render-pdf
 description: Render an approved resume_content.md to a LaTeX moderncv PDF and compile it with XeLaTeX. Use when producing or fixing the PDF resume, or debugging moderncv compilation errors.
 ---
 
-> **Bundled reference files.** Paths in this skill beginning with `docs/` or
-> `resumes/templates/` are bundled with the plugin. When the plugin is installed, read them
-> under `${CLAUDE_PLUGIN_ROOT}/` (e.g. `${CLAUDE_PLUGIN_ROOT}/resumes/templates/CV_template.tex`) —
-> the variable expands to the plugin's install directory automatically. When working from
-> the source repository the variable is unset, so read the same paths relative to the repo
-> root (exactly as written). Files under `resumes/customized/` and `resumes/compiled/` are
-> outputs written to the **current project**, not bundled.
+> **Bundled reference files.** Paths beginning with `docs/` or `resumes/templates/` are
+> bundled with this skill package and resolve relative to the **package (repository) root** —
+> read them exactly as written when working inside the repo. If your agent installs the package
+> outside the working directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that. Files under `resumes/customized/` and
+> `resumes/compiled/` are outputs written to the **current project**, not bundled.
 
 ## Role
 
@@ -33,7 +32,7 @@ These rules are MANDATORY — never deviate from them:
 
 | Document | Purpose |
 |---|---|
-| `.claude/skills/resume-render-pdf/references/moderncv_technical_guide.md` | Technical reference for all moderncv commands, troubleshooting, and package compatibility — **consult first for any LaTeX question** |
+| `.agents/skills/resume-render-pdf/references/moderncv_technical_guide.md` | Technical reference for all moderncv commands, troubleshooting, and package compatibility — **consult first for any LaTeX question** |
 | `docs/style-guide/pdf/CV_STYLE_GUIDE.md` | Full design specification: typography, colors, layout, margins |
 | `docs/style-guide/pdf/VISUAL_DESIGN_REFERENCE.md` | One-page quick-reference checklist for compliance checks |
 | `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` | Copy-paste boilerplate, section templates, experience entry templates |
@@ -78,7 +77,7 @@ Incorrect (do NOT do this):
 Run the validation script from the repo root:
 
 ```bash
-python3 .claude/skills/resume-render-pdf/scripts/validate_latex.py resumes/customized/{id}/{id}.tex
+python3 .agents/skills/resume-render-pdf/scripts/validate_latex.py resumes/customized/{id}/{id}.tex
 ```
 
 Fix all errors reported before proceeding. Common issues caught by validation:
@@ -92,7 +91,7 @@ Fix all errors reported before proceeding. Common issues caught by validation:
 Run the compile script from the repo root:
 
 ```bash
-bash .claude/skills/resume-render-pdf/scripts/compile_resume.sh resumes/customized/{id}/{id}.tex
+bash .agents/skills/resume-render-pdf/scripts/compile_resume.sh resumes/customized/{id}/{id}.tex
 ```
 
 The script runs XeLaTeX (two passes for cross-references) and reports errors. If compilation fails, diagnose the error message and fix the `.tex` file, then re-validate and re-compile.
@@ -132,7 +131,7 @@ rm -f resumes/customized/{id}/*.aux \
 | Blank gap after section header | Blank line between `\section{}` and first entry | Remove blank line — no paragraph break after section headers |
 | Missing `fontawesome` icons | Package not installed | Use `tlmgr install fontawesome` or omit icon |
 
-For detailed troubleshooting, see `.claude/skills/resume-render-pdf/references/moderncv_technical_guide.md`.
+For detailed troubleshooting, see `.agents/skills/resume-render-pdf/references/moderncv_technical_guide.md`.
 
 ---
 
@@ -152,7 +151,7 @@ Style guide compliance checks:
 - Use `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` for implementation templates.
 - Use `docs/style-guide/pdf/VISUAL_DESIGN_REFERENCE.md` as a quick compliance checklist.
 
-After rendering is complete and content-approved, design quality assurance is handled via the `resume-design-review` skill / `design-reviewer` agent.
+After rendering is complete and content-approved, design quality assurance is handled via the `resume-design-review` skill (run isolated / forked).
 
 **Iteration limits**: Up to 3 rounds of revisions per reviewer. If an issue cannot be resolved after 3 attempts, report to the user with: issue summary, attempts made, technical constraints, and recommendation.
 

@@ -3,12 +3,15 @@ name: resume-profile-coach
 description: Build out, strengthen, and audit the user's PERSONAL_PROFILE.md through conversation. Use when a user wants to create, build, improve, or review their personal profile; when they hand over source material (performance reviews, employment references / Arbeitszeugnisse, a LinkedIn profile, past CVs) to capture their experience; or to spot gaps between their career goals and what their profile actually supports. Invoked during first-run setup and any time profile work is needed. This is the coaching/intake step that feeds the rest of the resume pipeline.
 ---
 
-> **Bundled reference files.** Paths beginning with `docs/` are bundled with the plugin: read
-> them under `${CLAUDE_PLUGIN_ROOT}/` when installed (auto-substituted), or relative to the repo
-> root from source. The profile schema lives in a sibling skill — read it at
-> `../swiss-tech-resume-builder/references/personal_profile_schema.md` relative to this skill's
-> directory (it resolves inside the plugin in both modes). `docs/PERSONAL_PROFILE.md` and
-> `docs/MISSING_INFORMATION.md` are working files in the **user's current project**, not bundled.
+> **Bundled reference files.** Paths beginning with `docs/` are bundled with this skill
+> package and resolve relative to the **package (repository) root** — read them exactly as
+> written when working inside the repo. If your agent installs the package outside the working
+> directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that. The profile schema lives in a sibling skill — read it
+> at `../swiss-tech-resume-builder/references/personal_profile_schema.md` relative to this
+> skill's directory (it resolves inside the package in both modes). `docs/PERSONAL_PROFILE.md`
+> and `docs/MISSING_INFORMATION.md` are working files in the **user's current project**, not
+> bundled.
 
 # Resume Profile Coach
 

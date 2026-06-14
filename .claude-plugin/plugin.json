@@ -1,8 +1,8 @@
 {
   "name": "swiss-tech-resume-builder",
   "displayName": "Swiss Tech Resume Builder",
-  "version": "0.1.0",
-  "description": "Create ATS-optimized resumes for Swiss technology positions. Orchestrates market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review. Specialized for Swiss conventions (work permits, CEFR languages, salary norms) and ML/AI/Engineering roles.",
+  "version": "0.2.0",
+  "description": "Create ATS-optimized resumes for Swiss technology positions. Orchestrates market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review. Specialized for Swiss conventions (work permits, CEFR languages, salary norms) and ML/AI/Engineering roles. Portable across Claude Code, Gemini CLI, Cursor, and Pi via the Agent Skills standard.",
   "author": {
     "name": "Florian Hochstrasser",
     "url": "https://github.com/datarian"
@@ -19,10 +19,6 @@
     "moderncv",
     "job-search"
   ],
-  "skills": "./.claude/skills/",
-  "agents": [
-    "./.claude/agents/design-reviewer.md",
-    "./.claude/agents/swiss-tech-resume-reviewer.md"
-  ],
+  "skills": "./.agents/skills/",
   "commands": "./.claude/commands/"
 }

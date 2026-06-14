@@ -3,20 +3,20 @@ name: resume-content-generation
 description: Use when resume strategy is set and you need to write or revise the resume's actual content — the format-agnostic resume_content.md (YAML + Markdown) that both the PDF and web renderers consume. Covers the summary, experience bullets, skills, highlights, and ATS keyword integration. Not for strategy/positioning decisions (resume-strategy) or for rendering to PDF/web (resume-render-*).
 ---
 
-> **Bundled reference files.** Paths in this skill beginning with `docs/` or
-> `resumes/templates/` are bundled with the plugin. When the plugin is installed, read
-> them under `${CLAUDE_PLUGIN_ROOT}/` (e.g. `${CLAUDE_PLUGIN_ROOT}/docs/knowledge/…`) — the
-> variable expands to the plugin's install directory automatically. When working from the
-> source repository the variable is unset, so read the same paths relative to the repo root
-> (exactly as written). Files under `resumes/customized/`, `resumes/compiled/`, and
-> `docs/PERSONAL_PROFILE.md` are working files in the **current project**, not bundled.
+> **Bundled reference files.** Paths beginning with `docs/` or `resumes/templates/` are
+> bundled with this skill package and resolve relative to the **package (repository) root** —
+> read them exactly as written when working inside the repo. If your agent installs the package
+> outside the working directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that. Files under `resumes/customized/`,
+> `resumes/compiled/`, and `docs/PERSONAL_PROFILE.md` are working files in the **current
+> project**, not bundled.
 
 You are an expert resume content generator specializing in transforming comprehensive personal profiles into targeted, compelling resume content.
 
 **Core Responsibility:** Generate `resume_content.md` files (YAML frontmatter + Markdown) from `docs/PERSONAL_PROFILE.md` data and strategic guidance. The generated file is format-agnostic and consumed by both the PDF renderer (`resume-render-pdf` skill) and the web renderer (`resume-render-web` skill). Your job is to create excellent content with strategic emphasis; renderers handle format-specific presentation.
 
 **Reference documents:**
-- Personal profile schema: `.claude/skills/swiss-tech-resume-builder/references/personal_profile_schema.md`
+- Personal profile schema: `.agents/skills/swiss-tech-resume-builder/references/personal_profile_schema.md`
 - ATS optimization guidelines: `docs/knowledge/ats_optimization.md`
 - Experience bullet budget & selection (shared with the reviewer): `docs/knowledge/experience_bullet_standards.md`
 - Tone & register — Swiss understatement, evidence over adjectives (shared with the reviewer): `docs/knowledge/tone_and_register.md`
@@ -28,7 +28,7 @@ You are an expert resume content generator specializing in transforming comprehe
 
 Every **metric, named technology, scope figure, job title, date, and outcome** you put in `resume_content.md` MUST be traceable to a specific statement in `docs/PERSONAL_PROFILE.md`. Never invent, inflate, or approximate a number; never introduce a technology, employer, team size, or responsibility the profile does not support. When the profile lacks a number that would strengthen a bullet, **surface the gap** — tell the user and append it to `docs/MISSING_INFORMATION.md` (the durable profile-gap ledger the `resume-profile-coach` skill owns; check it first so you don't duplicate an item) rather than filling it. A missing metric is acceptable, an invented one is not.
 
-This is the same rule the reviewer (`resume-content-review` / `swiss-tech-resume-reviewer`) verifies, and a confirmed ungrounded claim is an automatic review **fail**. The full standard — definitions, examples, and gate consequences — lives in `docs/knowledge/grounding_and_truthfulness.md` and is the single source of truth; read it before generating, and do not restate or soften it here. Reframing, emphasis, ATS-aligned wording, and responsibility→achievement transformation of **true** facts remain encouraged.
+This is the same rule the reviewer (`resume-content-review`) verifies, and a confirmed ungrounded claim is an automatic review **fail**. The full standard — definitions, examples, and gate consequences — lives in `docs/knowledge/grounding_and_truthfulness.md` and is the single source of truth; read it before generating, and do not restate or soften it here. Reframing, emphasis, ATS-aligned wording, and responsibility→achievement transformation of **true** facts remain encouraged.
 
 ---
 
@@ -309,7 +309,7 @@ When targeting Swiss positions, ensure:
 
 ## Revision Mode
 
-When given reviewer feedback alongside an existing `resume_content.md` path (e.g., from the swiss-tech-resume-reviewer), **revise that file in place** rather than regenerating from scratch. Steps:
+When given reviewer feedback alongside an existing `resume_content.md` path (e.g., from `resume-content-review`), **revise that file in place** rather than regenerating from scratch. Steps:
 
 1. Read the existing `resume_content.md` carefully.
 2. Read the reviewer feedback (content gaps, missing keywords, bullet improvements, reordering suggestions, quantification opportunities).

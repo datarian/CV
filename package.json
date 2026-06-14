@@ -1,0 +1,26 @@
+{
+  "name": "swiss-tech-resume-builder",
+  "version": "0.2.0",
+  "description": "Portable Agent Skills bundle that builds ATS-optimized resumes for the Swiss tech job market (Claude Code, Gemini CLI, Cursor, Pi).",
+  "keywords": [
+    "pi-package",
+    "agent-skills",
+    "resume",
+    "cv",
+    "ats",
+    "swiss"
+  ],
+  "license": "CC-BY-NC-SA-4.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datarian/CV"
+  },
+  "homepage": "https://github.com/datarian/CV",
+  "author": "Florian Hochstrasser (https://github.com/datarian)",
+  "pi": {
+    "skills": [
+      ".agents/skills"
+    ]
+  }
+}
