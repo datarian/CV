@@ -196,7 +196,7 @@ cd CV
 |-------|-----------------|
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
 | **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
-| **Gemini CLI** | Symlink `.gemini/skills → ../.agents/skills` and point Gemini at `AGENTS.md` via `.gemini/settings.json`. *(adapter pending)* |
+| **Gemini CLI** | Run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias), and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Enable skills with `/skills` if your Gemini build doesn't auto-enable them. |
 | **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
