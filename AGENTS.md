@@ -32,9 +32,10 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
   market analysis, strategy, content generation, PDF render, content/design review) and
   `swiss-tech-resume-setup`. The two review skills (`resume-content-review`,
   `resume-design-review`) declare `context: fork` so they review with fresh eyes.
-- Per-agent skill directories (`.claude/skills/`, and later `.gemini/skills/`,
-  `.cursor/skills/`) are **symlinks** into `.agents/skills/`. Pi reads `.agents/skills/`
-  natively. Edit skills only in `.agents/skills/`.
+- **Pi and Cursor read `.agents/skills/` natively** (no config — just open/run in a clone).
+  **Claude Code** uses the `.claude/skills/` symlink into `.agents/skills/` (plus the plugin
+  manifest). **Gemini CLI** needs a `.gemini/skills/` symlink into `.agents/skills/` (adapter
+  pending). Either way, edit skills only in `.agents/skills/` — never through a symlink.
 - `.claude-plugin/` - Claude Code plugin + marketplace manifests (points `skills` at
   `.agents/skills/`).
 - `docs/PERSONAL_PROFILE.md` - **Primary data source** (private, gitignored). Built and
