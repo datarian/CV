@@ -3,11 +3,12 @@ name: resume-strategy
 description: Plan resume content strategy for a Swiss tech role — positioning, section emphasis, and ATS keyword selection from market analysis plus the personal profile. Use after market analysis and before generating resume content.
 ---
 
-> **Bundled reference files.** Paths in this skill beginning with `docs/` are bundled with
-> the plugin. When the plugin is installed, read them under `${CLAUDE_PLUGIN_ROOT}/` (e.g.
-> `${CLAUDE_PLUGIN_ROOT}/docs/knowledge/…`) — the variable expands to the plugin's install
-> directory automatically. When working from the source repository the variable is unset,
-> so read the same paths relative to the repo root (exactly as written).
+> **Bundled reference files.** Paths beginning with `docs/` are bundled with this skill
+> package and resolve relative to the **package (repository) root** — read them exactly as
+> written when working inside the repo. If your agent installs the package outside the working
+> directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that. `docs/PERSONAL_PROFILE.md` is a working file in the
+> **current project**, not bundled.
 
 # Resume Strategy
 

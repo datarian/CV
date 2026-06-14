@@ -1,13 +1,24 @@
 ---
 name: resume-design-review
 description: Review the visual design of a rendered resume (PDF or web) against the style guide, returning a structured verdict with a numeric rating. Use after rendering when layout, fonts, colors, or visual structure changed.
+context: fork
+metadata:
+  preferred-model: sonnet
 ---
 
-> **Bundled reference files.** Paths in this skill beginning with `docs/` are bundled with
-> the plugin. When the plugin is installed, read them under `${CLAUDE_PLUGIN_ROOT}/` (e.g.
-> `${CLAUDE_PLUGIN_ROOT}/docs/style-guide/…`) — the variable expands to the plugin's install
-> directory automatically. When working from the source repository the variable is unset,
-> so read the same paths relative to the repo root (exactly as written).
+> **Bundled reference files.** Paths beginning with `docs/` are bundled with this skill
+> package and resolve relative to the **package (repository) root** — read them exactly as
+> written when working inside the repo. If your agent installs the package outside the working
+> directory and exposes its install root via a variable (e.g. Claude Code's
+> `${CLAUDE_PLUGIN_ROOT}/`), prepend that.
+
+## Reviewer stance (run isolated / `context: fork`)
+
+You are reviewing the visual design of a rendered resume (PDF and/or web) with **fresh eyes** —
+run this skill in an isolated or forked context (a subagent, a `context: fork` turn, or a clean
+`/skill:` invocation). **Output discipline:** return ONLY the structured verdict defined below —
+`rating`, `pass`, and a `feedback` list of specific, actionable design items — and nothing else.
+Do **not** edit any files; you are a reviewer.
 
 ## Role
 

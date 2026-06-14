@@ -30,7 +30,7 @@ The `resume-render-web` skill (preview mode) will:
 ## Use Cases
 
 - Quick visual check during content development
-- Review before requesting formal approval from swiss-tech-resume-reviewer
+- Review before requesting formal approval from the `resume-content-review` skill
 - Test web builder changes or styling
 - Demonstrate locally to others without sharing private URL
 

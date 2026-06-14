@@ -11,8 +11,8 @@
     {
       "name": "swiss-tech-resume-builder",
       "source": "./",
-      "description": "End-to-end resume builder for Swiss tech roles: market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review. PDF pipeline only in v0.1.0.",
-      "version": "0.1.0",
+      "description": "End-to-end resume builder for Swiss tech roles: market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review. Portable across Claude Code, Gemini CLI, Cursor, and Pi via the Agent Skills standard.",
+      "version": "0.2.0",
       "author": {
         "name": "Florian Hochstrasser",
         "url": "https://github.com/datarian"

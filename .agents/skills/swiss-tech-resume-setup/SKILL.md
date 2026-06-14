@@ -39,10 +39,10 @@ directory), never in the plugin cache.
 
 1. **Personal profile** — the single source of truth. If `docs/PERSONAL_PROFILE.md`
    does not already exist, create it from the bundled example:
-   - The example ships with the plugin. Locate it at
-     `${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md` when running as an
-     installed plugin, or `docs/PERSONAL_PROFILE.example.md` when running from
-     the source repo. Copy it to `docs/PERSONAL_PROFILE.md` in the user's project.
+   - The example ships with this package at `docs/PERSONAL_PROFILE.example.md` (relative to the
+     package root; prepend your agent's install-root variable such as `${CLAUDE_PLUGIN_ROOT}/`
+     if the package is installed outside the working directory). Copy it to
+     `docs/PERSONAL_PROFILE.md` in the user's project.
    - Then hand off to the **`resume-profile-coach`** skill to build the profile out
      conversationally — ingesting the user's performance reviews, employment references
      (Swiss *Arbeitszeugnisse*), LinkedIn profile, and past CVs, auditing it against the

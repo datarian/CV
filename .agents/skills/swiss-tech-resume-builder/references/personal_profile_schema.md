@@ -437,10 +437,11 @@ Always include at least one of:
 Create your PERSONAL_PROFILE.md in your project, from the bundled example:
 
 ```bash
-# Installed plugin:
-cp "${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md" docs/PERSONAL_PROFILE.md
-# Source repository:
+# From the repo (package root is the working directory):
 cp docs/PERSONAL_PROFILE.example.md docs/PERSONAL_PROFILE.md
+# If the package is installed outside the working directory, prepend your agent's install
+# root, e.g. Claude Code:
+cp "${CLAUDE_PLUGIN_ROOT}/docs/PERSONAL_PROFILE.example.md" docs/PERSONAL_PROFILE.md
 # Then fill in with your actual information
 ```
 
