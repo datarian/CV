@@ -61,7 +61,7 @@ For manual work on a `.tex` directly:
 ```bash
 cd resumes/customized/{id}/
 xelatex {id}.tex
-rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg   # clean build artifacts
+find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' -o -name '*.bbl' -o -name '*.blg' \) -delete   # clean build artifacts
 ```
 
 Always compile with XeLaTeX (never pdflatex). Templates use the `moderncv` class.
@@ -110,9 +110,9 @@ which fork an isolated context (use your agent's isolation mechanism: a subagent
 ## File Management
 
 ### LaTeX Build Artifacts
-Always clean up after compilation:
+Always clean up after compilation (use `find`, not `rm -f *.aux …`: in zsh one unmatched glob aborts the whole `rm`):
 ```bash
-rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg
+find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' -o -name '*.bbl' -o -name '*.blg' \) -delete
 ```
 
 ### Generated & temporary files
