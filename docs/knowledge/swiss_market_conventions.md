@@ -45,7 +45,7 @@ This reference guide documents Swiss-specific resume expectations, cultural norm
 7. Certifications & Training
 8. Additional Information (publications, patents, open-source contributions)
 9. References (or "Available upon request")
-10. **Footer**: "Curious how this resume was built? Explore the system at github.com/datarian/CV"
+10. **Footer** (in the CV's language): "Curious how this resume was built? Explore the system at github.com/datarian/CV"
 
 ## Swiss Cultural Values to Demonstrate
 
@@ -247,7 +247,7 @@ Swiss employers often request references. Common approaches:
 - Examples: "Mountain hiking, chess club president, open-source contributor"
 
 ### GitHub Footer Link
-**ALWAYS include**: "Curious how this resume was built? Explore the system at github.com/datarian/CV"
+**ALWAYS include**, in the CV's language: "Curious how this resume was built? Explore the system at github.com/datarian/CV" (German: "Neugierig, wie dieser Lebenslauf entstanden ist? Das System dahinter: github.com/datarian/CV")
 - Demonstrates technical sophistication
 - Shows open-source contribution mindset
 - Differentiates from generic resumes

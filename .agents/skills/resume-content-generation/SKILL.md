@@ -128,6 +128,8 @@ summary_highlights:
 **Footer Note:** Curious how this resume was built? Explore the system at github.com/datarian/CV
 ```
 
+Write the footer note in the CV's language (German: "Neugierig, wie dieser Lebenslauf entstanden ist? Das System dahinter: github.com/datarian/CV").
+
 ---
 
 ## Summary Highlights Specification

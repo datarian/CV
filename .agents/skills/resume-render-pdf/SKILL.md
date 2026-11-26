@@ -23,7 +23,7 @@ These rules are MANDATORY — never deviate from them:
 1. **`\moderncvstyle{fancy}` is REQUIRED** — it is the only style that properly handles multi-page documents without "Unbalanced output routine" errors. Never use `casual`, `classic`, `banking`, or `oldstyle`.
 2. **`\cventry` must have exactly 6 arguments**: `\cventry{dates}{title}{company}{location}{}{description}`. The 5th argument must be present even if empty (`{}`).
 3. **Compile with XeLaTeX ONLY** — never pdflatex.
-4. **GitHub footer is MANDATORY** — every CV must end with: `"Curious how this resume was built? Explore the system at \url{github.com/datarian/CV}"`. Place this using moderncv's footer mechanism or as a final section.
+4. **GitHub footer is MANDATORY** — every CV must end with the footer line in the CV's language — English: `"Curious how this resume was built? Explore the system at \url{github.com/datarian/CV}"`; German: `"Neugierig, wie dieser Lebenslauf entstanden ist? Das System dahinter: \url{github.com/datarian/CV}"`. Place this using moderncv's footer mechanism or as a final section.
 5. **Never change job titles** of past or current employment entries.
 
 ---

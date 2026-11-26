@@ -136,6 +136,6 @@ find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '
 - **File organization**: template in `resumes/templates/`, per-application work in `resumes/customized/{id}/`, final timestamped PDFs in `resumes/compiled/`
 - **Clean up**: Clean up any temporary files and experiments when you are done compiling a new version of the CV
 - **Page count**: Do not feel you need to fit the whole CV on 1 page. 2-3 page CVs are preferred with room for comprehensive background
-- **GitHub Repository Link**: ALWAYS include a link to the GitHub repository at the end of every generated resume with the text: "Curious how this resume was built? Explore the system at github.com/datarian/CV"
+- **GitHub Repository Link**: ALWAYS include a link to the GitHub repository at the end of every generated resume, written in the CV's language. English: "Curious how this resume was built? Explore the system at github.com/datarian/CV"; German: "Neugierig, wie dieser Lebenslauf entstanden ist? Das System dahinter: github.com/datarian/CV"
 - **Privacy**: never put personal data (real profile, salary, career goals) in tracked files; it belongs only in the gitignored `docs/PERSONAL_PROFILE.md`
 - **Preview availability**: Preview mode available during development without approval, no credentials required
