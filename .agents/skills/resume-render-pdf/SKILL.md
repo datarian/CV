@@ -107,16 +107,25 @@ Use the current timestamp for the filename prefix.
 ### 6. Clean up build artifacts
 
 ```bash
-rm -f resumes/customized/{id}/*.aux \
-       resumes/customized/{id}/*.log \
-       resumes/customized/{id}/*.out \
-       resumes/customized/{id}/*.fls \
-       resumes/customized/{id}/*.fdb_latexmk \
-       resumes/customized/{id}/*.gz \
-       resumes/customized/{id}/*.toc \
-       resumes/customized/{id}/*.bbl \
-       resumes/customized/{id}/*.blg
+find resumes/customized/{id} -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' \
+     -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' \
+     -o -name '*.bbl' -o -name '*.blg' \) -delete
 ```
+
+Use `find`, not `rm -f *.aux *.fls …`: in zsh (the default macOS shell) one unmatched glob aborts the
+whole `rm`, so nothing gets deleted.
+
+### 7. Look at the result before handing off
+
+Render page previews and actually inspect them. `pdftoppm` is often missing, Ghostscript is not:
+
+```bash
+gs -q -dNOPAUSE -dBATCH -sDEVICE=png16m -r100 -sOutputFile=/tmp/page%d.png resumes/customized/{id}/{id}.pdf
+gs -q -dNOPAUSE -dBATCH -sDEVICE=txtwrite -sOutputFile=- resumes/customized/{id}/{id}.pdf   # text check
+```
+
+Check: page count, no near-empty last page, every experience bullet ≤ 3 rendered lines, no
+one-word last lines, entry headings not stranding a single word, section headings in colour.
 
 ---
 
@@ -130,8 +139,28 @@ rm -f resumes/customized/{id}/*.aux \
 | `Package conflict: hyperref` | Wrong package load order | Load `hyperref` last in preamble |
 | Blank gap after section header | Blank line between `\section{}` and first entry | Remove blank line — no paragraph break after section headers |
 | Missing `fontawesome` icons | Package not installed | Use `tlmgr install fontawesome` or omit icon |
+| `Missing } inserted` in an entry | `\\` inside a `\cventry`/`\cvitem` text ends the table row | Use `\newline` for line breaks inside entries |
 
 For detailed troubleshooting, see `.agents/skills/resume-render-pdf/references/moderncv_technical_guide.md`.
+
+## Layout Pitfalls (moderncv fancy)
+
+The template preamble already contains the fixes below. **Keep its layout patches when copying it**, and
+reach for these before inventing a workaround:
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Text stays justified or hyphenated despite `\raggedright` / `\hyphenpenalty` in the text | Text sits in a tabular p-column; inline settings don't reliably reach the paragraph end | Column-type patch on `\@cvitem` (`>{\RaggedRight…}p{\maincolumnwidth}`), already in the template |
+| Ragged settings ignored after **bold** text | ragged2e re-applies its lengths on every font change | Set `\RaggedRightRightskip` / `\RaggedRightParfillskip` globally (template) |
+| One-word last lines inside bullets only | `\@trivlist` resets `\parfillskip` | `\apptocmd{\@trivlist}{\parfillskip\RaggedRightParfillskip}` (template) |
+| Section headings black although `color1` is blue | The style copies colours with `\colorlet` at load time | `\colorlet{sectioncolor}{color1}` after redefining `color1` (template) |
+| City stranded on its own line under a job heading | Stock heading packs title, company and city next to the date box | Two-line `\cventry` redefinition (template) |
+| Extra gap under the first entry of a section | `\vspace` placed directly after `\section{}` | Never put `\vspace` between `\section{}` and its first entry |
+| Long entry won't break across pages / jumps whole to next page | `\vspace*{…}` before a continuation block, or moving a bullet into the first block until it no longer fits | Split long entries into heading block + `\cvitem[0pt]{}{…}` continuation joined with `\vspace{-6pt}` (no star); keep ≥ 2 bullets on the first page |
+| A short tail ("2 Mio.", "LiteLLM.") wraps alone | Normal line breaking | Tie it: `EUR~2~Mio.`, `mit~LiteLLM.`; protect title compounds with `\mbox{KI-Systeme}` |
+| Header title wraps to 2 lines | Title too long for the name column | Shorten the positioning title; aim for one line |
+| Heading overlaps the contact block | Too much negative space after `\makecvtitle` | Cap at about `\vspace{-6pt}`; the photo + contact column sets the header height |
+| Bullets over 3 lines | Content too long | Fix in `resume_content.md` (cut redundancy, e.g. tools already in the skills block), not with smaller fonts |
 
 ---
 

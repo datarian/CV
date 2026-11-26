@@ -28,7 +28,7 @@
 \usepackage[a4paper]{geometry}
 \usepackage{rotating}
 \geometry{scale=0.9}
-\setlength{\hintscolumnwidth}{1.7cm}
+\setlength{\hintscolumnwidth}{3.5cm}                 % fits section labels such as "Kernkompetenzen" (CV_STYLE_GUIDE.md §3)
 \recomputelengths
 
 % custom colors
@@ -37,6 +37,44 @@
 \definecolor{job}{HTML}{f77189}
 \definecolor{other}{HTML}{32b166}
 \definecolor{color2}{rgb}{0.3,0.3,0.3}% dark grey
+% The style captures its colours with \colorlet when it loads (a copy, not a link), so
+% redefining color1 above does NOT reach the section headings. Re-link them explicitly.
+\colorlet{sectioncolor}{color1}
+
+% ===============================
+% LAYOUT PATCHES (moderncv fancy / body style v)
+% ===============================
+% Why: moderncv sets every \cvitem/\cventry text in a p-column of a tabular. Inline
+% \raggedright or \hyphenpenalty inside the text argument therefore has no reliable effect.
+% Patch the column type instead.
+\usepackage{ragged2e}
+% ragged2e re-applies these lengths on every font change (e.g. \textbf), so set them
+% globally here rather than inside the cell.
+\setlength{\RaggedRightRightskip}{0pt plus 3.5em}    % moderate ragged edge
+\setlength{\RaggedRightParfillskip}{0pt plus 7cm}    % last line at least ~half full: no one-word last lines
+\makeatletter
+% main column: ragged-right, no hyphenation (narrow column + justification = rivers and "Informati-onsextraktion")
+\expandafter\patchcmd\csname\@backslashchar @cvitem\endcsname{p{\maincolumnwidth}}{>{\RaggedRight\hyphenpenalty=10000\exhyphenpenalty=10000\arraybackslash}p{\maincolumnwidth}}{}{\GenericWarning{}{RAGGED PATCH FAILED}}
+% uniform row spacing: fixed depth on the last line of every cvitem cell
+\expandafter\patchcmd\csname\@backslashchar @cvitem\endcsname{#3\\}{#3\ifhmode\@moderncvstrut{5pt}{0pt}\fi\\}{}{\GenericWarning{}{CVITEM PATCH FAILED}}
+% lists (itemize) reset \parfillskip in \@trivlist; re-apply the balanced last line inside bullets
+\apptocmd{\@trivlist}{\parfillskip\RaggedRightParfillskip}{}{\GenericWarning{}{TRIVLIST PATCH FAILED}}
+% entry headings: bold title on line 1 next to the date, employer + city on line 2.
+% (The stock heading wraps "title, company, city." into the date box and strands the city alone on a line.)
+\renewcommand*{\cventry}[7][.5ex]{%
+  \savebox{\cventryyearbox}{\hspace*{2\separatorcolumnwidth}\hintstyle{#2}}%
+  \setlength{\cventrytitleboxwidth}{\widthof{\usebox{\cventryyearbox}}}%
+  \setlength{\cventrytitleboxwidth}{\maincolumnwidth-\cventrytitleboxwidth}%
+  \cvitem[#1]{}{%
+    \parbox[t]{\cventrytitleboxwidth}{\RaggedRight\strut{\bfseries#3}%
+      \ifthenelse{\equal{#4}{}}{}{\newline{\slshape#4}\ifthenelse{\equal{#5}{}}{}{, #5}}\strut}%
+    \usebox{\cventryyearbox}}%
+  \ifx&#7&\else\vspace*{-4pt}\cvitem[#1]{}{\small#7}\fi}
+\makeatother
+% Typesetting tips (see resume-render-pdf references, "Layout pitfalls"):
+% - tie short endings so they don't wrap alone:  EUR~2~Mio.,  mit~LiteLLM.
+% - protect hyphenated compounds in the header title: \mbox{KI-Systeme}
+% - never put \vspace directly after \section{} (breaks the first entry's spacing)
 
 \let\originalrecomputecvlengths\recomputecvlengths
 \renewcommand*{\recomputecvlengths}{%
@@ -159,26 +197,26 @@
 % ===============================
 % Source: docs/PERSONAL_PROFILE.md - Projects Portfolio + Key Achievements
 % CUSTOMIZATION: Select 2-4 most relevant projects based on target role
-% - Use Challenge-Solution-Impact format
+% - Use Challenge-Solution-Impact format (line breaks inside entries: \newline, never \\ -- it ends the table row)
 % - Quantify impact wherever possible
 % - Choose projects that demonstrate required skills
 
 \section{[Key Projects / Major Achievements / Notable Projects]}
 \cventry{}{[Project Name]}{[Company]}{}{}{%
-\textbf{Challenge}: [Brief description of the problem] \\
-\textbf{Solution}: [Your approach and technologies used] \\
+\textbf{Challenge}: [Brief description of the problem]\newline
+\textbf{Solution}: [Your approach and technologies used]\newline
 \textbf{Impact}: [Quantifiable results and business value]
 }
 
 \cventry{}{[Project Name]}{[Company]}{}{}{%
-\textbf{Challenge}: [Brief description of the problem] \\
-\textbf{Solution}: [Your approach and technologies used] \\
+\textbf{Challenge}: [Brief description of the problem]\newline
+\textbf{Solution}: [Your approach and technologies used]\newline
 \textbf{Impact}: [Quantifiable results and business value]
 }
 
 \cventry{}{[Project Name]}{[Company]}{}{}{%
-\textbf{Challenge}: [Brief description of the problem] \\
-\textbf{Solution}: [Your approach and technologies used] \\
+\textbf{Challenge}: [Brief description of the problem]\newline
+\textbf{Solution}: [Your approach and technologies used]\newline
 \textbf{Impact}: [Quantifiable results and business value]
 }
 
@@ -192,10 +230,9 @@
 % Note: Language skills are highly valued in Swiss market - always include
 
 \section{Languages}
-\cvitemwithcomment{[Language 1]}{[Proficiency level]}{}
-\cvitemwithcomment{[Language 2]}{[Proficiency level]}{}
-\cvitemwithcomment{[Language 3]}{[Proficiency level]}{}
-\cvitemwithcomment{[Language 4]}{[Proficiency level]}{}
+% two compact rows; keep the CEFR level in every entry (Swiss convention)
+\cvdoubleitem{[Language 1]}{[Proficiency level] ([CEFR])}{[Language 2]}{[Proficiency level] ([CEFR])}
+\cvdoubleitem{[Language 3]}{[Proficiency level] ([CEFR])}{[Language 4]}{[Proficiency level] ([CEFR])}
 
 % ===============================
 % OPTIONAL SECTIONS
@@ -275,8 +312,9 @@
 %    xelatex YYYY_MM_DD_company_role.tex
 %    # Review PDF for ATS compatibility and visual appeal
 %
-% 6. CLEAN UP
-%    rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz
+% 6. CLEAN UP (find instead of rm globs: zsh aborts the whole rm on the first unmatched glob)
+%    find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.fls' \
+%         -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' \) -delete
 %
 % ROLE-SPECIFIC EMPHASIS GUIDELINES:
 %
