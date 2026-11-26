@@ -55,12 +55,14 @@ This complements `experience_bullet_standards.md` (how *many* bullets) and
    qualitatively than forced into a metric.
 
 6. **Calm, factual register.** No exclamation marks, no superlatives, no rhetorical build-up;
-   specific and understated throughout. **Person:** the **Professional Summary may use first
-   person** ("I build AI platforms that run at production scale…") — a direct, plain first-person
-   summary reads as confident, not braggy, and is an accepted Swiss choice. **Everywhere else
-   (experience bullets, skills, projects) stays third-person/implied** — no "I/me/my" in
-   bullets. First person is a summary-only allowance, not licence for an "I did X, I did Y"
-   experience section.
+   specific and understated throughout. **Person: no pronouns anywhere** — neither first
+   ("I/ich") nor third person, in the summary, bullets, skills or projects; this is the Swiss
+   convention. Write person-neutral lines:
+   - **English:** implied-subject action verbs — "Built…", "Led…" (never "I built…").
+   - **German:** participle style, not conjugated verbs — "Evaluationssystem initiiert und
+     aufgebaut", "Im Team verantwortlich für …". A conjugated verb without a subject still
+     carries a person ("Betreibt" = 3rd, "Betreibe" = 1st) and reads as inconsistent next to
+     ambiguous forms like "Initiierte". Summaries likewise: "AI Engineer mit 7+ Jahren …; Schwerpunkt: …".
 
 7. **No buzzword padding — skills are concrete, capabilities are earned in bullets.** A skills
    list must contain real, checkable nouns: languages, tools, frameworks, platforms, methods
@@ -112,7 +114,7 @@ Swiss credibility):
 - Testimonial / praise quotes (*cited by the EM as 'gold'*) and self-editorializing the value or safety of one's own output (*safe, no-risk*, *game-changing*) → recommend cutting; keep the artifact and its adoption.
 - Governance/security framed as policing (*steered teams away from shadow AI*) → recommend reframing as enablement and outcome.
 - **Buzzword padding** — vague capability slogans in the skills list or summary that name no technology and carry no evidence (*production-grade services, developer experience, best-practice sharing, knowledge architecture, strong backend fundamentals, scalable solutions*) → recommend cutting, or moving the claim into an evidenced bullet. A skills section thick with these reads as marketing; this is the most common "too many buzzwords" trigger.
-- First person (*I/me/my*) **outside the summary** — in experience bullets, skills, or projects → recommend converting to third-person/implied (first person is a summary-only allowance, rule 6).
+- **Pronouns or person-marked verbs anywhere** — *I/me/my*, *ich/mein*, or (German) conjugated verbs that mark a person such as *Betreibt / Betreibe* → recommend person-neutral phrasing: implied-subject action verbs in English, participle style in German (rule 6).
 
 A resume can be quantified, specific, and ATS-strong **and** understated — that combination is
 the target, not a trade-off.

@@ -61,7 +61,7 @@ For manual work on a `.tex` directly:
 ```bash
 cd resumes/customized/{id}/
 xelatex {id}.tex
-rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg   # clean build artifacts
+find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' -o -name '*.bbl' -o -name '*.blg' \) -delete   # clean build artifacts
 ```
 
 Always compile with XeLaTeX (never pdflatex). Templates use the `moderncv` class.
@@ -110,9 +110,9 @@ which fork an isolated context (use your agent's isolation mechanism: a subagent
 ## File Management
 
 ### LaTeX Build Artifacts
-Always clean up after compilation:
+Always clean up after compilation (use `find`, not `rm -f *.aux …`: in zsh one unmatched glob aborts the whole `rm`):
 ```bash
-rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg
+find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.gz' -o -name '*.toc' -o -name '*.bbl' -o -name '*.blg' \) -delete
 ```
 
 ### Generated & temporary files
@@ -136,6 +136,6 @@ rm -f *.aux *.log *.out *.fls *.fdb_latexmk *.gz *.toc *.bbl *.blg
 - **File organization**: template in `resumes/templates/`, per-application work in `resumes/customized/{id}/`, final timestamped PDFs in `resumes/compiled/`
 - **Clean up**: Clean up any temporary files and experiments when you are done compiling a new version of the CV
 - **Page count**: Do not feel you need to fit the whole CV on 1 page. 2-3 page CVs are preferred with room for comprehensive background
-- **GitHub Repository Link**: ALWAYS include a link to the GitHub repository at the end of every generated resume with the text: "Curious how this resume was built? Explore the system at github.com/datarian/CV"
+- **GitHub Repository Link**: ALWAYS include a link to the GitHub repository at the end of every generated resume, written in the CV's language. English: "Curious how this resume was built? Explore the system at github.com/datarian/CV"; German: "Neugierig, wie dieser Lebenslauf entstanden ist? Das System dahinter: github.com/datarian/CV"
 - **Privacy**: never put personal data (real profile, salary, career goals) in tracked files; it belongs only in the gitignored `docs/PERSONAL_PROFILE.md`
 - **Preview availability**: Preview mode available during development without approval, no credentials required

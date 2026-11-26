@@ -57,12 +57,13 @@ Cross-reference `docs/style-guide/pdf/CV_STYLE_GUIDE.md` Section 2 for the appro
 - Font sizes follow the approved scale — no ad-hoc sizing
 - Bold and italic used purposefully, not decoratively
 - No competing typefaces
+- The project template ships moderncv's default Latin Modern Sans (no `fontspec`) because the style-guide fonts are often not installed. Note this once as Low. Do not deduct for it on every iteration unless typefaces are mixed.
 
 ### Color Usage
 
 Approved palette (from CV_STYLE_GUIDE.md Section 3): `#39a7d0` (light blue), `#4D4D4D` (dark grey), `#000000` (body text). Check:
 
-- Section headers use the approved light blue
+- Section headers use the approved light blue. Check the render, not the source: when `color1` is redefined after `\moderncvcolor{…}`, the headings stay black unless `\colorlet{sectioncolor}{color1}` is set.
 - Body text renders in dark grey or black — no rogue color values
 - Sufficient contrast for print legibility
 
@@ -88,10 +89,19 @@ This is a common LaTeX source issue. Inspect EVERY section header:
 
 Visually scan the compiled PDF for:
 
-- **Overlapping text**: Elements that collide or bleed into each other
+- **Overlapping text**: Elements that collide or bleed into each other (including the first section heading against the photo and contact column)
 - **Awkward line breaks**: Hyphenation mid-word in unexpected places, orphaned single words on a line
 - **Text overflow**: Content extending beyond margins or into adjacent columns
 - **Inconsistent line spacing**: Uneven gaps between entries, bullet points, or paragraphs
+
+Concrete checks that came up repeatedly in past reviews:
+
+- **Justification in the narrow main column**: rivers and odd hyphenation (e.g. "Informati-onsextraktion"). The main column should be ragged-right without hyphenation.
+- **One-word last lines** in paragraphs and bullets ("Verfügbarkeit.", "LiteLLM.").
+- **Entry headings**: no single word (typically the city) stranded on its own line. With the template, headings are title + date on line 1 and employer + city on line 2.
+- **Header title** fits on one line.
+- **Bullet length**: any experience bullet over 3 rendered lines is a content issue. Report it as such and leave it to the content side; do not ask for smaller fonts.
+- **Page balance**: no near-empty last page. If an entry continues onto the next page, at least 2 bullets stay with its heading.
 
 ### Photo & Portrait
 
@@ -194,7 +204,9 @@ Per WEB_RESUME_STYLE_GUIDE.md Section 7:
 ## Review Process
 
 1. Read the relevant style guide(s) first.
-2. Evaluate the rendered output (open the PDF or preview the web resume).
+2. Evaluate the rendered output (open the PDF or preview the web resume). For PDF, render every page at ≥ 140 dpi and inspect the images. Text extraction alone misses spacing and alignment. `pdftoppm` is often not installed, so use Ghostscript:
+   `gs -q -dNOPAUSE -dBATCH -sDEVICE=png16m -r140 -sOutputFile=<scratch>/page%d.png <file>.pdf`
+   When re-reviewing, first check each item from the previous verdict and say whether it is resolved.
 3. Work through every criterion above systematically, noting issues by severity.
 4. Prioritize feedback:
    - **Critical**: Immediate rejection risk or accessibility failure (overlapping text, WCAG failure, broken layout)
@@ -206,6 +218,11 @@ Per WEB_RESUME_STYLE_GUIDE.md Section 7:
    - Specific description of the problem (with file/line reference where known)
    - Recommended fix (LaTeX command change, CSS class, Tailwind utility, etc.)
    - Design-principle justification with style guide section reference
+
+6. For PDF, recommend fixes that are known to work in moderncv. See the "Layout Pitfalls" table in the `resume-render-pdf` skill. In particular:
+   - Inline `\raggedright` or `\hyphenpenalty` inside `\cvitem` text has no reliable effect; the fix is the template's column patch.
+   - Suggest negative vertical space conservatively: more than about `-6pt` after `\makecvtitle` makes the first section heading collide with the contact block.
+   - Never propose cutting or rewording content as a design fix. Flag length problems as content items for the user or the content pipeline.
 
 ---
 

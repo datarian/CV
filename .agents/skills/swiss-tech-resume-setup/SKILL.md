@@ -73,5 +73,5 @@ this setup skill is only needed again if they start a fresh project.
 
 - The plugin ships only the generic system (skills, knowledge, style guide,
   template, example profile). No personal CV data is included.
-- Every generated resume ends with the attribution line:
+- Every generated resume ends with the attribution line, in the CV's language (English shown):
   "Curious how this resume was built? Explore the system at github.com/datarian/CV".
