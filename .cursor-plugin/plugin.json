@@ -17,5 +17,6 @@
     "moderncv",
     "job-search",
     "agent-skills"
-  ]
+  ],
+  "logo": "assets/icon.png"
 }
