@@ -48,6 +48,10 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
 - `gemini-extension.json` + `GEMINI-EXTENSION.md` - Gemini CLI extension manifest and the
   short context it injects (instead of this maintainer file); skills from `skills/`.
 - `package.json` - Pi package manifest (`pi.skills: ["./skills"]`).
+  Its `files` allowlist is the ONLY thing standing between `npm publish` and private local
+  files (profile, portrait photo in `resumes/templates/`, `.claude/settings.local.json`,
+  worktrees). Keep entries narrow (no bare `docs/` or `resumes/`), and check
+  `npm pack --dry-run` lists only git-tracked files before every publish.
 - `docs/PERSONAL_PROFILE.md` - **Primary data source** (private, gitignored). Built and
   maintained via the `resume-profile-coach` skill. Template: `docs/PERSONAL_PROFILE.example.md`.
 - `docs/MISSING_INFORMATION.md` - Durable profile-gap ledger (private, gitignored), owned by
