@@ -19,6 +19,5 @@
     "moderncv",
     "job-search"
   ],
-  "skills": "./.agents/skills/",
   "commands": "./.claude/commands/"
 }
