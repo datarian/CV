@@ -32,10 +32,12 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
   coaching, market analysis, strategy, content generation, PDF render, content/design review)
   and `swiss-tech-resume-setup`. The two review skills (`resume-content-review`,
   `resume-design-review`) declare `context: fork` so they review with fresh eyes.
-- `.agents/skills/` and `.claude/skills/` are **symlinks** to `skills/` (relative, `../skills`).
-  Pi, Cursor, and Gemini CLI read `.agents/skills/` natively in a clone (Gemini: workspace-skills
-  alias, folder must be trusted); Claude Code reads `.claude/skills/`. The installed packages
-  read `skills/` directly. Edit skills only in `skills/` — never through a symlink.
+- `.agents/skills/` is a **symlink** to `skills/` (relative, `../skills`). Pi, Cursor, and
+  Gemini CLI read it natively in a clone (Gemini: workspace-skills alias, folder must be
+  trusted). Claude Code in a clone: `claude --plugin-dir .`. The installed packages read
+  `skills/` directly.
+- `.claude/` is **private and gitignored** (local settings, personal commands, worktrees). The
+  plugin needs nothing from it; never ship plugin content from there. Edit skills only in `skills/` — never through a symlink.
 - **Why `skills/` is the real directory:** Gemini CLI installs extensions by copying them out of
   a temporary clone with `fs.cp`, which turns relative symlinks into absolute ones pointing into
   that clone — and then deletes it. A `skills -> .agents/skills` symlink therefore broke every
