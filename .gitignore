@@ -57,11 +57,8 @@ resumes/templates/CV_portrait_casual.jpg
 # Development tools
 .worktrees/
 
-# Web builder outputs (never commit private resume content)
-resumes/web-builder/node_modules/
-resumes/web-builder/dist/
-resumes/web-builder/public/resume_content.md
-resumes/web-builder/.vite/
+# Former web builder (removed from the repo; may still exist locally)
+resumes/web-builder/
 
 # Temporary deployment directories
 /tmp/cv-pages-*
