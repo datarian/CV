@@ -56,7 +56,6 @@ Copy `resumes/templates/CV_template.tex` to `resumes/customized/{id}/{id}.tex`.
 Replace all `[PLACEHOLDER]` values with content from `resume_content.md`:
 
 - **Professional Summary**: mention the same metrics listed in `summary_highlights`, and bold them using `\textbf{}` (e.g., `\textbf{8+ years}`, `\textbf{99.9\% uptime}`).
-- Ensure consistency — both the PDF and any web format should emphasize the same metrics.
 
 **Section header spacing rule**: Never leave a blank line between `\section{}` and its first content item — blank lines create paragraph breaks and inconsistent visual gaps.
 

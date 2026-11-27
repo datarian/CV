@@ -1,6 +1,6 @@
 ---
 name: resume-content-generation
-description: Use when resume strategy is set and you need to write or revise the resume's actual content — the format-agnostic resume_content.md (YAML + Markdown) that both the PDF and web renderers consume. Covers the summary, experience bullets, skills, highlights, and ATS keyword integration. Not for strategy/positioning decisions (resume-strategy) or for rendering to PDF/web (resume-render-*).
+description: Use when resume strategy is set and you need to write or revise the resume's actual content — resume_content.md (YAML + Markdown) that the PDF renderer consumes. Covers the summary, experience bullets, skills, highlights, and ATS keyword integration. Not for strategy/positioning decisions (resume-strategy) or for rendering the PDF (resume-render-pdf).
 ---
 
 > **Bundled reference files.** Paths beginning with `docs/` or `resumes/templates/` are
@@ -13,7 +13,7 @@ description: Use when resume strategy is set and you need to write or revise the
 
 You are an expert resume content generator specializing in transforming comprehensive personal profiles into targeted, compelling resume content.
 
-**Core Responsibility:** Generate `resume_content.md` files (YAML frontmatter + Markdown) from `docs/PERSONAL_PROFILE.md` data and strategic guidance. The generated file is format-agnostic and consumed by both the PDF renderer (`resume-render-pdf` skill) and the web renderer (`resume-render-web` skill). Your job is to create excellent content with strategic emphasis; renderers handle format-specific presentation.
+**Core Responsibility:** Generate `resume_content.md` files (YAML frontmatter + Markdown) from `docs/PERSONAL_PROFILE.md` data and strategic guidance. The generated file is consumed by the PDF renderer (`resume-render-pdf` skill). Your job is to create excellent content with strategic emphasis; renderers handle format-specific presentation.
 
 **Reference documents:**
 - Personal profile schema: `skills/swiss-tech-resume-builder/references/personal_profile_schema.md`
@@ -72,7 +72,7 @@ header:
   github: [URL]
   website: [URL]
 
-# REQUIRED: Strategic summary highlights (used by both PDF and Web renderers)
+# REQUIRED: Strategic summary highlights (bolded in the PDF summary)
 summary_highlights:
   - metric: "8+ Years"
     label: "ML Engineering"
@@ -142,7 +142,7 @@ Write the footer note in the CV's language (German: "Neugierig, wie dieser Leben
 summary_highlights:
   - metric: "8+ Years"        # The number/value to display prominently
     label: "ML Engineering"   # What the metric represents
-    icon: "calendar"          # Icon identifier (string; web renderer displays graphically, PDF renderer ignores)
+    icon: "calendar"          # Icon identifier (optional; the PDF renderer ignores it)
 ```
 
 ### Available Icons
@@ -175,7 +175,7 @@ Example: if highlights include `"8+ Years" / "ML Engineering"` and `"1M+" / "Dai
 
 > "Senior ML Engineer with **8+ years** building production AI systems serving **1M+ daily requests**…"
 
-This ensures PDF and web renderers tell the same story with the same emphasis. The PDF renderer uses the summary text directly (icons are ignored); the web renderer renders both the summary text and the highlight cards.
+This keeps the highlights and the summary telling the same story with the same emphasis. The PDF renderer uses the summary text directly (icons are ignored).
 
 ---
 
@@ -256,7 +256,7 @@ See `docs/knowledge/ats_optimization.md` for full guidance. Key principles:
 - Use `**bold**` for technical emphasis and key metrics.
 - Use `*italic*` sparingly for subtle emphasis.
 - Include hyperlinks for GitHub, LinkedIn, and portfolio URLs.
-- Maintain clean, parseable structure so both the LaTeX and React renderers can consume it without ambiguity.
+- Maintain clean, parseable structure so the LaTeX renderer can consume it without ambiguity.
 
 ### Step 7: Quality Assurance
 
@@ -325,4 +325,4 @@ This preserves approved sections and avoids unnecessary churn between iterations
 
 ## Content Authority
 
-This skill owns the **content** of `resume_content.md`. Format renderers (PDF and web) must not modify content substance — only presentation. Feedback on content quality flows back through the `swiss-tech-resume-builder` orchestrator skill to this skill for revision.
+This skill owns the **content** of `resume_content.md`. The renderer must not modify content substance — only presentation. Feedback on content quality flows back through the `swiss-tech-resume-builder` orchestrator skill to this skill for revision.

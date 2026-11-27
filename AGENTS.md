@@ -59,7 +59,7 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
 - `docs/MISSING_INFORMATION.md` - Durable profile-gap ledger (private, gitignored), owned by
   the profile coach. Template: `docs/MISSING_INFORMATION.example.md`.
 - `docs/knowledge/` - Swiss-market standards (ATS, tone, bullets, grounding, conventions).
-- `docs/style-guide/` - Design specifications (`pdf/` and `web/`).
+- `docs/style-guide/` - Design specifications (`pdf/`).
 - `resumes/templates/CV_template.tex` - Universal moderncv template for all role types.
 - `resumes/customized/{id}/` - Per-application working files (private, gitignored):
   `resume_content.md`, the `.tex`, the compiled PDF, and `..._application_strategy.md`.
