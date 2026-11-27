@@ -267,4 +267,4 @@ version with the same two `/plugin` commands, or clone your fork for the other a
 
 ---
 
-Licensed under **CC BY-NC-SA 4.0**. Built with [Claude Code](https://claude.com/claude-code).
+Licensed under the **MIT License**. Built with [Claude Code](https://claude.com/claude-code).
