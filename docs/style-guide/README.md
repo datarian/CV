@@ -3,7 +3,7 @@
 
 **Version:** 2.0
 **Last Updated:** 2025-11-13
-**Applies to:** PDF resumes, Web resumes
+**Applies to:** PDF resumes
 
 ---
 
@@ -13,7 +13,6 @@
 |----------|---------|-------------|
 | 📋 [**DESIGN_SYSTEM.md**](DESIGN_SYSTEM.md) | Shared cross-format definitions | Understanding brand principles, color intent, typography philosophy |
 | 📄 [**PDF Guides**](pdf/) | PDF resume specifications | Creating or updating LaTeX PDF resumes |
-| 🌐 [**Web Guides**](web/) | Web resume specifications | Building React web resumes |
 | 📦 [**Archive**](archive/) | Historical documents | Reference only (analysis reports, old versions) |
 
 ---
@@ -43,27 +42,6 @@ xelatex filename.tex
 # 4. Verify against checklist in VISUAL_DESIGN_REFERENCE.md
 ```
 
-### For Web Resumes
-
-**1. Content Format:**
-- YAML + Markdown structure: [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
-
-**2. Component Examples:**
-- React TypeScript code: [`../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md`](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
-
-**3. Comprehensive Guide:**
-- Full design specification: [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md)
-
-**Quick Start Workflow:**
-```bash
-# 1. Create resume_content.md (YAML + Markdown)
-# 2. Copy to web-builder/public/
-# 3. Build
-cd resumes/web-builder && npm run build
-# 4. Preview locally
-npm run preview
-```
-
 ---
 
 ## Documentation Structure
@@ -79,9 +57,6 @@ docs/style-guide/
 │   ├── VISUAL_DESIGN_REFERENCE.md ← Quick reference (8KB, cheat sheet)
 │   ├── LATEX_CODE_SNIPPETS.md   ← Code library (17KB, templates)
 │   └── MODERNCV_REFERENCE.md    ← LaTeX package reference (10KB)
-│
-├── web/                         ← Web-specific documentation
-│   └── WEB_RESUME_STYLE_GUIDE.md ← Comprehensive (29KB, 15 sections)
 │
 └── archive/                     ← Historical documents (reference only)
     ├── ANALYSIS_SUMMARY.md      ← 2025-10-16 design analysis
@@ -105,16 +80,13 @@ docs/style-guide/
 **Color Intent:**
 - **Primary Blue:** Professional, trustworthy
   - PDF: #39a7d0 (light blue, optimized for print)
-  - Web: #2C5F7F (darker blue, WCAG AA compliant)
 - **Body Text:** Near-black for readability
   - PDF: #000000 (pure black)
-  - Web: #4A4A4A (softer for screens)
 
 **Typography Principles:**
 - Sans-serif for modern technical appeal
 - Clear hierarchy (name > title > sections > body)
 - PDF: 11pt base (print standard)
-- Web: 16px base (accessibility standard)
 
 **See [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) for complete shared definitions**
 
@@ -143,30 +115,6 @@ docs/style-guide/
 \setlength{\hintscolumnwidth}{3.5cm}
 ```
 
-### Web-Specific
-
-**Colors:**
-- cv-blue: #2C5F7F
-- cv-coral: #E87461
-- cv-gray: #4A4A4A
-- cv-light: #F5F5F5
-
-**Typography:**
-- Name: 36px (2.25rem) Bold
-- Section Headers: 24px (1.5rem) Bold
-- Body: 16px (1rem) Regular
-
-**Layout:**
-- Max-width: 1200px
-- Responsive padding: 16-64px
-- Mobile-first design
-
-**Performance:**
-- Bundle size: <500kb
-- Load time: <2s on 3G
-
----
-
 ## Workflows
 
 ### Workflow 1: Create New PDF Resume
@@ -178,16 +126,6 @@ docs/style-guide/
 5. **Quality check:** Against [`pdf/VISUAL_DESIGN_REFERENCE.md`](pdf/VISUAL_DESIGN_REFERENCE.md) checklist
 6. **Design questions?** Consult [`pdf/CV_STYLE_GUIDE.md`](pdf/CV_STYLE_GUIDE.md)
 
-### Workflow 2: Create New Web Resume
-
-1. **Reference shared definitions:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
-2. **Create content:** YAML + Markdown in `resume_content.md`
-   - Format reference: [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
-3. **Build:** `cd resumes/web-builder && npm run build`
-4. **Preview:** `npm run preview` (http://localhost:4173)
-5. **Quality check:** Against [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md)
-6. **Deploy:** Commit changes (GitHub Actions handles deployment)
-
 ### Workflow 3: Troubleshooting
 
 **PDF Issues:**
@@ -195,10 +133,6 @@ docs/style-guide/
 2. Review [`pdf/CV_STYLE_GUIDE.md`](pdf/CV_STYLE_GUIDE.md) Section 12 (troubleshooting)
 3. Consult [`pdf/MODERNCV_REFERENCE.md`](pdf/MODERNCV_REFERENCE.md) for LaTeX specifics
 
-**Web Issues:**
-1. Check [`web/WEB_RESUME_STYLE_GUIDE.md`](web/WEB_RESUME_STYLE_GUIDE.md) Section 11 (common issues)
-2. Review component implementations in [`../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md`](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
-3. Verify content format in [`../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md`](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
 
 ---
 
@@ -207,7 +141,6 @@ docs/style-guide/
 ### design-reviewer
 - **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
 - **PDF:** All files in [`pdf/`](pdf/)
-- **Web:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
 
 ### latex-moderncv-expert
 - **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
@@ -216,16 +149,9 @@ docs/style-guide/
 - **Quick Ref:** [pdf/VISUAL_DESIGN_REFERENCE.md](pdf/VISUAL_DESIGN_REFERENCE.md)
 - **Code:** [pdf/LATEX_CODE_SNIPPETS.md](pdf/LATEX_CODE_SNIPPETS.md)
 
-### react-resume-expert
-- **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
-- **Style Guide:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
-- **Content Format:** [../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md](../../resumes/web-builder/docs/WEB_RESUME_CONTENT_FORMAT.md)
-- **Components:** [../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md)
-
 ### swiss-tech-resume-reviewer
 - **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
 - **PDF:** [pdf/CV_STYLE_GUIDE.md](pdf/CV_STYLE_GUIDE.md)
-- **Web:** [web/WEB_RESUME_STYLE_GUIDE.md](web/WEB_RESUME_STYLE_GUIDE.md)
 
 ### career-planning-coach
 - **Shared:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
@@ -287,12 +213,6 @@ docs/style-guide/
 - [ ] Colors defined correctly
 - [ ] All \cventry have 6 arguments
 
-**Web:**
-- [ ] Lighthouse score 90+ (accessibility)
-- [ ] Responsive on all viewports
-- [ ] Print stylesheet works
-- [ ] Bundle size <500kb
-- [ ] Load time <2s
 
 ---
 
@@ -302,7 +222,6 @@ docs/style-guide/
 - Major refactoring: Created hierarchical structure
 - Added DESIGN_SYSTEM.md (shared definitions)
 - Organized into subdirectories (pdf/, web/, archive/)
-- Extracted React components to COMPONENT_EXAMPLES.md
 - Removed content format duplication from WEB_RESUME_STYLE_GUIDE.md
 - Consolidated README (merged GETTING_STARTED + PACKAGE_SUMMARY)
 
@@ -342,7 +261,6 @@ docs/style-guide/
 |---------------|----------|
 | Design questions | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) + format-specific guides |
 | PDF implementation | [pdf/LATEX_CODE_SNIPPETS.md](pdf/LATEX_CODE_SNIPPETS.md) |
-| Web implementation | [../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md](../../resumes/web-builder/docs/COMPONENT_EXAMPLES.md) |
 | Quick lookups | [pdf/VISUAL_DESIGN_REFERENCE.md](pdf/VISUAL_DESIGN_REFERENCE.md) |
 | Troubleshooting | Section 12 of respective style guides |
 
@@ -369,5 +287,4 @@ docs/style-guide/
 **Quick Access:**
 - 🎨 Shared principles? → [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
 - 📄 PDF guides? → [pdf/](pdf/)
-- 🌐 Web guides? → [web/](web/)
 - 💾 Historical docs? → [archive/](archive/)

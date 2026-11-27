@@ -30,7 +30,6 @@ with install hints, and don't proceed to render until LaTeX is available.
 - **LaTeX packages**: `moderncv`, `moderntimeline`, `fontawesome` (usually bundled with a full TeX install).
 - **Fonts**: Roboto, Lato, Roboto Slab (the template uses `fontspec`). On macOS, install via Homebrew fonts or the system font manager if the render reports a missing font.
 - **Python 3** (for the `init_application.py` scaffolding helper): `python3 --version`.
-- **Node.js** is **only** needed for the author-only web path — skip it for the PDF pipeline.
 
 ## Step 2 — Scaffold the workspace in the user's project
 
