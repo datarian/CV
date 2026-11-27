@@ -38,6 +38,8 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
   only in `.agents/skills/` — never through a symlink.
 - `.claude-plugin/` - Claude Code plugin + marketplace manifests (points `skills` at
   `.agents/skills/`).
+- `.cursor-plugin/` - Cursor plugin + marketplace manifests (points `skills` at
+  `.agents/skills/`). Keep name/version/description in sync with `.claude-plugin/`.
 - `docs/PERSONAL_PROFILE.md` - **Primary data source** (private, gitignored). Built and
   maintained via the `resume-profile-coach` skill. Template: `docs/PERSONAL_PROFILE.example.md`.
 - `docs/MISSING_INFORMATION.md` - Durable profile-gap ledger (private, gitignored), owned by

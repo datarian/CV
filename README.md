@@ -36,8 +36,11 @@ That's it — the plugin brings everything it needs: the skills, the two forked 
 LaTeX template, the Swiss-market knowledge base, and the style guide. Update later with
 `/plugin marketplace update swiss-tech-resume`.
 
-**Gemini CLI, Cursor, or Pi:** clone the repo and run your agent inside it — the skills are
-discovered automatically. See [Use it with other agents](#use-it-with-other-agents).
+**Cursor:** the repo also ships a Cursor plugin manifest (`.cursor-plugin/`) — see
+[Use it with other agents](#use-it-with-other-agents). Or simply open a clone.
+
+**Gemini CLI or Pi:** clone the repo and run your agent inside it — the skills are discovered
+automatically. See [Use it with other agents](#use-it-with-other-agents).
 
 ## Quick start
 
@@ -197,7 +200,7 @@ cd CV
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
 | **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
 | **Gemini CLI** | Run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias), and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Enable skills with `/skills` if your Gemini build doesn't auto-enable them. |
-| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). |
+| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills point at `.agents/skills/`). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
 Senior ML Engineer roles"*); invoke the orchestrator explicitly with `/skill:swiss-tech-resume-builder`
@@ -231,7 +234,8 @@ The system is built to be adapted. Edit the knowledge base and template (under `
 `resumes/templates/`) and the skills (under `.agents/skills/`) to target a different country,
 industry, or role family. To redistribute your fork, update the manifests for whichever agents you
 publish to: `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` for the Claude Code
-marketplace, and the root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
+marketplace, `.cursor-plugin/marketplace.json` + `.cursor-plugin/plugin.json` for Cursor, and the
+root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
 version with the same two `/plugin` commands, or clone your fork for the other agents.
 
 ## Resources
@@ -242,7 +246,7 @@ version with the same two `/plugin` commands, or clone your fork for the other a
 - Claude Code plugins: <https://code.claude.com/docs/en/plugins>
 - Claude Code: <https://docs.claude.com/claude-code>
 - Gemini CLI: <https://geminicli.com/docs/>
-- Cursor: <https://cursor.com/docs>
+- Cursor: <https://cursor.com/docs> (plugins: <https://cursor.com/docs/plugins>)
 - Pi coding agent: <https://github.com/earendil-works/pi>
 
 ---
