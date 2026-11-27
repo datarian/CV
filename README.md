@@ -8,8 +8,9 @@ prep).
 
 The pipeline is authored once to the [Agent Skills standard](https://agentskills.io/specification)
 and runs across **Claude Code, Gemini CLI, Cursor, and Pi** — see
-[Use it with other agents](#use-it-with-other-agents). In Claude Code it installs as a plugin in two
-commands; with the other agents you clone the repo and the skills are discovered automatically.
+[Use it with other agents](#use-it-with-other-agents). It installs as a Claude Code plugin, a Gemini CLI
+extension, a Cursor plugin, or a Pi package — or just clone the repo and the skills are discovered
+automatically.
 
 ## Table of contents
 
@@ -33,11 +34,21 @@ commands; with the other agents you clone the repo and the skills are discovered
 ```
 
 That's it — the plugin brings everything it needs: the skills, the two forked review skills, the
-LaTeX template, the Swiss-market knowledge base, and the style guide. Update later with
-`/plugin marketplace update swiss-tech-resume`.
+LaTeX template, the Swiss-market knowledge base, and the style guide. (`/plugin install` opens the
+plugin's details first so you can pick a scope.) Update later from your terminal:
 
-**Gemini CLI, Cursor, or Pi:** clone the repo and run your agent inside it — the skills are
-discovered automatically. See [Use it with other agents](#use-it-with-other-agents).
+```bash
+claude plugin marketplace update swiss-tech-resume                  # refresh the listing
+claude plugin update swiss-tech-resume-builder@swiss-tech-resume    # update the installed plugin
+```
+
+**Cursor:** the repo also ships a Cursor plugin manifest (`.cursor-plugin/`) — see
+[Use it with other agents](#use-it-with-other-agents). Or simply open a clone.
+
+**Pi:** `pi install git:github.com/datarian/CV` (or run `pi` inside a clone).
+
+**Gemini CLI:** `gemini extensions install https://github.com/datarian/CV` (update with
+`gemini extensions update swiss-tech-resume-builder`), or run `gemini` inside a clone.
 
 ## Quick start
 
@@ -138,7 +149,7 @@ Two things make the output trustworthy:
 
 Everything is generated from one source — `docs/PERSONAL_PROFILE.md` — so you maintain a single,
 comprehensive profile and produce as many targeted resumes as you need. And the pipeline itself is
-authored from a single source: the skills live once in `.agents/skills/`, so the same reviewed
+authored from a single source: the skills live once in `skills/`, so the same reviewed
 workflow behaves identically whichever agent you run it in.
 
 ## Examples
@@ -166,22 +177,23 @@ You get, under resumes/customized/{date}_companyx_senior_ml_engineer/:
 If you prefer to start an application from the command line, the system ships a small helper:
 
 ```bash
-# From a clone of this repo (skills live under .agents/skills/):
-python3 .agents/skills/swiss-tech-resume-builder/scripts/init_application.py \
-  --company companyx --role ml_engineer
-# In Claude Code as an installed plugin, prepend the install root:
-python3 "${CLAUDE_PLUGIN_ROOT}/.agents/skills/swiss-tech-resume-builder/scripts/init_application.py" \
+# From a clone of this repo (skills live under skills/):
+python3 skills/swiss-tech-resume-builder/scripts/init_application.py \
   --company companyx --role ml_engineer
 ```
+
+With the Claude Code plugin installed, ask the agent to start the application instead: the skill
+resolves the plugin's install directory itself (`${CLAUDE_PLUGIN_ROOT}` is substituted inside plugin
+skills only — it is not set in your terminal).
 
 It scaffolds the application folder under `resumes/customized/` in your project and finds the
 bundled template automatically.
 
 ## Use it with other agents
 
-The whole pipeline is authored once in `.agents/skills/` to the
+The whole pipeline is authored once in `skills/` to the
 [Agent Skills standard](https://agentskills.io/specification). Each agent's expected skills
-directory is a symlink into that one canonical tree, so there's a single source of truth — you
+directory (`.agents/skills/`, `.claude/skills/`) is a symlink into that one canonical tree, so there's a single source of truth — you
 never maintain parallel copies. Project guidance lives in `AGENTS.md` (with `CLAUDE.md` and
 `GEMINI.md` as symlinks to it).
 
@@ -195,13 +207,14 @@ cd CV
 | Agent | How skills load |
 |-------|-----------------|
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
-| **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
-| **Gemini CLI** | Symlink `.gemini/skills → ../.agents/skills` and point Gemini at `AGENTS.md` via `.gemini/settings.json`. *(adapter pending)* |
-| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). |
+| **Pi** | Install: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`; Pi keeps a full clone, so the bundled `docs/` and template come along). Or run `pi` inside a clone — `.agents/skills/` is auto-discovered (no config). |
+| **Gemini CLI** | Install as an extension: `gemini extensions install https://github.com/datarian/CV` (root `gemini-extension.json`; all 10 skills load). Or run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias) once you **trust the folder**, and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
+| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills from the default `skills/` folder). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
-Senior ML Engineer roles"*); invoke the orchestrator explicitly with `/skill:swiss-tech-resume-builder`
-where your agent supports it.
+Senior ML Engineer roles"*). To invoke the orchestrator explicitly: `/swiss-tech-resume-builder` in
+Claude Code and Cursor, `/skill:swiss-tech-resume-builder` in Pi; Gemini CLI activates skills on its
+own (no per-skill slash command).
 
 > **Notes.** The PDF pipeline needs only XeLaTeX + Python (see [Requirements](#requirements)) and no
 > MCP, so it works the same everywhere. The optional **web preview** uses a Playwright MCP that is
@@ -211,6 +224,12 @@ where your agent supports it.
 > if it doesn't read `AGENTS.md`. The two review skills declare `context: fork` for isolation; where
 > an agent doesn't honor that field (e.g. Cursor today), they simply run in the main context — the
 > review still happens, just without a separate forked turn.
+>
+> **Gemini CLI → Antigravity CLI.** Since June 18, 2026, Gemini CLI no longer serves free-tier and
+> Google AI Pro/Ultra users; Google moved them to **Antigravity CLI**, which keeps Agent Skills. Gemini
+> CLI still works with Gemini Code Assist Standard/Enterprise licenses and paid API keys. Whether
+> Antigravity CLI reads `.agents/skills/` and `AGENTS.md`/`GEMINI.md` the same way is not yet
+> documented — untested here.
 
 ## Your data stays private
 
@@ -228,10 +247,11 @@ PDFs, or files under `resumes/customized/` are staged.
 ## Customize it for another market
 
 The system is built to be adapted. Edit the knowledge base and template (under `docs/` and
-`resumes/templates/`) and the skills (under `.agents/skills/`) to target a different country,
+`resumes/templates/`) and the skills (under `skills/`) to target a different country,
 industry, or role family. To redistribute your fork, update the manifests for whichever agents you
 publish to: `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` for the Claude Code
-marketplace, and the root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
+marketplace, `.cursor-plugin/marketplace.json` + `.cursor-plugin/plugin.json` for Cursor,
+`gemini-extension.json` for Gemini CLI, and the root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
 version with the same two `/plugin` commands, or clone your fork for the other agents.
 
 ## Resources
@@ -240,9 +260,9 @@ version with the same two `/plugin` commands, or clone your fork for the other a
 - moderncv documentation: <https://ctan.org/pkg/moderncv>
 - Agent Skills standard: <https://agentskills.io/specification>
 - Claude Code plugins: <https://code.claude.com/docs/en/plugins>
-- Claude Code: <https://docs.claude.com/claude-code>
+- Claude Code: <https://code.claude.com/docs>
 - Gemini CLI: <https://geminicli.com/docs/>
-- Cursor: <https://cursor.com/docs>
+- Cursor: <https://cursor.com/docs> (plugins: <https://cursor.com/docs/plugins>)
 - Pi coding agent: <https://github.com/earendil-works/pi>
 
 ---

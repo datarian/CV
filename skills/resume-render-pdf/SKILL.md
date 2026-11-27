@@ -32,7 +32,7 @@ These rules are MANDATORY — never deviate from them:
 
 | Document | Purpose |
 |---|---|
-| `.agents/skills/resume-render-pdf/references/moderncv_technical_guide.md` | Technical reference for all moderncv commands, troubleshooting, and package compatibility — **consult first for any LaTeX question** |
+| `skills/resume-render-pdf/references/moderncv_technical_guide.md` | Technical reference for all moderncv commands, troubleshooting, and package compatibility — **consult first for any LaTeX question** |
 | `docs/style-guide/pdf/CV_STYLE_GUIDE.md` | Full design specification: typography, colors, layout, margins |
 | `docs/style-guide/pdf/VISUAL_DESIGN_REFERENCE.md` | One-page quick-reference checklist for compliance checks |
 | `docs/style-guide/pdf/LATEX_CODE_SNIPPETS.md` | Copy-paste boilerplate, section templates, experience entry templates |
@@ -77,7 +77,7 @@ Incorrect (do NOT do this):
 Run the validation script from the repo root:
 
 ```bash
-python3 .agents/skills/resume-render-pdf/scripts/validate_latex.py resumes/customized/{id}/{id}.tex
+python3 skills/resume-render-pdf/scripts/validate_latex.py resumes/customized/{id}/{id}.tex
 ```
 
 Fix all errors reported before proceeding. Common issues caught by validation:
@@ -91,7 +91,7 @@ Fix all errors reported before proceeding. Common issues caught by validation:
 Run the compile script from the repo root:
 
 ```bash
-bash .agents/skills/resume-render-pdf/scripts/compile_resume.sh resumes/customized/{id}/{id}.tex
+bash skills/resume-render-pdf/scripts/compile_resume.sh resumes/customized/{id}/{id}.tex
 ```
 
 The script runs XeLaTeX (two passes for cross-references) and reports errors. If compilation fails, diagnose the error message and fix the `.tex` file, then re-validate and re-compile.
@@ -141,7 +141,7 @@ one-word last lines, entry headings not stranding a single word, section heading
 | Missing `fontawesome` icons | Package not installed | Use `tlmgr install fontawesome` or omit icon |
 | `Missing } inserted` in an entry | `\\` inside a `\cventry`/`\cvitem` text ends the table row | Use `\newline` for line breaks inside entries |
 
-For detailed troubleshooting, see `.agents/skills/resume-render-pdf/references/moderncv_technical_guide.md`.
+For detailed troubleshooting, see `skills/resume-render-pdf/references/moderncv_technical_guide.md`.
 
 ## Layout Pitfalls (moderncv fancy)
 

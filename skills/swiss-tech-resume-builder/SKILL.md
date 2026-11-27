@@ -91,11 +91,11 @@ When the resume is finalized (step 9), always produce a paired strategy document
   the `{id}` and a strategy stub. It writes into `resumes/customized/` in the current project
   and finds the bundled template automatically. Run it from the user's project root:
   ```bash
-  # From the repo (skills live under .agents/skills/, symlinked into each agent's skills dir):
-  python3 .agents/skills/swiss-tech-resume-builder/scripts/init_application.py --company google --role ml_engineer
+  # From the repo (skills live under skills/, symlinked into each agent's skills dir):
+  python3 skills/swiss-tech-resume-builder/scripts/init_application.py --company google --role ml_engineer
   # If the package is installed outside the working directory, prepend your agent's install
   # root, e.g. Claude Code:
-  python3 "${CLAUDE_PLUGIN_ROOT}/.agents/skills/swiss-tech-resume-builder/scripts/init_application.py" --company google --role ml_engineer
+  python3 "${CLAUDE_PLUGIN_ROOT}/skills/swiss-tech-resume-builder/scripts/init_application.py" --company google --role ml_engineer
   ```
 
 ## Execution-model rule

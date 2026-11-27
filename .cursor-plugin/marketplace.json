@@ -1,0 +1,17 @@
+{
+  "name": "swiss-tech-resume",
+  "owner": {
+    "name": "Florian Hochstrasser"
+  },
+  "metadata": {
+    "description": "Swiss-tech resume tooling: an ATS-optimized, end-to-end resume builder for the Swiss technology job market.",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "swiss-tech-resume-builder",
+      "source": "./",
+      "description": "End-to-end resume builder for Swiss tech roles: market analysis, strategy, content generation, LaTeX/moderncv PDF rendering, and iterative content/design review."
+    }
+  ]
+}
