@@ -7,7 +7,7 @@
   },
   "homepage": "https://github.com/datarian/CV",
   "repository": "https://github.com/datarian/CV",
-  "license": "CC-BY-NC-SA-4.0",
+  "license": "MIT",
   "keywords": [
     "resume",
     "cv",
@@ -17,5 +17,6 @@
     "moderncv",
     "job-search",
     "agent-skills"
-  ]
+  ],
+  "logo": "assets/icon.png"
 }
