@@ -34,12 +34,17 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
   `resume-design-review`) declare `context: fork` so they review with fresh eyes.
 - **Pi, Cursor, and Gemini CLI read `.agents/skills/` natively** (no config — just open/run in
   a clone; Gemini treats `.agents/skills/` as a workspace-skills alias). **Claude Code** uses
-  the `.claude/skills/` symlink into `.agents/skills/` (plus the plugin manifest). Edit skills
-  only in `.agents/skills/` — never through a symlink.
-- `.claude-plugin/` - Claude Code plugin + marketplace manifests (points `skills` at
-  `.agents/skills/`).
+  the `.claude/skills/` symlink into `.agents/skills/`; the installed plugin and the Gemini
+  extension use the root `skills/` symlink. Edit skills only in `.agents/skills/` — never
+  through a symlink.
+- `.claude-plugin/` - Claude Code plugin + marketplace manifests. Skills come from the default
+  `skills/` scan (the root symlink). Do NOT add an explicit `skills` field: Claude Code adds it
+  to the default scan and every skill would load twice.
 - `.cursor-plugin/` - Cursor plugin + marketplace manifests (points `skills` at
-  `.agents/skills/`). Keep name/version/description in sync with `.claude-plugin/`.
+  `.agents/skills/`; there the field replaces default discovery, so no duplicates). Keep
+  name/version/description in sync with `.claude-plugin/`.
+- `gemini-extension.json` + `GEMINI-EXTENSION.md` - Gemini CLI extension manifest and the
+  short context it injects (instead of this maintainer file). Skills via `skills/` symlink.
 - `docs/PERSONAL_PROFILE.md` - **Primary data source** (private, gitignored). Built and
   maintained via the `resume-profile-coach` skill. Template: `docs/PERSONAL_PROFILE.example.md`.
 - `docs/MISSING_INFORMATION.md` - Durable profile-gap ledger (private, gitignored), owned by

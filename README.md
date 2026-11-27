@@ -8,8 +8,9 @@ prep).
 
 The pipeline is authored once to the [Agent Skills standard](https://agentskills.io/specification)
 and runs across **Claude Code, Gemini CLI, Cursor, and Pi** — see
-[Use it with other agents](#use-it-with-other-agents). In Claude Code it installs as a plugin in two
-commands; with the other agents you clone the repo and the skills are discovered automatically.
+[Use it with other agents](#use-it-with-other-agents). It installs as a Claude Code plugin, a Gemini CLI
+extension, a Cursor plugin, or a Pi package — or just clone the repo and the skills are discovered
+automatically.
 
 ## Table of contents
 
@@ -46,8 +47,8 @@ claude plugin update swiss-tech-resume-builder@swiss-tech-resume    # update the
 
 **Pi:** `pi install git:github.com/datarian/CV` (or run `pi` inside a clone).
 
-**Gemini CLI:** clone the repo and run `gemini` inside it — the skills are discovered
-automatically. See [Use it with other agents](#use-it-with-other-agents).
+**Gemini CLI:** `gemini extensions install https://github.com/datarian/CV` (update with
+`gemini extensions update swiss-tech-resume-builder`), or run `gemini` inside a clone.
 
 ## Quick start
 
@@ -207,7 +208,7 @@ cd CV
 |-------|-----------------|
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
 | **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
-| **Gemini CLI** | Run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias), and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
+| **Gemini CLI** | Install as an extension: `gemini extensions install https://github.com/datarian/CV` (root `gemini-extension.json`; skills via the `skills/` symlink). *(Extension route not yet tested.)* Or run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias), and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
 | **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills point at `.agents/skills/`). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
@@ -249,8 +250,8 @@ The system is built to be adapted. Edit the knowledge base and template (under `
 `resumes/templates/`) and the skills (under `.agents/skills/`) to target a different country,
 industry, or role family. To redistribute your fork, update the manifests for whichever agents you
 publish to: `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` for the Claude Code
-marketplace, `.cursor-plugin/marketplace.json` + `.cursor-plugin/plugin.json` for Cursor, and the
-root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
+marketplace, `.cursor-plugin/marketplace.json` + `.cursor-plugin/plugin.json` for Cursor,
+`gemini-extension.json` for Gemini CLI, and the root `package.json` (`pi.skills`) for Pi. Others install your Claude Code
 version with the same two `/plugin` commands, or clone your fork for the other agents.
 
 ## Resources
