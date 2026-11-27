@@ -27,24 +27,27 @@ across Claude Code, Gemini CLI, Cursor, and Pi.
 
 ## File Structure
 
-- `.agents/skills/` - **Canonical home of the resume pipeline** (single source of truth):
-  the `swiss-tech-resume-builder` orchestrator plus `resume-*` sub-skills (profile coaching,
-  market analysis, strategy, content generation, PDF render, content/design review) and
-  `swiss-tech-resume-setup`. The two review skills (`resume-content-review`,
+- `skills/` - **Canonical home of the resume pipeline** (single source of truth, a real
+  directory): the `swiss-tech-resume-builder` orchestrator plus `resume-*` sub-skills (profile
+  coaching, market analysis, strategy, content generation, PDF render, content/design review)
+  and `swiss-tech-resume-setup`. The two review skills (`resume-content-review`,
   `resume-design-review`) declare `context: fork` so they review with fresh eyes.
-- **Pi, Cursor, and Gemini CLI read `.agents/skills/` natively** (no config — just open/run in
-  a clone; Gemini treats `.agents/skills/` as a workspace-skills alias). **Claude Code** uses
-  the `.claude/skills/` symlink into `.agents/skills/`; the installed plugin and the Gemini
-  extension use the root `skills/` symlink. Edit skills only in `.agents/skills/` — never
-  through a symlink.
+- `.agents/skills/` and `.claude/skills/` are **symlinks** to `skills/` (relative, `../skills`).
+  Pi, Cursor, and Gemini CLI read `.agents/skills/` natively in a clone (Gemini: workspace-skills
+  alias, folder must be trusted); Claude Code reads `.claude/skills/`. The installed packages
+  read `skills/` directly. Edit skills only in `skills/` — never through a symlink.
+- **Why `skills/` is the real directory:** Gemini CLI installs extensions by copying them out of
+  a temporary clone with `fs.cp`, which turns relative symlinks into absolute ones pointing into
+  that clone — and then deletes it. A `skills -> .agents/skills` symlink therefore broke every
+  Gemini extension install (0 skills). Do not invert this again.
 - `.claude-plugin/` - Claude Code plugin + marketplace manifests. Skills come from the default
-  `skills/` scan (the root symlink). Do NOT add an explicit `skills` field: Claude Code adds it
-  to the default scan and every skill would load twice.
-- `.cursor-plugin/` - Cursor plugin + marketplace manifests (points `skills` at
-  `.agents/skills/`; there the field replaces default discovery, so no duplicates). Keep
-  name/version/description in sync with `.claude-plugin/`.
+  `skills/` scan. Do NOT add an explicit `skills` field: Claude Code adds it to the default scan,
+  and pointing it at a symlinked copy would load every skill twice.
+- `.cursor-plugin/` - Cursor plugin + marketplace manifests (default `skills/` discovery, no
+  custom path). Keep name/version/description in sync with `.claude-plugin/`.
 - `gemini-extension.json` + `GEMINI-EXTENSION.md` - Gemini CLI extension manifest and the
-  short context it injects (instead of this maintainer file). Skills via `skills/` symlink.
+  short context it injects (instead of this maintainer file); skills from `skills/`.
+- `package.json` - Pi package manifest (`pi.skills: ["./skills"]`).
 - `docs/PERSONAL_PROFILE.md` - **Primary data source** (private, gitignored). Built and
   maintained via the `resume-profile-coach` skill. Template: `docs/PERSONAL_PROFILE.example.md`.
 - `docs/MISSING_INFORMATION.md` - Durable profile-gap ledger (private, gitignored), owned by
@@ -108,7 +111,7 @@ See comprehensive list in `docs/JOB_AGENT_RESEARCH.md` (maintained via the `resu
 ## Resume Workflow
 
 Resume creation is driven by the `swiss-tech-resume-builder` skill and its `resume-*`
-sub-skills (`.agents/skills/`). Those skills are the authoritative, single source of truth
+sub-skills (`skills/`). Those skills are the authoritative, single source of truth
 for the pipeline, decision gates, and review loops — do not duplicate workflow steps here.
 The two review steps run via the `resume-content-review` and `resume-design-review` skills,
 which fork an isolated context (use your agent's isolation mechanism: a subagent, a
@@ -123,7 +126,7 @@ find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '
 ```
 
 ### Generated & temporary files
-- **Temporary files**: Remove scratch/working files once their content is integrated into `docs/`. Never delete the skills under `.agents/skills/`.
+- **Temporary files**: Remove scratch/working files once their content is integrated into `docs/`. Never delete the skills under `skills/`.
 - **Research files**: Consolidate market research into `docs/JOB_AGENT_RESEARCH.md` (gitignored).
 - **Analysis files**: Merge insights into existing documentation rather than creating new files.
 
@@ -139,7 +142,7 @@ find . -maxdepth 1 \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '
 - **Job titles**: Never change job titles of past or current employments
 - **Compilation**: NEVER use pdflatex. Always compile with xelatex
 - **Data source**: Always reference docs/PERSONAL_PROFILE.md as the single source of truth
-- **Skills are the source of truth**: author and edit skills only in `.agents/skills/`; never edit through the per-agent symlinks
+- **Skills are the source of truth**: author and edit skills only in `skills/`; never edit through the per-agent symlinks
 - **File organization**: template in `resumes/templates/`, per-application work in `resumes/customized/{id}/`, final timestamped PDFs in `resumes/compiled/`
 - **Clean up**: Clean up any temporary files and experiments when you are done compiling a new version of the CV
 - **Page count**: Do not feel you need to fit the whole CV on 1 page. 2-3 page CVs are preferred with room for comprehensive background

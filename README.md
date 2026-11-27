@@ -149,7 +149,7 @@ Two things make the output trustworthy:
 
 Everything is generated from one source — `docs/PERSONAL_PROFILE.md` — so you maintain a single,
 comprehensive profile and produce as many targeted resumes as you need. And the pipeline itself is
-authored from a single source: the skills live once in `.agents/skills/`, so the same reviewed
+authored from a single source: the skills live once in `skills/`, so the same reviewed
 workflow behaves identically whichever agent you run it in.
 
 ## Examples
@@ -177,8 +177,8 @@ You get, under resumes/customized/{date}_companyx_senior_ml_engineer/:
 If you prefer to start an application from the command line, the system ships a small helper:
 
 ```bash
-# From a clone of this repo (skills live under .agents/skills/):
-python3 .agents/skills/swiss-tech-resume-builder/scripts/init_application.py \
+# From a clone of this repo (skills live under skills/):
+python3 skills/swiss-tech-resume-builder/scripts/init_application.py \
   --company companyx --role ml_engineer
 ```
 
@@ -191,9 +191,9 @@ bundled template automatically.
 
 ## Use it with other agents
 
-The whole pipeline is authored once in `.agents/skills/` to the
+The whole pipeline is authored once in `skills/` to the
 [Agent Skills standard](https://agentskills.io/specification). Each agent's expected skills
-directory is a symlink into that one canonical tree, so there's a single source of truth — you
+directory (`.agents/skills/`, `.claude/skills/`) is a symlink into that one canonical tree, so there's a single source of truth — you
 never maintain parallel copies. Project guidance lives in `AGENTS.md` (with `CLAUDE.md` and
 `GEMINI.md` as symlinks to it).
 
@@ -207,9 +207,9 @@ cd CV
 | Agent | How skills load |
 |-------|-----------------|
 | **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
-| **Pi** | Run `pi` inside the clone — skills under `.agents/skills/` are auto-discovered (no config). Or install remotely: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`). |
-| **Gemini CLI** | Install as an extension: `gemini extensions install https://github.com/datarian/CV` (root `gemini-extension.json`; skills via the `skills/` symlink). *(Extension route not yet tested.)* Or run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias), and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
-| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills point at `.agents/skills/`). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
+| **Pi** | Install: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`; Pi keeps a full clone, so the bundled `docs/` and template come along). Or run `pi` inside a clone — `.agents/skills/` is auto-discovered (no config). |
+| **Gemini CLI** | Install as an extension: `gemini extensions install https://github.com/datarian/CV` (root `gemini-extension.json`; all 10 skills load). Or run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias) once you **trust the folder**, and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
+| **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills from the default `skills/` folder). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
 
 Then ask the same things you would in Claude Code (e.g. *"Build me a Swiss-market resume for
 Senior ML Engineer roles"*). To invoke the orchestrator explicitly: `/swiss-tech-resume-builder` in
@@ -247,7 +247,7 @@ PDFs, or files under `resumes/customized/` are staged.
 ## Customize it for another market
 
 The system is built to be adapted. Edit the knowledge base and template (under `docs/` and
-`resumes/templates/`) and the skills (under `.agents/skills/`) to target a different country,
+`resumes/templates/`) and the skills (under `skills/`) to target a different country,
 industry, or role family. To redistribute your fork, update the manifests for whichever agents you
 publish to: `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` for the Claude Code
 marketplace, `.cursor-plugin/marketplace.json` + `.cursor-plugin/plugin.json` for Cursor,
