@@ -68,3 +68,7 @@ resumes/web-builder/
 
 # Private job postings and company analyses (personal data)
 docs/job_postings/
+
+# Planning documents (kept local, not part of the published system)
+docs/plans/
+docs/superpowers/
