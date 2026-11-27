@@ -193,7 +193,7 @@ bundled template automatically.
 
 The whole pipeline is authored once in `skills/` to the
 [Agent Skills standard](https://agentskills.io/specification). Each agent's expected skills
-directory (`.agents/skills/`, `.claude/skills/`) is a symlink into that one canonical tree, so there's a single source of truth — you
+directory (`.agents/skills/`) is a symlink into that one canonical tree, so there's a single source of truth — you
 never maintain parallel copies. Project guidance lives in `AGENTS.md` (with `CLAUDE.md` and
 `GEMINI.md` as symlinks to it).
 
@@ -206,7 +206,7 @@ cd CV
 
 | Agent | How skills load |
 |-------|-----------------|
-| **Claude Code** | Install as a plugin (above), or run in a clone — skills resolve via `.claude/skills/` (symlink) and the plugin manifest. |
+| **Claude Code** | Install as a plugin (above), or run in a clone with `claude --plugin-dir .` (loads the plugin from the clone for that session). |
 | **Pi** | Install: `pi install git:github.com/datarian/CV` (the root `package.json` declares `pi.skills`; Pi keeps a full clone, so the bundled `docs/` and template come along). Or run `pi` inside a clone — `.agents/skills/` is auto-discovered (no config). |
 | **Gemini CLI** | Install as an extension: `gemini extensions install https://github.com/datarian/CV` (root `gemini-extension.json`; all 10 skills load). Or run `gemini` inside the clone — `.agents/skills/` is read natively (workspace-skills alias) once you **trust the folder**, and `GEMINI.md` (a symlink to `AGENTS.md`) supplies the instructions. Skills are on by default (`skills.enabled`); Gemini asks for consent each time it activates one. See the note on Antigravity CLI below. |
 | **Cursor** | Open the clone in Cursor — `.agents/skills/` and `AGENTS.md` are both read natively (no config). To use it across projects, install it as a plugin: the repo ships `.cursor-plugin/plugin.json` + `marketplace.json` (skills from the default `skills/` folder). Teams can import the repo as a marketplace (Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo); individually, clone it into `~/.cursor/plugins/local/swiss-tech-resume-builder` and reload the window. *(Plugin route not yet tested.)* |
@@ -217,9 +217,7 @@ Claude Code and Cursor, `/skill:swiss-tech-resume-builder` in Pi; Gemini CLI act
 own (no per-skill slash command).
 
 > **Notes.** The PDF pipeline needs only XeLaTeX + Python (see [Requirements](#requirements)) and no
-> MCP, so it works the same everywhere. The optional **web preview** uses a Playwright MCP that is
-> configured per-agent (`.claude/.mcp.json` for Claude Code; Pi/Gemini/Cursor MCP wiring is a
-> documented follow-up). The mandatory render constraints (moderncv `fancy`, XeLaTeX-only, 6-arg
+> MCP, so it works the same everywhere. The mandatory render constraints (moderncv `fancy`, XeLaTeX-only, 6-arg
 > `\cventry`, GitHub footer) live inside the render skill itself, so they hold on every agent even
 > if it doesn't read `AGENTS.md`. The two review skills declare `context: fork` for isolation; where
 > an agent doesn't honor that field (e.g. Cursor today), they simply run in the main context — the

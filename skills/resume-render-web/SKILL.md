@@ -36,7 +36,6 @@ This skill builds production-ready React web resumes from an approved `resume_co
 - Builds locally and serves at `http://localhost:4173/CV-pages/`
 - No credentials required
 - Safe to run repeatedly during iteration
-- Also exposed via the `/preview-web-resume {id}` slash command
 
 ### `deploy` mode
 - Builds and publishes to the private `CV-pages` repository (`gh-pages` branch)

@@ -65,3 +65,6 @@ resumes/web-builder/.vite/
 
 # Temporary deployment directories
 /tmp/cv-pages-*
+
+# Claude Code local settings, personal commands, worktrees (private)
+.claude/

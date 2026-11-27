@@ -19,6 +19,5 @@
     "moderncv",
     "job-search"
   ],
-  "commands": "./.claude/commands/",
   "icon": "./assets/icon.png"
 }
