@@ -37,16 +37,35 @@ Example:
 - **Target Roles**: List of job titles you're targeting
 - **Target Market**: Geographic region (e.g., Switzerland, Zurich area)
 
-## Career Objectives
+## Career Goals
 
-### Short-term (Next Role)
-Describe what you want in your immediate next position.
+Your own reasons for working, in your own words — the resume's goal sentence is built from
+these, never from a job posting. The profile coach can interview you to fill this in.
 
-### Mid-term (2-5 years)
-Describe your career direction over the next few years.
+### Core Drivers
 
-### Long-term
-Your ultimate career vision.
+#### [Driver name, e.g. "Seeing the effect of my work"]
+- **Statement**: What you want from your work, in your own words.
+- **Why**: Why it matters to you.
+- **Origin**: The project or moment that taught you this (not shown on resumes).
+
+#### [Second driver]
+- **Statement**: …
+- **Why**: …
+- **Origin**: …
+
+### Trade-offs
+- [Driver name] outweighs salary down to XXX kCHF (YYYY-MM-DD)
+- A longer commute is acceptable if the role is mainly about [driver name] (YYYY-MM-DD)
+
+### Non-goals
+- [Something you don't want or can't picture doing] — why (YYYY-MM-DD)
+
+### Hard Constraints
+- **Salary floor**: XXX kCHF
+- **Office presence / commute**: e.g. max 3 days on site, max 60 min one way
+- **Employment type**: e.g. permanent only
+- **Travel**: e.g. low
 
 ## Work Experience
 

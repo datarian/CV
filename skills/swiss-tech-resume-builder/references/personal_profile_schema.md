@@ -59,26 +59,41 @@ Example:
 - **Target Market**: Geographic region and preferred companies
 - **Notice Period**: X weeks/months
 
-## Career Objectives
+## Career Goals
 
-### Short-term (Next Role - 0-2 years)
-Describe what you want in your immediate next position:
-- Role type and seniority
-- Industry preferences
-- Company size/culture
-- Must-have requirements
+Goals are stored as the candidate's own **drivers**, the **trade-offs** between them,
+**non-goals**, and **hard constraints** — not as a ladder of target titles. Drivers are what
+the resume's goal sentence is built from (see motivational grounding in
+`docs/knowledge/grounding_and_truthfulness.md`), so they must be in the candidate's own words
+and never derived from a job posting. The `resume-profile-coach` skill elicits them through
+its drivers interview and refines them over time through refinement rounds — this section is
+expected to grow and change, so date every change.
 
-### Mid-term (2-5 years)
-Career direction over the next few years:
-- Career track (IC vs management)
-- Skill development goals
-- Industry positioning
+### Core Drivers
+3–5 entries. Each driver:
+- **Name**: short label (e.g. "Visible real-world effect")
+- **Statement**: 1–2 sentences in the candidate's own words — what they want from their work
+- **Why**: the reason it matters to them
+- **Origin**: the concrete moment or experience it comes from (coaching evidence — never
+  rendered on a resume)
 
-### Long-term (5+ years)
-Ultimate career vision:
-- Aspirational role
-- Impact goals
-- Work-life balance considerations
+### Trade-offs
+Pairwise, dated rules for how drivers and constraints weigh against each other, e.g.:
+- "Driver A outweighs salary down to the sector floor (YYYY-MM-DD)"
+- "A longer commute is acceptable when the role is mainly driver B (YYYY-MM-DD)"
+
+### Non-goals
+Dated entries for what the candidate does not want or cannot picture doing, each with the
+reason, e.g. "Pure people management without hands-on work — (reason) (YYYY-MM-DD)". The
+strategy step flags roles that touch a non-goal; resumes never express anything that
+contradicts one.
+
+### Hard Constraints
+Non-negotiables the strategy step checks every role against:
+- Salary floor(s), per sector if they differ
+- Office days / maximum commute
+- Employment type (permanent, contract)
+- Travel tolerance
 
 ## Professional Experience
 

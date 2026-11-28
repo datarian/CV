@@ -90,7 +90,12 @@ The coach reads the material, writes it into your profile, and asks focused ques
 anything thin or missing — a few at a time, never a wall of forms. Whatever you can't answer yet it
 records in a `MISSING_INFORMATION.md` to-do list instead of guessing, so nothing gets invented and
 you're left with a clear list of what to dig up. Come back to it any time — "help me improve my
-profile" — and it picks up where you left off. Richer input means stronger, more truthful resumes.
+profile" — and it picks up where you left off.
+It can also run a short **drivers interview** that pins down what you actually want from your
+work, so a resume's goal line comes from you rather than from the job posting. When an
+application exposes a gap in those goals, the pipeline pauses and offers a quick refinement
+round, so your profile sharpens with every application.
+Richer input means stronger, more truthful resumes.
 
 Once your profile has real content, ask for a resume:
 
