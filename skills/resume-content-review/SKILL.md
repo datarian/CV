@@ -95,6 +95,16 @@ Run the check in whichever mode applies to what you were given:
 
 In both modes, treat every such claim as a **High-priority weakness** and name the **specific bullet**, quoting the claim. See the gate consequences under the Rating Rubric. The full standard (shared verbatim with the content generator) lives in `docs/knowledge/grounding_and_truthfulness.md` — it is the single source of truth for this rule; do not restate or soften it here.
 
+**Motivational grounding** (same doc, `## Motivational Grounding`): list every goal, aspiration,
+or value statement (typically the summary's "Ziel"/"Schwerpunkt" sentence) and name the Core
+Driver or Trade-off in the profile that backs it. A statement with no backing driver — most
+often one lifted from the posting or the company's self-description — or one that contradicts
+a listed **Non-goal** is a **High-priority weakness**: quote it and name the driver to rebuild
+it from, or recommend cutting it. It does
+not trigger the grounding override. Posting keywords inside a driver-backed sentence are fine.
+Without the profile (Mode B), flag goal sentences that closely paraphrase the posting's mission
+as suspect and recommend checking them against the profile's drivers.
+
 For detailed Swiss market conventions, see `docs/knowledge/swiss_market_conventions.md`.
 
 ## ATS Keyword Analysis
@@ -126,6 +136,8 @@ Provide a score from 1–10:
 > **Mandatory grounding pass.** Before scoring, run the criterion 8 cross-reference: list every quantified claim and named technology/scope/title/date in the resume and check each against `docs/PERSONAL_PROFILE.md` (Mode A) or, if the profile is unavailable, against plausibility for the candidate's history (Mode B). Resolve the grounding override first — a confirmed ungrounded claim fixes the verdict at `pass: false` / `rating ≤ 4.0` before any other dimension is weighed.
 
 > **Mandatory tone pass.** Tone failures are not caught by reading narratively — sweep for them explicitly, the same way you sweep for grounding. Before scoring, walk every bullet, the summary, and the skills list and list each instance of: inflated/oversized-ownership verbs, marketing adjectives or intensifiers, **praise/testimonial quotes**, **self-editorializing the value or safety of one's own output**, **process-narration presented as achievement**, governance/security framed as policing, **buzzword padding** (vague capability slogans in the skills list or summary that name no technology — *production-grade services, developer experience, best-practice sharing, knowledge architecture, strong backend fundamentals* — the most common "too many buzzwords / sounds like marketing" trigger), and **pronouns or person-marked verbs anywhere** (none in summary or bullets; German uses participle style, rule 6). Flag each by quoted line under criterion 5 (Cultural Fit). The standard is `docs/knowledge/tone_and_register.md`; these are the most-missed violations, so name them specifically rather than giving a generic "tone is good".
+
+> **Mandatory motivational pass.** Before scoring, list each goal/aspiration/value statement and the driver backing it (criterion 8, motivational grounding). Unbacked statements go into `feedback` as High priority.
 
 1. **Initial Assessment**: Ask yourself: "Would I hire this person?" Let this guide the entire review.
 
@@ -173,6 +185,7 @@ feedback:
   - "Work authorization for Switzerland not stated — add 'Swiss B permit holder' or 'EU citizen, no permit required' to the header or summary"
   - "Perk role bullet points lack quantified impact — e.g. replace 'improved model performance' with 'reduced inference latency by 40% (P95) on production scoring pipeline'"
   - "Language proficiency levels missing — state German (C1) and English (C2) explicitly"
+  - "MOTIVATION: Summary goal 'help advance sustainable mobility for everyone' has no backing Core Driver in the profile and paraphrases the company's mission — rebuild it from a lead driver or cut it"
 ```
 
 **Example with the grounding override** (a confirmed ungrounded claim forces `pass: false` and caps `rating` at 4.0, even when ATS match is high):
