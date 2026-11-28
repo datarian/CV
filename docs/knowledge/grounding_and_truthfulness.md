@@ -57,6 +57,43 @@ recommend confirming each against the profile before sending.
 
 In **both** modes, name the **specific bullet** and quote the claim in the feedback.
 
+## Motivational Grounding
+
+Facts are not the only thing a resume can fabricate. Goals, aspirations, and values can be
+fabricated too — most often by borrowing the employer's mission or slogan. That reads as cheap
+to the employer and dilutes the candidate's own story.
+
+**The rule:** every motivational statement in `resume_content.md` — a goal, aspiration,
+interest, or value claim ("Ziel: …", "driven by …"; "Schwerpunkt: …" only when it states an aspiration rather than a current specialization) — MUST trace to a
+**Core Driver** or **Trade-off** in the profile's `## Career Goals` section.
+
+- **Free wording, posting keywords welcome.** The sentence need not quote the driver; it may
+  blend in the posting's technologies, skills, and domain terms.
+- **No unbacked aspiration**, however well it fits the role. If the role's appeal is not
+  covered by any driver, leave it out of the resume.
+- **No bridge to the role.** The goal sentence expresses 1–2 drivers; it does not explain why
+  this employer fits ("…which is why [Company] appeals"). That belongs in the cover letter.
+- **Echo is not the test.** A driver the candidate genuinely holds stays legitimate even when
+  the company says the same thing; an aspiration with no driver is a violation even when it
+  sounds original.
+- **Never contradict a non-goal.** Nothing in the resume may express interest in something the
+  profile lists under **Non-goals**.
+- **Driver gap?** When no driver can carry a good goal line for the role, do not improvise one.
+  The strategy step flags the gap, the orchestrator offers a refinement round, and if the user
+  declines, the goal sentence is omitted and the gap logged in `MISSING_INFORMATION.md`.
+
+Acceptable:
+- Driver: "I want to build things other people rely on every day" → "Goal: build reliable
+  data platforms that operations teams depend on daily" ✅ (free wording, posting keywords)
+
+Unacceptable:
+- Profile has no driver about the employer's domain → "Goal: help advance sustainable mobility
+  for everyone" ❌ (lifted from the company's mission statement)
+
+**Severity:** an unbacked motivational statement is a **High-priority weakness**. It does not
+trigger the automatic fail reserved for fabricated facts, but it must be listed in `feedback`
+with the driver it should be rebuilt from — or the recommendation to cut it.
+
 ## Severity & Gate Consequence
 
 - A **confirmed ungrounded claim** (Mode A) is a **High-priority weakness** (resume

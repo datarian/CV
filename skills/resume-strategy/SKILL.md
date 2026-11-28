@@ -52,7 +52,7 @@ Swiss tech resumes follow a conventional structure; reordering is possible but m
 
 **Default order:**
 1. Header (name, contact, permit status, photo)
-2. Professional summary — 3–4 lines, role-specific positioning statement
+2. Professional summary — 3–4 lines: evidence chosen for this role, plus a goal sentence built from the lead driver(s)
 3. Core competencies / skills — keyword-dense, scannable
 4. Professional experience — reverse chronological
 5. Education
@@ -97,6 +97,30 @@ The strategy brief must include an explicit target salary figure. This anchors t
 
 ---
 
+## 6. Fit Resolution (advisory)
+
+Read the profile's `## Career Goals` (Core Drivers, Trade-offs, Non-goals, Hard Constraints)
+and weigh them against the role. This shows the user how the role balances against their own
+goals; it never blocks an application — the user decides.
+
+- **Drivers served**: which drivers this role serves, each with the posting evidence.
+- **Trade-offs required**: which recorded trade-offs it calls on (e.g. salary below the usual
+  target, longer commute), and whether the role is within them.
+- **Constraint check**: any hard constraint the role breaks or puts at risk, and any non-goal
+  the role touches.
+- **Driver gap**: flag it when no driver can carry a good goal line for this role — none
+  applies, or the applicable ones are too vague to write a concrete sentence from. Name what
+  the role centres on and what the drivers don't cover. The orchestrator then pauses and
+  offers a refinement round (see `resume-profile-coach`).
+- **Lead drivers**: the 1–2 drivers the resume's goal sentence will express.
+
+Pick lead drivers from the profile only — never phrase a driver from the posting. If there is
+a driver gap and it isn't resolved, set lead drivers to "none"; content generation then omits
+the goal sentence (see `## Motivational Grounding` in
+`docs/knowledge/grounding_and_truthfulness.md`).
+
+---
+
 ## Output: Strategy Brief
 
 The strategy brief produced by this skill is a short, structured document — not prose. The `swiss-tech-resume-builder` orchestrator skill passes it inline to the content generation step, so it must be self-contained and under roughly 400 words.
@@ -106,8 +130,17 @@ The strategy brief produced by this skill is a short, structured document — no
 ```
 ROLE ARCHETYPE: <IC | Lead/Principal | Manager | MLOps/Platform>
 
-POSITIONING STATEMENT (3–4 sentences):
-<What makes this candidate the right hire for this specific role; anchors the professional summary>
+POSITIONING (2–3 sentences):
+<Which evidence from the profile makes the case for this role; anchors the summary's evidence sentences>
+
+FIT RESOLUTION (advisory):
+Drivers served: <driver — posting evidence; …>
+Trade-offs required: <trade-off — within / outside recorded limits; …>
+Constraint check: <ok | issue (hard constraint or non-goal)>
+
+DRIVER GAP: <none | what the role centres on that no driver covers>
+
+LEAD DRIVERS: <1–2 driver names from the profile, or "none — omit goal sentence">
 
 SECTIONS TO EMPHASIZE (ordered):
 1. <section> — <why / what angle>
@@ -127,4 +160,4 @@ CONTENT FLAGS (optional):
 - <any gaps, missing evidence, or bullets that need strengthening before content generation proceeds>
 ```
 
-This brief is the handoff artifact from strategy to content generation. It is not shown to the applicant — it is working material for the pipeline.
+This brief is the handoff artifact from strategy to content generation. It is working material for the pipeline and is not shown to the applicant, except that the fit resolution is surfaced to the user.

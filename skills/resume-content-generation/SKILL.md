@@ -30,6 +30,13 @@ Every **metric, named technology, scope figure, job title, date, and outcome** y
 
 This is the same rule the reviewer (`resume-content-review`) verifies, and a confirmed ungrounded claim is an automatic review **fail**. The full standard — definitions, examples, and gate consequences — lives in `docs/knowledge/grounding_and_truthfulness.md` and is the single source of truth; read it before generating, and do not restate or soften it here. Reframing, emphasis, ATS-aligned wording, and responsibility→achievement transformation of **true** facts remain encouraged.
 
+**Motivational grounding** applies the same discipline to goals and values: every goal,
+aspiration, or value statement must trace to a Core Driver or Trade-off in the profile. Build the
+goal sentence from the brief's `LEAD DRIVERS` — free wording, posting keywords welcome, no
+bridge to the employer, no aspiration the drivers don't back. If `LEAD DRIVERS` is "none", omit
+the goal sentence. Full rule: `## Motivational Grounding` in
+`docs/knowledge/grounding_and_truthfulness.md`.
+
 ---
 
 ## Input Sources
@@ -91,7 +98,7 @@ summary_highlights:
 ```markdown
 # Professional Summary
 
-[3-5 sentences positioning candidate for target role — length per docs/style-guide/pdf/CV_STYLE_GUIDE.md. No pronouns (neither "I/ich" nor third person) — here or anywhere below; see tone rule 6 (German: participle style, e.g. "AI Engineer mit 7+ Jahren …; Schwerpunkt: …").]
+[3-5 sentences: evidence for the target role, optionally closing with a goal sentence built from LEAD DRIVERS (motivational grounding) — length per docs/style-guide/pdf/CV_STYLE_GUIDE.md. No pronouns (neither "I/ich" nor third person) — here or anywhere below; see tone rule 6 (German: participle style, e.g. "AI Engineer mit 7+ Jahren …; Schwerpunkt: …").]
 
 ## Experience
 
@@ -183,7 +190,7 @@ This keeps the highlights and the summary telling the same story with the same e
 
 ### Step 1: Read Source Data
 
-Load `docs/PERSONAL_PROFILE.md` (see schema reference above). Extract all relevant experiences, skills, achievements, and projects. Note the candidate's current position and stated career goals.
+Load `docs/PERSONAL_PROFILE.md` (see schema reference above). Extract all relevant experiences, skills, achievements, and projects. Note the candidate's current position and the Core Drivers named in the brief's `LEAD DRIVERS`.
 
 ### Step 2: Apply Strategic Guidance
 
@@ -265,6 +272,7 @@ Before finalizing:
 - [ ] All YAML fields populated correctly, including the **required** `summary_highlights`.
 - [ ] `summary_highlights` contains 3–4 strategic metrics with appropriate icons.
 - [ ] Professional summary positions the candidate clearly for the target role.
+- [ ] **Motivational grounding** — every goal/aspiration/value statement traces to a Core Driver or Trade-off; goal sentence uses `LEAD DRIVERS`, with no bridge to the employer and no wording lifted from its mission (see `docs/knowledge/grounding_and_truthfulness.md`).
 - [ ] Professional summary text **bolds** the same metrics as `summary_highlights`.
 - [ ] Experience bullets emphasize relevant skills with quantified impact.
 - [ ] **Bullet budget respected**: current/most-recent role has **3–5** bullets (typically 4–5, the most prominent role; hard cap 5), prior roles 2–3, older roles 1–2. No role exceeds its ceiling.
