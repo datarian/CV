@@ -31,7 +31,7 @@ Run these steps in order. Each step names the skill to use and whether it runs *
 
 1. **Profile setup** — INLINE → `resume-profile-coach`. Ensure `docs/PERSONAL_PROFILE.md` exists, is current, and actually supports the target. The coach ingests the user's source material, audits the profile against the schema, and — when a specific role is in play — spots gaps between the user's goal and what the profile substantiates, logging open items to `docs/MISSING_INFORMATION.md`. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
 2. **Market analysis** — ISOLATED → `resume-market-analysis`. Run when targeting a specific role/company; produces salary benchmarks, in-demand skills, and ATS keywords. Skip for a fully generic resume.
-3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream.
+3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream, including an advisory fit resolution against the user's drivers. **If the brief flags a `DRIVER GAP`, run the driver-gap gate (below) before step 4.**
 4. **Content generation** — ISOLATED (on the strongest available model, e.g. **Opus** on Claude) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
 5. **GATE — content review (Pattern A, pre-render)** — run `resume-content-review` ISOLATED (it forks a fresh context to review with fresh eyes). Branch on its verdict contract: **`pass` = rating ≥ 8.0 AND ats_match ≥ 75**. If not `pass` and iterations < 3: re-dispatch step 4 (content generation) with the reviewer feedback + the existing `resume_content.md` path. If the 3-iteration cap is hit without `pass`: escalate to the user.
 6. **GATE — user content review (pre-render)** — INLINE. Once the reviewer passes, **pause and hand `resume_content.md` to the user before rendering**. Surface the path, summarize the reviewer's verdict, and explicitly offer them the chance to read and edit the content. See "User content-review gate" below. Do **not** proceed to render until the user approves. If they request changes, either apply their edits directly or re-dispatch step 4 with their instructions, then re-run the step 5 gate before returning here.
@@ -54,6 +54,24 @@ Run these steps in order. Each step names the skill to use and whether it runs *
   (`references/personal_profile_schema.md`), and records gaps in `docs/MISSING_INFORMATION.md`.
   Use it on first setup and any time the profile needs work.
 - Do not commit a `PERSONAL_PROFILE.md` containing real personal data.
+
+## Driver-gap gate
+
+Runs INLINE between strategy (step 3) and content generation (step 4), only when the strategy
+brief's `DRIVER GAP` is not "none". It pauses to ask the user, then proceeds either way; it is
+a question, not a hard block, and the fit resolution stays advisory.
+
+- **Tell the user plainly** what the role centres on and which part none of their drivers
+  covers (or which driver is too vague to write from). Show the fit resolution alongside, so
+  they see how the role balances against their goals.
+- **Offer two options:**
+  - **(a) Refinement round now** — run `resume-profile-coach`'s refinement round inline, then
+    re-run the strategy fit resolution with the updated profile.
+  - **(b) Continue without a goal sentence** — set `LEAD DRIVERS` to "none".
+- **Either way**, make sure the gap is logged in `docs/MISSING_INFORMATION.md` (skip if the
+  refinement round resolved it).
+- A refinement round may end in "this role is a weaker fit". Report that honestly; whether to
+  apply stays the user's decision.
 
 ## User content-review gate
 
@@ -100,7 +118,7 @@ When the resume is finalized (step 9), always produce a paired strategy document
 
 ## Execution-model rule
 
-- **INLINE** when the output is compact AND reused later in this conversation: strategy brief, decision gates (content-review branch, holistic finalize).
+- **INLINE** when the output is compact AND reused later in this conversation: strategy brief, decision gates (driver-gap gate, content-review branch, holistic finalize).
 - **ISOLATED** when the work is bulky AND the output is a file or a summary: market analysis, content generation, the render, and the reviews.
 - Isolation mechanics are agent-specific: use a dispatched subagent, a `context: fork` skill, or a clean `/skill:` turn. `resume-market-analysis`, `resume-content-generation`, and `resume-render-pdf` load their skill in the isolated context. `resume-content-review` and `resume-design-review` declare `context: fork`, so they review with fresh eyes wherever forking is supported.
 - **Model selection**: run `resume-content-generation` on the strongest available model (**Opus** on Claude Code). It is the highest-judgment step in the pipeline — selecting which achievements survive, combining related ones, and compressing to the bullet budget is exactly the reasoning that gates content-review quality (rating ≥ 8.0). The mechanical phases (render, market analysis) may run on the default model.
