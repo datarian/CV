@@ -1,6 +1,6 @@
 ---
 name: resume-profile-coach
-description: Build out, strengthen, and audit the user's PERSONAL_PROFILE.md through conversation. Use when a user wants to create, build, improve, or review their personal profile; when they hand over source material (performance reviews, employment references / Arbeitszeugnisse, a LinkedIn profile, past CVs) to capture their experience; or to spot gaps between their career goals and what their profile actually supports. Invoked during first-run setup and any time profile work is needed. This is the coaching/intake step that feeds the rest of the resume pipeline.
+description: Build out, strengthen, and audit the user's PERSONAL_PROFILE.md through conversation. Use when a user wants to create, build, improve, or review their personal profile; when they hand over source material (performance reviews, employment references / Arbeitszeugnisse, a LinkedIn profile, past CVs) to capture their experience; to spot gaps between their career goals and what their profile actually supports; or to (re)establish and gradually refine their core drivers, trade-offs, and non-goals (drivers interview, refinement round). Invoked during first-run setup and any time profile work is needed. This is the coaching/intake step that feeds the rest of the resume pipeline.
 ---
 
 > **Bundled reference files.** Paths beginning with `docs/` are bundled with this skill
@@ -56,16 +56,18 @@ and skills, and map them into the matching profile sections.
 - Missing **skills, certifications, languages** (with **CEFR** levels), publications, or projects.
 - Missing **Swiss-specific fields**: work authorization / permit, location, notice period.
 
-**4. Coach on goal-vs-reality.** Ask the user about their **target roles, level, and salary**.
-Compare those goals against what the profile currently substantiates, and name the gaps plainly:
-where the evidence already supports the goal, and where it doesn't yet. This is the core value —
-showing the distance between what they want and what they've brought to the table.
+**4. Coach on goal-vs-reality.** Check the `## Career Goals` section. If **Core Drivers** are
+missing, thin, or phrased generically ("meaningful work", "interesting challenges"), run the
+**drivers interview** below before going further. Then compare the hard constraints (salary
+floor, commute, employment type) and the roles the drivers point to against what the profile
+currently substantiates, and name the gaps plainly: where the evidence already supports the
+goal, and where it doesn't yet.
 
 **5. Ask targeted questions to close the gaps — 3–5 at a time, never a wall of questions.** Frame
 them to elicit concrete stories and metrics. Draw from these categories:
 - **Impact & achievements:** "What measurable change resulted from your work on [project]?"
 - **Skills & competencies:** "Which skills were most critical to that result?"
-- **Career goals:** "What roles are you targeting, and what draws you to them?"
+- **Career goals:** ask about moments, not values — see the drivers interview.
 - **Unique value:** "What would colleagues say sets you apart in that role?"
 - **Challenges overcome:** "Describe a hard problem you owned and how you resolved it."
 
@@ -77,6 +79,53 @@ them to elicit concrete stories and metrics. Draw from these categories:
 **7. Summarize and hand off.** Report what you added, what's still open in
 `MISSING_INFORMATION.md`, and whether the profile is now strong enough to target their goals. When
 it is, point them to the `swiss-tech-resume-builder` orchestrator to start an application.
+
+## Drivers interview
+
+Run when Core Drivers are missing or generic, when the user says their goals have shifted, or
+when they ask to (re)establish their goals. Drivers feed the resume's goal sentence, so a vague
+driver gets replaced by whatever the next job posting says — the interview exists to prevent that.
+
+1. **Prime privately.** Read the profile's history (career moves, gaps, theses, side projects,
+   recurring themes) and draft 3–5 hypotheses about what drives the user. Do **not** present
+   them as conclusions — they only shape your questions.
+2. **Ask about moments, not values** — 2–3 questions per turn. Examples:
+   - "Which project do you still bring up, and what about it?"
+   - "When did a job drain you even though the pay or title was fine?"
+   - "What did you miss in the months between two jobs?"
+   - "When you moved from [A] to [B], what were you moving toward?"
+   Never ask "what is important to you?" — abstract questions produce generic answers.
+3. **Draft drivers from the answers**, using the user's own words where possible. Each driver
+   gets Name, Statement, Why, and Origin (per the schema).
+4. **Confirm.** Show the drafts; the user corrects, merges, or drops them. Store nothing the
+   user has not confirmed.
+5. **Elicit trade-offs by contrast.** Offer pairs of realistic roles that pit drivers and
+   constraints against each other ("lower pay, but work you care about — vs. more pay and a
+   longer commute in a role you find only moderately interesting") and record the resulting
+   rules, dated.
+6. **Capture non-goals.** Ask what the user does not want or cannot picture doing ("Which kind
+   of role would you turn down even at a good salary?"); record each with its reason, dated.
+7. **Move constraints.** Make sure salary floors, commute, employment type, and travel sit under
+   **Hard Constraints**, not mixed into drivers.
+
+Never derive a driver from a job posting or company material, even if the user is applying there.
+
+## Refinement round
+
+Goals sharpen over time; one interview won't capture them fully. Run a refinement round when
+the strategy step flags a **driver gap** (no driver can carry a good goal line for the role)
+and the user opts in — or whenever the user asks to revisit their goals.
+
+1. **Name the gap** in one sentence: what the role centres on, and why no current driver
+   speaks to it (none applies, or the applicable one is too vague to write from).
+2. **Ask 2–3 questions about the user, using the role only as a contrast prompt**, e.g.
+   "This role is mostly X. Does that pull you in — and if so, what about it? Where have you
+   felt that before?" Never ask the user to adopt the posting's framing.
+3. **Accept every outcome.** The answer may yield a new or sharpened driver, a new trade-off,
+   a **non-goal**, or simply "this role is a weaker fit" — the last two are as valuable as a
+   new driver. Never steer toward a driver that fits the posting.
+4. **Confirm and write back**, dated. Close the matching item in `MISSING_INFORMATION.md`.
+5. **Return** to the orchestrator, which re-runs the strategy fit resolution.
 
 ## Managing `docs/MISSING_INFORMATION.md`
 
