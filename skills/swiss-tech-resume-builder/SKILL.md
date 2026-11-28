@@ -31,7 +31,7 @@ Run these steps in order. Each step names the skill to use and whether it runs *
 
 1. **Profile setup** — INLINE → `resume-profile-coach`. Ensure `docs/PERSONAL_PROFILE.md` exists, is current, and actually supports the target. The coach ingests the user's source material, audits the profile against the schema, and — when a specific role is in play — spots gaps between the user's goal and what the profile substantiates, logging open items to `docs/MISSING_INFORMATION.md`. Schema: `references/personal_profile_schema.md`. See "Profile setup" below.
 2. **Market analysis** — ISOLATED → `resume-market-analysis`. Run when targeting a specific role/company; produces salary benchmarks, in-demand skills, and ATS keywords. Skip for a fully generic resume.
-3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream, including an advisory fit resolution against the user's drivers. **If the brief flags a `DRIVER GAP`, run the driver-gap gate (below) before step 4.**
+3. **Strategy** — INLINE → `resume-strategy`. Decide positioning, section emphasis, and ATS keyword selection from market analysis + profile. Output is a compact strategy brief reused downstream, including an advisory fit resolution against the user's drivers. Surface the fit resolution to the user in one or two lines whenever its Constraint check is not ok (a hard constraint or non-goal is touched); advisory, never a hard block. **Run the driver-gap gate (below) before step 4 when `DRIVER GAP` is not "none".**
 4. **Content generation** — ISOLATED (on the strongest available model, e.g. **Opus** on Claude) → `resume-content-generation`. Writes `resumes/customized/{id}/resume_content.md`. Pass the strategy brief and the target directory in the dispatch prompt.
 5. **GATE — content review (Pattern A, pre-render)** — run `resume-content-review` ISOLATED (it forks a fresh context to review with fresh eyes). Branch on its verdict contract: **`pass` = rating ≥ 8.0 AND ats_match ≥ 75**. If not `pass` and iterations < 3: re-dispatch step 4 (content generation) with the reviewer feedback + the existing `resume_content.md` path. If the 3-iteration cap is hit without `pass`: escalate to the user.
 6. **GATE — user content review (pre-render)** — INLINE. Once the reviewer passes, **pause and hand `resume_content.md` to the user before rendering**. Surface the path, summarize the reviewer's verdict, and explicitly offer them the chance to read and edit the content. See "User content-review gate" below. Do **not** proceed to render until the user approves. If they request changes, either apply their edits directly or re-dispatch step 4 with their instructions, then re-run the step 5 gate before returning here.
@@ -68,8 +68,8 @@ a question, not a hard block, and the fit resolution stays advisory.
   - **(a) Refinement round now** — run `resume-profile-coach`'s refinement round inline, then
     re-run the strategy fit resolution with the updated profile.
   - **(b) Continue without a goal sentence** — set `LEAD DRIVERS` to "none".
-- **Either way**, make sure the gap is logged in `docs/MISSING_INFORMATION.md` (skip if the
-  refinement round resolved it).
+- **Logging:** log the gap in `docs/MISSING_INFORMATION.md` when the gate opens; the coach
+  closes the item if the refinement round resolves it.
 - A refinement round may end in "this role is a weaker fit". Report that honestly; whether to
   apply stays the user's decision.
 

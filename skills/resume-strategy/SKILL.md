@@ -160,4 +160,4 @@ CONTENT FLAGS (optional):
 - <any gaps, missing evidence, or bullets that need strengthening before content generation proceeds>
 ```
 
-This brief is the handoff artifact from strategy to content generation. It is not shown to the applicant — it is working material for the pipeline.
+This brief is the handoff artifact from strategy to content generation. It is working material for the pipeline and is not shown to the applicant, except that the fit resolution is surfaced to the user.

@@ -96,7 +96,7 @@ Run the check in whichever mode applies to what you were given:
 In both modes, treat every such claim as a **High-priority weakness** and name the **specific bullet**, quoting the claim. See the gate consequences under the Rating Rubric. The full standard (shared verbatim with the content generator) lives in `docs/knowledge/grounding_and_truthfulness.md` — it is the single source of truth for this rule; do not restate or soften it here.
 
 **Motivational grounding** (same doc, `## Motivational Grounding`): list every goal, aspiration,
-or value statement (typically the summary's "Ziel"/"Schwerpunkt" sentence) and name the Core
+or value statement (typically the summary's "Ziel" sentence; a "Schwerpunkt" only if it states an aspiration rather than a current specialization) and name the Core
 Driver or Trade-off in the profile that backs it. A statement with no backing driver — most
 often one lifted from the posting or the company's self-description — or one that contradicts
 a listed **Non-goal** is a **High-priority weakness**: quote it and name the driver to rebuild

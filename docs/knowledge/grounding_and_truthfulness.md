@@ -64,7 +64,7 @@ fabricated too — most often by borrowing the employer's mission or slogan. Tha
 to the employer and dilutes the candidate's own story.
 
 **The rule:** every motivational statement in `resume_content.md` — a goal, aspiration,
-interest, or value claim ("Ziel: …", "Schwerpunkt: …", "driven by …") — MUST trace to a
+interest, or value claim ("Ziel: …", "driven by …"; "Schwerpunkt: …" only when it states an aspiration rather than a current specialization) — MUST trace to a
 **Core Driver** or **Trade-off** in the profile's `## Career Goals` section.
 
 - **Free wording, posting keywords welcome.** The sentence need not quote the driver; it may
